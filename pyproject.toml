@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dynamic-lca-simulation"
+version = "0.1.0"
+description = "Dynamic LCA calculation utilities based on Levasseur-style dynamic characterization factors."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+  { name = "SuMPO Forest Agency Project" }
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "japanize-matplotlib>=1.1",
+  "jupyter>=1.0",
+  "ipywidgets>=8.0",
+  "matplotlib>=3.7",
+  "pytest>=8.0"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dynamic_lca"]
