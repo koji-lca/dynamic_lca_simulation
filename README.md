@@ -1,10 +1,11 @@
 # Dynamic LCA Simulation
 
-Levasseur et al. による動的LCAの考え方に基づき、CO₂の動的特性化係数（DCF）と静的/動的GWPを計算するためのPythonライブラリです。
+Levasseur et al. による動的LCAの考え方に基づき、CO₂・CH₄・N₂Oの動的特性化係数（DCF）と静的/動的GWPを計算するためのPythonライブラリです。
 
 ## 機能
 
 - IPCC AR4 Bern2.5CCモデルによるCO₂インパルス応答 `r(t)`
+- CH₄・N₂Oの一次減衰モデルによるインパルス応答
 - 累積放射強制力（CRF）の数値積分
 - Levasseur型のDCF計算
 - RE2020線形近似DCF
@@ -54,8 +55,11 @@ print(dynamic_gwp(flows, method="re2020"))
 ## 主要API
 
 - `impulse_response_co2(t)`
+- `impulse_response_gas(t, gas="CO2")`
 - `crf_co2(start_year, horizon_years=100)`
+- `crf_gas(start_year, horizon_years=100, gas="CO2")`
 - `dcf_co2(year, horizon_years=100)`
+- `dcf_gas(year, horizon_years=100, gas="CO2")`
 - `dcf_re2020(year)`
 - `Flow(year, amount, gwp=1.0, name=None, category=None)`
 - `static_gwp(flows)`
@@ -63,7 +67,7 @@ print(dynamic_gwp(flows, method="re2020"))
 
 ## 仕様上の前提
 
-- 初期実装はCO₂を対象にしています。
 - Bern2.5CCの係数は報告書第4章に記載された値を使います。
+- CH₄・N₂Oは代表的な大気寿命と放射効率を使った簡略な一次減衰モデルです。
 - RE2020近似は `0 <= t <= 50` で `1 - 0.00842 * t`、`t > 50` で `0.580` とします。
-- ISO 21391-1:2025の詳細実装、CO₂以外のGHG、外部LCAデータベース連携は未実装です。
+- ISO 21391-1:2025の詳細実装、外部LCAデータベース連携は未実装です。

@@ -2,7 +2,7 @@ import math
 
 import pytest
 
-from dynamic_lca import Flow, crf_co2, dcf_co2, dcf_re2020, dynamic_gwp, impulse_response_co2, static_gwp
+from dynamic_lca import Flow, crf_co2, crf_gas, dcf_co2, dcf_gas, dcf_re2020, dynamic_gwp, impulse_response_co2, impulse_response_gas, static_gwp
 
 
 def test_impulse_response_at_zero_is_one():
@@ -25,6 +25,30 @@ def test_dcf_decreases_for_later_emissions():
 
     assert dcf_0 > dcf_50 > dcf_100
     assert dcf_100 == pytest.approx(0.0)
+
+
+def test_gas_impulse_response_at_zero_is_one():
+    assert impulse_response_gas(0, gas="CH4") == pytest.approx(1.0)
+    assert impulse_response_gas(0, gas="N2O") == pytest.approx(1.0)
+
+
+def test_gas_dcf_at_zero_is_one():
+    assert dcf_gas(0, horizon_years=100, gas="CH4") == pytest.approx(1.0)
+    assert dcf_gas(0, horizon_years=100, gas="N2O") == pytest.approx(1.0)
+
+
+def test_gas_dcf_decreases_for_later_emissions():
+    for gas in ["CH4", "N2O"]:
+        dcf_0 = dcf_gas(0, horizon_years=100, gas=gas)
+        dcf_50 = dcf_gas(50, horizon_years=100, gas=gas)
+        dcf_100 = dcf_gas(100, horizon_years=100, gas=gas)
+
+        assert dcf_0 > dcf_50 > dcf_100
+        assert dcf_100 == pytest.approx(0.0)
+
+
+def test_crf_gas_matches_co2_wrapper():
+    assert crf_gas(0, horizon_years=100, gas="CO2") == pytest.approx(crf_co2(0, horizon_years=100))
 
 
 def test_crf_reference_value_matches_report_scale():
