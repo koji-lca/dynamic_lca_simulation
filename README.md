@@ -35,6 +35,8 @@ python3 -m jupyter notebook notebooks/dynamic_lca_visualization.ipynb
 
 Notebookでは `japanize-matplotlib` を使っているため、グラフの日本語タイトル・軸ラベル・凡例が文字化けしにくくなっています。
 
+Notebookの各グラフは、種類ごとに1つだけのインタラクティブ表示（`ipywidgets`スライダー）として用意しています。冒頭のセクション2「排出時間 `T_E` と固定された時間ホライズン」では、排出時間 `T_E` を動かすと積分終端 `TH` が固定のまま積分範囲 `TH - T_E` が縮む様子（例: `T_E=0` なら100年、`T_E=25` なら75年）を確認できます。
+
 ## 基本例
 
 ```python
