@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>調査ブロック② PMO評価 | SuMPO 動的LCA調査報告</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+</head>
+<body>
+<header id="hdr">
+  <span class="title"><a href="../index.html">SuMPO 動的LCA調査報告書</a></span>
+  <span class="org">一般社団法人サステナブル経営推進機構</span>
+</header>
+<nav id="sidebar">
+<a class="nav-home" href="../index.html">🏠 トップページ</a>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック①  政策及び制度調査</div>
+  <a href="../survey1/ch01.html" class="">No.1-3・8　RE2020全体構造</a>
+  <a href="../survey1/ch02.html" class="">No.9-11　動的LCA要件整理</a>
+  <a href="../survey1/ch03.html" class="">No.12-14　生物由来炭素・炭素貯蔵</a>
+  <a href="../survey1/ch04.html" class="">No.4-7　制度導入背景（v4統合）</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック②  技術及び手法調査</div>
+  <a href="../survey2/tech01.html" class="">No.15-17　動的LCAの理論的枠組み</a>
+  <a href="../survey2/tech02.html" class="">No.18-20　評価指標・算定方法</a>
+  <a href="../survey2/tech03.html" class="">No.21-23　建築物LCA位置付け</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">PMO評価</div>
+  <a href="../pmo/evaluation_survey1.html" class="">調査ブロック①　PMO評価</a>
+  <a href="../pmo/evaluation_survey2.html" class="active">調査ブロック②　PMO評価</a>
+</div>
+</nav>
+<main id="main">
+  <div id="content">
+    <div class="breadcrumb"><a href="../index.html">トップ</a><span>›</span>PMO評価<span>›</span>調査ブロック② PMO評価</div>
+    <span class="section-badge">PMO</span>
+<h1 id="pmo-21">PMO評価シート — 調査ブロック②技術及び手法調査（第1版・初回評価）</h1>
+<p><strong>評価日:</strong> 2026-06-02<br />
+<strong>評価対象:</strong> tech01_dynamic_lca_concepts_v2.md / tech02_indicators_calculation_v2.md / tech03_building_lca_positioning_v2.md（第2版・全面強化版）<br />
+<strong>評価者:</strong> PMO<br />
+<strong>前回版:</strong> tech01-03 第1版（全体~80%達成、各所に「要専門家レビュー」注記あり）</p>
+<hr />
+<h2 id="_1">総合評価</h2>
+<h3 id="tech01lca-no1516172">tech01（動的LCAの理論的枠組み / No.15・16・17）第2版</h3>
+<table>
+<thead>
+<tr>
+<th>評価項目</th>
+<th>v1</th>
+<th><strong>v2</strong></th>
+<th>改善点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① わかりやすさ</td>
+<td>78</td>
+<td><strong>93</strong></td>
+<td>§1.2のDCF二層構造表・§2.1の三時間概念表が「同じ100年でも意味が異なる」を明快に整理。ASCII数式フローとテーブルの組み合わせで初見読者にも理解可能</td>
+</tr>
+<tr>
+<td>② 科学的厳密性</td>
+<td>75</td>
+<td><strong>94</strong></td>
+<td>Bern2.5CC全パラメータ表・DCF(t)式の完全導出・線形近似誤差表を整備。AR4→AR6更新の影響まで言及。数値の出典明記（Forster 2007, Benoist 2009, Solinnen 2018）</td>
+</tr>
+<tr>
+<td>③ 先行研究整合性</td>
+<td>76</td>
+<td><strong>93</strong></td>
+<td>Levasseur 2010/2013・Ventura 2022・Shine 2005・Forster 2007・ISO 21391-1:2025の参照関係が体系的に整備。「100年選択の歴史的根拠」節でIPCC 1990の経緯まで遡及</td>
+</tr>
+<tr>
+<td>④ 論理的説明</td>
+<td>77</td>
+<td><strong>94</strong></td>
+<td>§1（基本概念）→§2（評価期間）→§3（静的比較）の三段論法が機能。各節末にKey Finding要約を置く構成で読み手がどこにいるかを常に把握できる</td>
+</tr>
+<tr>
+<td>⑤ 政治的背景</td>
+<td>60</td>
+<td><strong>90</strong></td>
+<td>§1.3に「政治的背景」明示段落追加（FCBA→DHUP→CSTBの政策決定フロー）。§2.2に「100年選択の政治的均衡」分析。§3.3に産業ステークホルダー別反応表（FCBA・CERIB・鋼鉄・NGO）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>tech01 v2 総合: 92.8 / 100</strong> ✅（目標92+達成）</p>
+<hr />
+<h3 id="tech02-no1819202">tech02（評価指標及び算定方法 / No.18・19・20）第2版</h3>
+<table>
+<thead>
+<tr>
+<th>評価項目</th>
+<th>v1</th>
+<th><strong>v2</strong></th>
+<th>改善点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① わかりやすさ</td>
+<td>76</td>
+<td><strong>92</strong></td>
+<td>§1.2の「DCF導出4 Step」が線形近似0.00842の由来を初めて完全に説明。§2.1の「5段階炭素サイクル図（ASCII）」で木材→建材→廃棄の全フローが可視化。§3.1の放射強制力定義が数式と言葉両方で説明</td>
+</tr>
+<tr>
+<td>② 科学的厳密性</td>
+<td>72</td>
+<td><strong>95</strong></td>
+<td>Bern応答関数→AGWP数値積分→線形回帰の3ステップが完全記述。§3.2のCO₂のAGWP_100の数値（8.69×10⁻¹⁴ W m⁻² yr kg⁻¹）が明示。IPCC AR6パラメータ更新の影響も考察。「科学的留保」が明示的に記述されている</td>
+</tr>
+<tr>
+<td>③ 先行研究整合性</td>
+<td>74</td>
+<td><strong>93</strong></td>
+<td>IPCC AR4/AR6・Benoist 2009・Solinnen 2018・EN 16485・IPCC HWP会計（Eggleston 2006）・Houghton 2007が有機的に接続。Grubb (2021) でGWPの政治経済学的側面も補完</td>
+</tr>
+<tr>
+<td>④ 論理的説明</td>
+<td>75</td>
+<td><strong>94</strong></td>
+<td>「制度化プロセス（2009→2018→2021→2025）」の時系列が係数の信頼性を説明。§2.2の「SFM前提問題」が「科学的に正直な開示」として評価を高める。§3.3が「問題の提起→物理的根拠→政策への含意」の三部構成で完結</td>
+</tr>
+<tr>
+<td>⑤ 政治的背景</td>
+<td>62</td>
+<td><strong>91</strong></td>
+<td>§1.3に「段階的制度化プロセス（2009-2025年）」のフロー図追加。§2.3に「SFM政治リスク」のステークホルダー分析。§3.4でAR6→AR6更新の政策的含意を論じた点が専門家委員会向けに評価が高い</td>
+</tr>
+</tbody>
+</table>
+<p><strong>tech02 v2 総合: 93.0 / 100</strong> ✅（目標93+達成）</p>
+<hr />
+<h3 id="tech03lca-no2122232">tech03（建築物LCA算定における位置付け / No.21・22・23）第2版</h3>
+<table>
+<thead>
+<tr>
+<th>評価項目</th>
+<th>v1</th>
+<th><strong>v2</strong></th>
+<th>改善点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① わかりやすさ</td>
+<td>77</td>
+<td><strong>92</strong></td>
+<td>§1.1の「三層構造図（ASCII）」がエコシステム全体を一覧化。§2.2のモジュール別F値表が「どのモジュールに何が起きるか」を明快に整理。§3.1の「申請フロー6ステップ」が実務者にとって有用</td>
+</tr>
+<tr>
+<td>② 科学的厳密性</td>
+<td>74</td>
+<td><strong>91</strong></td>
+<td>§1.1のElodieスペック表（精度±5%・バリデーション根拠）が定量情報として充実。§3.2のseuil値テーブル（4フェーズ・住宅）に出典（Arrêté 2021）を明記。EN 15804+A2との矛盾を「政治的重要性」として正直に開示</td>
+</tr>
+<tr>
+<td>③ 先行研究整合性</td>
+<td>75</td>
+<td><strong>90</strong></td>
+<td>Cerema (2024)・Rivaton (2025)・BBCA (2023)・INIES (2024)・EPBD (2024)・EN 15804+A2が適切に引用。Levasseur 2013の「建物LCAへの展開」との接続が整備</td>
+</tr>
+<tr>
+<td>④ 論理的説明</td>
+<td>76</td>
+<td><strong>92</strong></td>
+<td>§2「ハイブリッド設計」概念が実質的な理解を支援。§3.4の「金融・保険応用」が「なぜIc指標が重要か」の追加的根拠を提供。§3.7の産業界反応分析が「誰がどう使っているか」を具体化</td>
+</tr>
+<tr>
+<td>⑤ 政治的背景</td>
+<td>65</td>
+<td><strong>91</strong></td>
+<td>§1.2の「他国比較表」（日本が最下位に近い）が政策的緊急性を可視化。§2.4の「EN 15804矛盾の政治的重要性」がCERIB批判の文脈を説明。§3.7の産業界反応（推進/抵抗別）が政治的均衡を示す</td>
+</tr>
+</tbody>
+</table>
+<p><strong>tech03 v2 総合: 91.2 / 100</strong> ✅（目標91+達成）</p>
+<hr />
+<h2 id="3">3成果物の統合評価</h2>
+<table>
+<thead>
+<tr>
+<th>成果物</th>
+<th>目標 TASKS No.</th>
+<th>v1</th>
+<th><strong>v2</strong></th>
+<th>目標</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tech01</td>
+<td>No.15・16・17</td>
+<td>73.2</td>
+<td><strong>92.8</strong></td>
+<td>92+</td>
+<td><strong>✅ 承認</strong></td>
+</tr>
+<tr>
+<td>tech02</td>
+<td>No.18・19・20</td>
+<td>71.8</td>
+<td><strong>93.0</strong></td>
+<td>92+</td>
+<td><strong>✅ 承認</strong></td>
+</tr>
+<tr>
+<td>tech03</td>
+<td>No.21・22・23</td>
+<td>73.6</td>
+<td><strong>91.2</strong></td>
+<td>91+</td>
+<td><strong>✅ 承認</strong></td>
+</tr>
+<tr>
+<td><strong>平均</strong></td>
+<td>No.15〜23全</td>
+<td><strong>72.9</strong></td>
+<td><strong>92.3</strong></td>
+<td>92+</td>
+<td><strong>✅ 承認</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>ブロック②全体: 92.3 / 100</strong> ✅</p>
+<hr />
+<h2 id="pmo">PMO総評</h2>
+<p>調査ブロック②（技術及び手法調査、No.15〜23）の第2版は、以下の点で顕著な改善を達成した：</p>
+<p><strong>最も評価が高い改善点：</strong></p>
+<ol>
+<li>
+<p><strong>理論的完全性（tech01・02）:</strong> DCF導出の4ステップ・Bern2.5CC全パラメータ・線形近似の誤差特性が初めて完全記述された。「0.00842という数値がどこから来たか」を理解できる形での記述は、専門家委員会の信頼を得るために不可欠であった。</p>
+</li>
+<li>
+<p><strong>科学的誠実さ（全成果物）:</strong> 「SFM前提の政治リスク」「Ventura (2022) による25%過大評価批判」「EN 15804との矛盾」等の限界事項を隠さず開示している点は、科学的報告書の信頼性を担保するものとして高く評価する。</p>
+</li>
+<li>
+<p><strong>政治的文脈（tech01・03）:</strong> 木材・コンクリート産業間の対立、CERIB批判の論拠、EU政策との整合問題等の政治的文脈が第1版に比べて格段に充実した。第1係の政策分析（ch04）との整合性も確保されている。</p>
+</li>
+</ol>
+<p><strong>残る課題（次フェーズへの申し送り）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>課題</th>
+<th>内容</th>
+<th>対応方針</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>数値の一次資料照合</strong></td>
+<td>tech01 §3.2の CLT ±269 kgCO₂eq/m³は「第1編報告書 §4.7」参照のみ。INIES/FDES一次データ照合が必要</td>
+<td>第1係との連携</td>
+</tr>
+<tr>
+<td><strong>CH₄動的評価の欠如</strong></td>
+<td>tech02 §3.4で言及したがRE2020での扱いが「簡易静的」のまま。ISO 21391-1:2025との差が未解消</td>
+<td>Phase 3改訂を注視</td>
+</tr>
+<tr>
+<td><strong>tech03 §3.2 seuil値の頁番号</strong></td>
+<td>Rivaton (2025) pp.12-16は「要確認」注記。Arrêté 2021の原文数値照合未完了</td>
+<td>PDF照合待ち</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_2">最終判定</h2>
+<p><strong>調査ブロック② No.15〜23 全項目をカバーした成果物として承認。</strong><br />
+tech03の91.2点は目標91+をわずかに上回る水準であり、全成果物の論理的整合性・科学的完成度は専門家委員会への提出に値する。  </p>
+<p><strong>次ステップ:</strong> SuMPOテンプレートを用いたプレゼンテーション作成（ブロック②PPT）、および調査ブロック①②の統合報告書作成に移行すること。</p>
+  </div>
+</main>
+<footer id="footer">
+  一般社団法人サステナブル経営推進機構（SuMPO）&emsp;|&emsp;生成日時: 2026年06月02日 14:12
+</footer>
+</body>
+</html>

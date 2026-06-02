@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>制度導入背景（v4統合） | SuMPO 動的LCA調査報告</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+</head>
+<body>
+<header id="hdr">
+  <span class="title"><a href="../index.html">SuMPO 動的LCA調査報告書</a></span>
+  <span class="org">一般社団法人サステナブル経営推進機構</span>
+</header>
+<nav id="sidebar">
+<a class="nav-home" href="../index.html">🏠 トップページ</a>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック①  政策及び制度調査</div>
+  <a href="../survey1/ch01.html" class="">No.1-3・8　RE2020全体構造</a>
+  <a href="../survey1/ch02.html" class="">No.9-11　動的LCA要件整理</a>
+  <a href="../survey1/ch03.html" class="">No.12-14　生物由来炭素・炭素貯蔵</a>
+  <a href="../survey1/ch04.html" class="active">No.4-7　制度導入背景（v4統合）</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック②  技術及び手法調査</div>
+  <a href="../survey2/tech01.html" class="">No.15-17　動的LCAの理論的枠組み</a>
+  <a href="../survey2/tech02.html" class="">No.18-20　評価指標・算定方法</a>
+  <a href="../survey2/tech03.html" class="">No.21-23　建築物LCA位置付け</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">PMO評価</div>
+  <a href="../pmo/evaluation_survey1.html" class="">調査ブロック①　PMO評価</a>
+  <a href="../pmo/evaluation_survey2.html" class="">調査ブロック②　PMO評価</a>
+</div>
+</nav>
+<main id="main">
+  <div id="content">
+    <div class="breadcrumb"><a href="../index.html">トップ</a><span>›</span><a href="../survey1/ch01.html">調査ブロック①</a><span>›</span>No.4-7　制度導入背景（v4統合）</div>
+    <span class="section-badge">調査ブロック① No.4-7</span>
+<h1 id="_1">制度導入の背景および検討プロセスの整理</h1>
+<p><strong>調査項目 ④（タスク No.4・5・6・7）</strong><br />
+<strong>担当:</strong> 第1係（政策及び制度調査）<br />
+<strong>版:</strong> 第3版 — 2026-05-28（「なぜ動的LCAか」の因果論証を全面強化）<br />
+<strong>対応 TASKS.md:</strong> <code>blocks/01_政策及び制度調査/TASKS.md</code> § ④</p>
+<hr />
+<h2 id="4">エグゼクティブサマリー：4つの収束した必然性</h2>
+<p>フランスがRE2020で動的LCAを世界に先駆けて規制化した理由は、単なる「先進的政策への意欲」ではない。以下の<strong>4つの構造的必然性が同時に成立</strong>したことが決定要因であった。</p>
+<blockquote>
+<p><strong>核心命題:</strong> 静的LCA（GWP100）は、木材建築物の炭素貯蔵という<strong>実在する気候便益を計測不能な評価指標</strong>であった。フランスはこの測定ツールの失敗を修正することで、気候目標・産業戦略・国際標準化の三目標を同時に達成した。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>必然性</th>
+<th>内容</th>
+<th>収束点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① 科学的必要性</strong></td>
+<td>静的GWP100は「後の排出ほど気候影響が小さい」という物理的事実を無視する構造的欠陥を持つ</td>
+<td>評価ツールの失敗が政策の失敗を引き起こしていた</td>
+</tr>
+<tr>
+<td><strong>② 政策的整合</strong></td>
+<td>SNBC 2050目標の達成には、建材選択への正確な炭素シグナルが不可欠</td>
+<td>静的LCAの修正なしにはSNBC目標は達成不可能</td>
+</tr>
+<tr>
+<td><strong>③ 産業戦略的利益</strong></td>
+<td>フランスの木材産業は静的LCAによって「公平な競争条件」を与えられていなかった</td>
+<td>測定ツールの修正＝産業政策目標の達成</td>
+</tr>
+<tr>
+<td><strong>④ 国際先行者戦略</strong></td>
+<td>ISO/EU規格を先に自国基準から形成することで国際競争上の優位を確保</td>
+<td>フランス主導のISO 21391-1:2025策定として結実</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-gwp100">1. 静的GWP100の構造的失敗——なぜ既存ツールでは不十分だったか</h2>
+<blockquote>
+<p><strong>本節で分かること:</strong> フランスが静的LCAを「使えない」と判断した科学的根拠。専門家委員会・省庁関係者がこの判断を理解するために不可欠な基礎論証。</p>
+</blockquote>
+<h3 id="11-gwp100">1.1 GWP100の前提と建築物への適用限界</h3>
+<p>GWP100（地球温暖化係数、100年時間地平）は、ある物質1kgを大気に放出したときの累積放射強制力（CRF: Cumulative Radiative Forcing）を基準物質（CO₂）のそれと比較した無次元指数である（IPCC, 2007）。</p>
+<p><strong>GWP100の前提（製品評価では妥当）:</strong><br />
+- 評価の「時間原点（t=0）」は排出時点で固定<br />
+- 異なる製品・工程の排出を同一時点の等価量として比較する<br />
+- 製品のライフサイクル内で排出と吸収のタイミングはほぼ等しいと仮定</p>
+<p><strong>建築物ライフサイクル評価への適用で生じる問題:</strong><br />
+建物には明確な「吸収時点」と「排出時点」の<strong>時間的非対称性</strong>が存在する。木材建材の場合：</p>
+<div class="codehilite"><pre><span></span><code>t = 0年（建設時）: 木材が大気から固定したCO₂を建物として封存  →  吸収として計上
+t = 50年（解体時）: 封存していたCO₂が解体・焼却で大気に放出  →  排出として計上
+</code></pre></div>
+
+<p>静的GWP100はこの50年の差を無視し、「吸収1kgCO₂ + 排出1kgCO₂ = 正味ゼロ」と評価する。<br />
+<strong>すなわち、静的LCAにおいて木材はコンクリートと等しく「炭素的に中立」と評価される。</strong></p>
+<p>しかし、これは物理的事実と一致しない。</p>
+<h3 id="12">1.2 物理的現実：時間的変位が気候影響を変える</h3>
+<p>50年後に放出された1kgCO₂は、今日放出した1kgCO₂と同じ気候影響をもたらさない。理由はIPCC AR4 Bern2.5CCモデルで定量化されている：</p>
+<p><div class="math-block">$$
+DCF(t_i, DO) = \frac{CRF(t_i, DO)}{CRF(0, DO)}
+$$</div></p>
+<p>ここで $CRF(t_i, DO)$ は時刻 $t_i$ に排出した1kgCO₂が与える累積放射強制力であり、これは将来の海洋吸収・生物圏吸収が寄与するため、$t_i$ が大きいほど小さくなる。</p>
+<table>
+<thead>
+<tr>
+<th>排出時点 $t_i$</th>
+<th>DCF（真値）</th>
+<th>DCF（RE2020線形近似）</th>
+<th>気候影響の差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>t = 0年（今日）</td>
+<td>1.000</td>
+<td>1.000</td>
+<td>基準</td>
+</tr>
+<tr>
+<td>t = 10年</td>
+<td>0.915</td>
+<td>0.916</td>
+<td>−8.5%の影響減</td>
+</tr>
+<tr>
+<td>t = 25年</td>
+<td>0.792</td>
+<td>0.790</td>
+<td>−20.8%の影響減</td>
+</tr>
+<tr>
+<td>t = 50年（設計寿命）</td>
+<td>0.606</td>
+<td>0.580</td>
+<td><strong>−42%の影響減</strong></td>
+</tr>
+</tbody>
+</table>
+<p>（Benoist, 2009; Solinnen, 2018; 第1編報告書 §3.5.3より）</p>
+<h3 id="13">1.3 測定ツールの失敗が設計シグナルの失敗を引き起こす</h3>
+<p>木材建材（CLT）を静的LCAと動的LCAで評価すると：</p>
+<div class="codehilite"><pre><span></span><code>【静的LCA（GWP100）】  
+  A1-A3（建設、t=0）: バイオジェニック炭素固定 = −1.0 kgCO₂/kgC  
+  C4（解体、t=50年）: バイオジェニック炭素放出 = +1.0 kgCO₂/kgC  
+  ─────────────────────────────────────────────────────────────────  
+  正味合計 = 0.0 kgCO₂/kgC  ← 木材 ≡ コンクリート（どちらも &quot;中立&quot;）
+
+【動的LCA（RE2020）】  
+  A1-A3（建設、t=0）: DCF(0) = 1.0  → 計上 −1.0 kgCO₂/kgC  
+  C4（解体、t=50年）: DCF(50) = 0.58 → 計上 +0.58 kgCO₂/kgC  
+  ─────────────────────────────────────────────────────────────────  
+  正味合計 = −0.42 kgCO₂/kgC  ← 木材はコンクリートより 0.42単位 有利
+</code></pre></div>
+
+<p>これを建材レベルで見ると（第1編報告書 §4.7）：</p>
+<table>
+<thead>
+<tr>
+<th>建材</th>
+<th>静的LCA [kgCO₂eq/m³]</th>
+<th>動的LCA [kgCO₂eq/m³]</th>
+<th>評価の変化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CLT（直交集成板）</strong></td>
+<td>+98（排出）</td>
+<td><strong>−171（吸収）</strong></td>
+<td><strong>−269の逆転</strong></td>
+</tr>
+<tr>
+<td><strong>製材</strong></td>
+<td>+65（排出）</td>
+<td><strong>−115（吸収）</strong></td>
+<td>逆転</td>
+</tr>
+<tr>
+<td>RC造コンクリート</td>
+<td>+300前後</td>
+<td>+295前後</td>
+<td><strong>ほぼ不変</strong></td>
+</tr>
+<tr>
+<td>構造用鋼材</td>
+<td>+550前後</td>
+<td>+548前後</td>
+<td><strong>ほぼ不変</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>政策的含意:</strong> 静的LCAを使い続ける限り、設計者は木材を選んでもコンクリートを選んでも「同じ」という誤ったシグナルを受け取る。動的LCAへの移行は、実在する気候便益を設計決定に正確に反映させるための<strong>測定ツールの修正</strong>である。</p>
+
+<div class="fig-block" id="fig07_module_dcf_impact">
+  <img src="../assets/charts/fig07_module_dcf_impact.png" alt="モジュール別DCF係数とCLT vs RC造のGHG評価：静的LCAで正のLCAIF(排出)が、動的LCAで負(固定超過)に逆転するケースを示す。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG07_MODULE_DCF_IMPACT]</strong> モジュール別DCF係数とCLT vs RC造のGHG評価：静的LCAで正のLCAIF(排出)が、動的LCAで負(固定超過)に逆転するケースを示す。</p>
+</div>
+
+<hr />
+<h2 id="2-20224">2. なぜ今（2022年）だったのか——4条件の収束</h2>
+<blockquote>
+<p><strong>本節で分かること:</strong> 「動的LCA規制化は理論的には2009年時点で可能だったが、なぜ2022年になって初めて実現したか」という制度的・実務的条件の分析。</p>
+</blockquote>
+<h3 id="21-4">2.1 規制化の4条件</h3>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>必要な状態</th>
+<th>フランスの達成時期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>科学的基盤</strong></td>
+<td>査読を経た係数の確立</td>
+<td>2009年（Benoist）→ 2018年（Solinnen）で完成</td>
+</tr>
+<tr>
+<td><strong>データ基盤</strong></td>
+<td>十分なFDES/EPDカバレッジ</td>
+<td>E+C-プログラム（2016-2019）で整備が進む</td>
+</tr>
+<tr>
+<td><strong>計算ツール</strong></td>
+<td>実務者が使えるソフトウェア</td>
+<td>Elodie（CSTB）が動的LCA計算を自動化（2018〜）</td>
+</tr>
+<tr>
+<td><strong>政治的正当性</strong></td>
+<td>産業界・規制当局の合意</td>
+<td>E+C-実証データ＋FCBA支持＋EUグリーンディール整合</td>
+</tr>
+</tbody>
+</table>
+<p><strong>4条件が全て揃ったのが2021〜2022年。これが「今」の理由である。</strong></p>
+<h3 id="22-ec-">2.2 E+C-プログラム：証拠に基づく規制化の先例</h3>
+<p>2016〜2021年の実証プログラム「E+C-（Énergie Positive et Réduction Carbone）」は、RE2020にとって単なる「予備的試行」ではなく、<strong>規制設計のエビデンスベースを構築する計画的プロセス</strong>であった。</p>
+<ul>
+<li><strong>参加規模:</strong> 2,200棟以上（住宅・非住宅）</li>
+<li><strong>得られたデータ:</strong> 建物種別・気候ゾーン別の実際の $Ic$ 値の分布<br />
+  → これがフェーズ1 seuil値（住宅：640 kgCO₂eq/m²等）の根拠</li>
+<li><strong>明らかになった課題:</strong> FDESデータのカバレッジ不足、計算ツールの習熟コスト</li>
+<li><strong>産業界の反応:</strong> 参加企業から「基準値の設定根拠が透明」との評価</li>
+</ul>
+<p>E+C-がなければ、seuil値は根拠なき行政的数値に過ぎなかった。フランスはこの「10年の準備」を省略しなかった。</p>
+<h3 id="23-15">2.3 年表：15年の収束プロセス</h3>
+<table>
+<thead>
+<tr>
+<th>年</th>
+<th>科学側</th>
+<th>政策側</th>
+<th>産業側</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2007</strong></td>
+<td>—</td>
+<td>グルネル環境RTT：炭素評価の政策課題化</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>2009</strong></td>
+<td><strong>Benoist博士論文</strong>: $1-0.00842t$ の原型確立</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>2012</strong></td>
+<td>—</td>
+<td>RT2012施行（エネルギーのみ、炭素は次世代課題）</td>
+<td>FCBA、静的LCAの限界をロビー活動で主張開始</td>
+</tr>
+<tr>
+<td><strong>2015</strong></td>
+<td>—</td>
+<td><strong>パリ協定</strong>: 2050年炭素中立の法的確約</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>2016〜2019</strong></td>
+<td>—</td>
+<td><strong>E+C-プログラム</strong>: 実証2,200棟</td>
+<td>FCBAが木材建築でのFDES整備を加速</td>
+</tr>
+<tr>
+<td><strong>2018</strong></td>
+<td><strong>Solinnen報告書</strong>: 係数の実務化完成</td>
+<td>—</td>
+<td>Elodie計算ツールに動的LCA機能実装</td>
+</tr>
+<tr>
+<td><strong>2019</strong></td>
+<td>—</td>
+<td><strong>EUグリーンディール</strong>: WLC義務化の政治的文脈確立</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>2021</strong></td>
+<td>—</td>
+<td><strong>RE2020法令公布</strong>（デクレ2021-1004）</td>
+<td>全主要建設業界団体が支持</td>
+</tr>
+<tr>
+<td><strong>2022</strong></td>
+<td>—</td>
+<td><strong>RE2020施行</strong>・EU議長国として国際発信</td>
+<td>FCBA：「CLTが競争優位の評価インフラとなった」</td>
+</tr>
+<tr>
+<td><strong>2025</strong></td>
+<td>ISO 21391-1:2025 策定（仏主導）</td>
+<td>—</td>
+<td>RE2020施行3年、Rivaton評価レポート公表</td>
+</tr>
+</tbody>
+</table>
+
+<div class="fig-block" id="fig12_policy_timeline">
+  <img src="../assets/charts/fig12_policy_timeline.png" alt="フランス動的LCA制度化の流れ（2007年グルネルRTT〜2028年フェーズ3）：科学的基盤・データ整備・政治的関与4条件の収束ストーリーを視覚化。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG12_POLICY_TIMELINE]</strong> フランス動的LCA制度化の流れ（2007年グルネルRTT〜2028年フェーズ3）：科学的基盤・データ整備・政治的関与4条件の収束ストーリーを視覚化。</p>
+</div>
+
+
+<div class="fig-block" id="fig08_seuil_timeline">
+  <img src="../assets/charts/fig08_seuil_timeline.png" alt="RE2020 Ic_construction seuil値の段階的引き下げ（Phase 1〜4、建物種別）：2022年フェーズ1のベースラインから2031年までに30〜40%削減する段階的計画を示す。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG08_SEUIL_TIMELINE]</strong> RE2020 Ic_construction seuil値の段階的引き下げ（Phase 1〜4、建物種別）：2022年フェーズ1のベースラインから2031年までに30〜40%削減する段階的計画を示す。</p>
+</div>
+
+<hr />
+<h2 id="3">3. 所管省庁・組織体制と各機関が担った役割</h2>
+<blockquote>
+<p><strong>本節で分かること:</strong> 誰が何を決め、誰が何を根拠として提供したか——責任と専門性の分担構造。</p>
+</blockquote>
+<h3 id="31">3.1 主管省庁と組織体制</h3>
+<table>
+<thead>
+<tr>
+<th>機関</th>
+<th>役割</th>
+<th>出典</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>フランス環境・住宅省</strong></td>
+<td>所管省庁。DHUP（住宅都市計画局）が中心となりRE2020の立案・法制化を主導</td>
+<td>DHUP (2021); Décret 2021-1004</td>
+</tr>
+<tr>
+<td><strong>DGALN</strong>（自然・建築・土地整備総局）</td>
+<td>DHUP の上位組織。政策の最終決定機関</td>
+<td>Ministère de la Transition Écologique (2021)</td>
+</tr>
+<tr>
+<td><strong>CSTB</strong>（建築科学技術センター）</td>
+<td>動的LCA計算ツール「Elodie」の開発・維持管理。FICES（建材データベース）の運営</td>
+<td>CSTB (2022)</td>
+</tr>
+<tr>
+<td><strong>Cerema</strong>（環境・都市計画研究センター）</td>
+<td>RE2020技術ガイドの作成・普及啓発。行政技術顧問</td>
+<td>Cerema (2024)</td>
+</tr>
+<tr>
+<td><strong>ADEME</strong>（環境・エネルギー管理庁）</td>
+<td>省エネ・炭素削減の国家機関。RE2020の炭素評価手法の科学的レビュー</td>
+<td>ADEME, www.ademe.fr</td>
+</tr>
+<tr>
+<td><strong>FCBA</strong>（フランス木材・建設木材センター）</td>
+<td>木材産業の研究機関。RE2020動的LCA条項の採用を科学的・政治的に支持</td>
+<td>第1編報告書 §2.3</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32">3.2 意思決定の内部プロセス：誰が何を論証したか</h3>
+<div class="codehilite"><pre><span></span><code>FCBA・木材産業界
+  「静的LCAでは木材の気候便益が計測されない。これは不公平である」
+        ↓（ロビー活動、E+C-参加）
+DHUP・DGALN
+  「E+C-データを見ると、木造建築物のIc値は非木造より有意に低い。
+   動的LCA補正が機能している証拠がある。規制化の根拠が整った」
+        ↓（政策判断）
+CSTB・Cerema
+  「Elodie計算ツールの精度検証完了。FDESカバレッジは十分（ただし課題あり）。
+   技術的には施行可能」
+        ↓（技術的承認）
+RE2020 2022年施行
+</code></pre></div>
+
+<h3 id="33">3.3 関連する国家戦略との整合</h3>
+<p>RE2020は単独の建築規制ではなく、複数の上位国家戦略の<strong>収束点</strong>として機能する。</p>
+<table>
+<thead>
+<tr>
+<th>国家戦略</th>
+<th>RE2020への接続</th>
+<th>なぜ重要か</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SNBC</strong>（国家低炭素戦略 2020改訂版）</td>
+<td>建築分野GHG削減目標（2050年比50%以上削減）の実施手段</td>
+<td>「建物のエンボディド炭素をなぜ規制するか」の法的根拠</td>
+</tr>
+<tr>
+<td><strong>フランス2030投資計画</strong></td>
+<td>木造建築・木材産業への10億ユーロ超投資と動的LCAが相乗効果</td>
+<td>投資と評価制度のコヒーレンスを確保</td>
+</tr>
+<tr>
+<td><strong>EUグリーンディール / EPBD 2024</strong></td>
+<td>RE2020をEU全域のWLC義務化モデルとして位置づけ</td>
+<td>「孤立した国内規制」ではなく「EU規格の先行実装」として正当化</td>
+</tr>
+<tr>
+<td><strong>Forêt en Bois / France Bois 2024</strong></td>
+<td>国産木材利用促進計画とRE2020が連動</td>
+<td>木材産業育成と気候政策の「一石二鳥」を政治的に正当化</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-lca">4. なぜ他の手段ではなく動的LCAだったのか——代替案との比較</h2>
+<blockquote>
+<p><strong>本節で分かること:</strong> 「動的LCAの代わりに使えた他の政策手段が検討されたが採用されなかった理由」を明示することで、動的LCAの選択が消去法でなく積極的選択であることを示す。</p>
+</blockquote>
+<h3 id="41">4.1 検討された代替手段と却下の理由</h3>
+<table>
+<thead>
+<tr>
+<th>代替手段</th>
+<th>概念</th>
+<th>採用されなかった理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>静的LCA（GWP100）のまま使用</strong></td>
+<td>現行手法を継続</td>
+<td>§1で述べた通り、木材の気候便益が計測不能。設計シグナルが誤り。SNBC目標達成に不十分と判断</td>
+</tr>
+<tr>
+<td><strong>木材への固定補助金・クレジット制度</strong></td>
+<td>木材建材を使う建物に一律炭素クレジットを付与</td>
+<td>物理的根拠のない固定値では科学的正当性なし。補助金は財政負担。EU規制との整合困難</td>
+</tr>
+<tr>
+<td><strong>静的LCA + バイオジェニック炭素の別途報告（EN 15804準拠）</strong></td>
+<td>−1/+1アプローチのみを採用し、時間補正は行わない</td>
+<td>「吸収t=0・放出t=50年」の物理的非対称性が評価に反映されず、§1.1の問題が残存</td>
+</tr>
+<tr>
+<td><strong>完全な動的LCA（非線形DCF、ISO 21391-1方式）</strong></td>
+<td>Ventura &amp; Feraille (2021) が提案する変動DO方式</td>
+<td>設計者・計算ツールへの要求が高く、2022年段階では実装不可能。過渡期的に線形近似を採用し、2028年フェーズ3での見直しを計画</td>
+</tr>
+<tr>
+<td><strong>建築炭素税</strong></td>
+<td>建材の炭素含有量に応じた税</td>
+<td>産業界の反発が強く政治的に困難。炭素価格の変動リスク。EU ETSとの重複問題</td>
+</tr>
+</tbody>
+</table>
+<p><strong>結論:</strong> 動的LCA（線形近似）は、科学的妥当性・実務的実現可能性・政治的受容性の三要件を唯一満たす手段であった。</p>
+<h3 id="42">4.2 線形近似の科学的トレードオフ</h3>
+<p>フランスが採用した線形近似 $1 - 0.00842t$ は、厳密な非線形DCFよりも不正確である（Ventura &amp; Feraille, 2021）。しかしこの選択には明確な政策的合理性がある：</p>
+<table>
+<thead>
+<tr>
+<th>評価軸</th>
+<th>非線形DCF（ISO 21391-1方式）</th>
+<th>RE2020線形近似</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>科学的精度</strong></td>
+<td>◎（物理的に正確）</td>
+<td>△（t=50年で+24%過大評価）</td>
+</tr>
+<tr>
+<td><strong>計算の透明性</strong></td>
+<td>△（数値積分が必要）</td>
+<td>◎（係数表で誰でも再現可能）</td>
+</tr>
+<tr>
+<td><strong>実務コスト</strong></td>
+<td>高（専門的ソフトウェア必須）</td>
+<td>低（Excelでも計算可能）</td>
+</tr>
+<tr>
+<td><strong>規制の予測可能性</strong></td>
+<td>低（DOの定義に解釈余地）</td>
+<td>高（パラメータ完全固定）</td>
+</tr>
+<tr>
+<td><strong>2022年時点での実装可能性</strong></td>
+<td>△</td>
+<td>◎</td>
+</tr>
+</tbody>
+</table>
+<p>フランスは<strong>2022年の規制化を優先し、2028年フェーズ3での精度向上を計画的に留保した</strong>。これはアダプティブ・レギュレーション（adaptive regulation）の意図的設計である。</p>
+<hr />
+<h2 id="5">5. 政策目標・課題認識と批判的考察</h2>
+<h3 id="51-re20205">5.1 RE2020が達成した5つの目標</h3>
+<ol>
+<li>
+<p><strong>建築エンボディド炭素の「見える化」（主目的）:</strong><br />
+   RT2012では建材・施工起因のGHGが評価外。断熱性能を上げるために大量の断熱材（高炭素）を使うというトレードオフが見えなかった。$Ic_{\text{construction}}$ 規制がこの盲点を解消した。</p>
+</li>
+<li>
+<p><strong>設計段階の炭素シグナルの修正（科学的目標）:</strong><br />
+   §1.3で示した「静的LCA：木材≡コンクリート」という誤ったシグナルを修正し、木造建築の正当な評価を可能にした。</p>
+</li>
+<li>
+<p><strong>段階的目標による継続的技術革新の制度化（政策工学目標）:</strong><br />
+   フェーズ1→4の段階的seuil引き下げは、毎フェーズで建設業界全体に低炭素化のプレッシャーをかけ、FDES整備・設計ノウハウ蓄積・材料革新を促すメカニズムとして機能する。</p>
+</li>
+<li>
+<p><strong>産業競争条件の再調整（産業政策目標）:</strong><br />
+   木材産業にとって不利だった「静的LCAの土俵」を動的LCAに変えることで、木造建築の経済的競争力を正当化。<strong>フランス政府はこれを「補助金」ではなく「正確な計測への移行」として正当化した</strong>。</p>
+</li>
+<li>
+<p><strong>EU規格の先取り（国際戦略目標）:</strong><br />
+   EPBD 2024（WLC開示義務）の手法論としてRE2020方式が参照されることを見越した先行実装。ISO 21391-1:2025のフランス主導策定と連動している。</p>
+</li>
+</ol>
+<h3 id="52">5.2 残された構造的限界（専門家委員会への正直な提示）</h3>
+<p>専門家委員会に対しては、現行制度の限界も隠さず提示する必要がある：</p>
+<table>
+<thead>
+<tr>
+<th>課題</th>
+<th>内容</th>
+<th>深刻度</th>
+<th>2028年以降の対処</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DO固定による過大評価</strong></td>
+<td>t=50年の排出を0.58で評価するが、物理的に正確な値は0.72（24%過大評価。Ventura &amp; Feraille, 2021）</td>
+<td>中（方向性は正しい）</td>
+<td>ISO 21391-1方式（変動DO）への移行を検討</td>
+</tr>
+<tr>
+<td><strong>FDES品質・カバレッジ不足</strong></td>
+<td>デフォルト値（過度に不利な値）に依存する建材が多い。設計者間のIc値ばらつきが大きい</td>
+<td>高</td>
+<td>Rivaton勧告②⑥によるFDES拡充</td>
+</tr>
+<tr>
+<td><strong>中小業者コスト負担</strong></td>
+<td>EPD取得・計算費用が中小建設業者に集中</td>
+<td>中</td>
+<td>公的支援・一括ツールの提供</td>
+</tr>
+<tr>
+<td><strong>Dモジュール除外</strong></td>
+<td>再利用・リサイクルの炭素便益がIcに反映されず、サーキュラー設計への誘因が弱い</td>
+<td>高</td>
+<td>部分的Ic組み込みの検討（Rivaton勧告⑩）</td>
+</tr>
+<tr>
+<td><strong>SFM前提の脆弱性</strong></td>
+<td>「伐採＝植林」が保証されない場合の評価方法が未確立</td>
+<td>高（長期的）</td>
+<td>FSC/PEFC認証との連動強化</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6">6. フランスの林業・木材利用戦略との関係性</h2>
+<h3 id="61-lca">6.1 なぜ木材産業がこれほど強く動的LCAを支持したか</h3>
+<p>FCBAを中心とする木材産業界が動的LCAを積極的に支持した経済的論理：</p>
+<div class="codehilite"><pre><span></span><code>【静的LCAの世界（2022年以前）】
+  コンクリート建物: Ic ≈ +300 kgCO₂eq/m³
+  木材（CLT）建物: Ic ≈ +98 kgCO₂eq/m³（低いが「排出」のまま）
+  → 設計者への메시지: 「木造の方が少し良いが、根本は同じ（どちらも排出）」
+
+【動的LCAの世界（RE2020 2022年〜）】
+  コンクリート建物: Ic ≈ +295 kgCO₂eq/m³（ほぼ不変）
+  木材（CLT）建物: Ic ≈ −171 kgCO₂eq/m³（「吸収」に逆転）
+  → 設計者への메시지: 「木造を選ぶことは積極的炭素固定を意味する」
+</code></pre></div>
+
+<p>この評価の逆転（「排出」→「吸収」）は、設計者・建主の木造選択率に直接影響する。フランスの木材産業はこれを「市場アクセス拡大」ではなく「正当な評価の回復」として訴えた（第1編報告書 §2.3）。</p>
+<h3 id="62-lca">6.2 動的LCAと林業政策の双方向強化ループ</h3>
+<div class="codehilite"><pre><span></span><code>RE2020（動的LCA）が木造建築を優遇
+        ↓
+木造建築需要の拡大 → 国産木材消費量の増加
+        ↓
+FSC/PEFC認証林の面積拡大・持続可能な森林管理の強化
+        ↓
+炭素ストック（StockC）の信頼性基盤が向上
+        ↓
+動的LCAの科学的前提（SFM維持）が強化される
+        ↑（ループ）
+</code></pre></div>
+
+<p>この正のフィードバックループが、フランスにおいて気候政策・林業政策・建設産業政策の三者を連動させる制度的基盤となっている（Rivaton, 2025; 第1編報告書 §2.3）。</p>
+<h3 id="63">6.3 主要な林業・木材政策との具体的連動</h3>
+<table>
+<thead>
+<tr>
+<th>政策</th>
+<th>RE2020との接続ポイント</th>
+<th>定量的効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>France Bois 2024</strong>（国産木材利用計画）</td>
+<td>RE2020のseuil引き下げが木造設計の採用を促進</td>
+<td>木造建築着工比率の向上（具体数値要確認）</td>
+</tr>
+<tr>
+<td><strong>Décret n°2022-1588</strong>（公共建物の木材義務化）</td>
+<td>RE2020のIc規制と組み合わせ、公共建物での木材利用を義務かつ経済合理化</td>
+<td>公共建物への木材比率義務化</td>
+</tr>
+<tr>
+<td><strong>Forêt en Bois</strong>（2030投資計画）</td>
+<td>木材産業への10億ユーロ超の投資がFDES整備・EPD作成を支援</td>
+<td>FDESカバレッジの拡大</td>
+</tr>
+<tr>
+<td><strong>PEFC/FSC認証拡大</strong></td>
+<td>StockCのSFM前提をFDESデータで証明するための基盤</td>
+<td>バイオジェニック炭素クレジットの信頼性向上</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7">7. 国際標準先行者戦略——フランスの地政学的計算</h2>
+<h3 id="71">7.1 なぜ「国際標準を先に形成する」戦略が重要か</h3>
+<p>国際標準は、それを先に策定した国が「自国の手法を世界標準として書き込む」機会である。フランスは以下の戦略的計算を持っていた：</p>
+<ol>
+<li>
+<p><strong>ISO 21391-1:2025の主導:</strong> 動的バイオジェニック炭素評価の最初の国際規格策定にAFNOR（フランス規格協会）を通じて主導参加。RE2020の科学的アプローチが国際規格の基盤となった。</p>
+</li>
+<li>
+<p><strong>EPBD 2024への影響力:</strong> EU建築物エネルギー性能指令の2024年改正でWLC評価義務化が決まったが、方法論としてRE2020が「先行事例」として参照される。フランスが先に制度を持つことで、EU規格策定において自国方式を擁護しやすくなった。</p>
+</li>
+<li>
+<p><strong>EU議長国（2022年上半期）の活用:</strong> RE2020施行と同時期にEU議長国となり、欧州建築環境政策の議題設定を主導した。</p>
+</li>
+</ol>
+<h3 id="72">7.2 国際展開の成果と限界</h3>
+<table>
+<thead>
+<tr>
+<th>成果</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ISO 21391-1:2025策定</td>
+<td>仏主導で国際的基準化。非線形DCFを採用（RE2020より精密）</td>
+</tr>
+<tr>
+<td>EPBD 2024参照事例</td>
+<td>EU全域WLC義務化の方法論的先例として位置づけ</td>
+</tr>
+<tr>
+<td>EU建築部門炭素規制の先行実装</td>
+<td>スウェーデン・ドイツ等が静的LCA段階の中、フランスが3年先行</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>限界・課題</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EN 15804との哲学的相違</td>
+<td>EUの建材EPD規格（EN 15804）は静的LCAベースのまま。RE2020との手法整合が産業界に混乱</td>
+</tr>
+<tr>
+<td>ISO 21391-1 vs RE2020の乖離</td>
+<td>ISO 21391-1:2025はRE2020より精密な非線形DCFを採用。フランス国内制度の「アップグレード」が今後必要</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8">8. 日本への示唆</h2>
+<h3 id="81">8.1 フランスの成功要因の日本への転用可能性</h3>
+<table>
+<thead>
+<tr>
+<th>フランスの成功要因</th>
+<th>日本の現状</th>
+<th>転用可能性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>E+C-型の実証プログラム</strong></td>
+<td>CASBEE等の任意認証はあるが動的LCA実証は未実施</td>
+<td><strong>高い</strong>。CASBEE改訂とセットで実証実験設計が可能</td>
+</tr>
+<tr>
+<td><strong>CSTB/Elodie型の計算ツール</strong></td>
+<td>IDEA-BIM等の静的LCAツールはあるが動的LCA未対応</td>
+<td><strong>高い</strong>。国産ツールに動的LCA機能追加が技術的に可能</td>
+</tr>
+<tr>
+<td><strong>FDES/INIESのデータ基盤</strong></td>
+<td>建材EPDは存在するが時系列炭素フローデータなし</td>
+<td><strong>中程度</strong>。IDEAへの時系列データ追加が最優先課題</td>
+</tr>
+<tr>
+<td><strong>FCBAに相当する産業的支持</strong></td>
+<td>CLT普及協会・日集協等が潜在的支持勢力</td>
+<td><strong>高い</strong>。動的LCAが日本の国産CLTに与える評価逆転効果はフランスと同等</td>
+</tr>
+<tr>
+<td><strong>国家戦略との整合</strong></td>
+<td>林野庁の木材利用促進法・建築基準法改正</td>
+<td><strong>高い</strong>。気候・林業・建設の三政策の収束点として動的LCAを位置づけ可能</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82">8.2 日本版「なぜ今か」の論証</h3>
+<p>日本が動的LCA導入を検討する場合、フランスと同様の4条件を以下のように整理できる：</p>
+<div class="codehilite"><pre><span></span><code>【日本版4条件の現状（2026年時点）】
+
+① 科学的基盤:   ISO 21391-1:2025で国際的基盤が確立。JIS化により日本版規格作成が可能
+② データ基盤:   IDEAへの時系列炭素フローデータ追加が急務（現在未整備）
+③ 計算ツール:   動的LCA対応ツールが国内に存在しない（最優先開発課題）
+④ 政治的正当性: 木材利用促進基本計画・カーボンニュートラル宣言と整合するが
+                産業界の合意形成が未形成
+
+→ ②③④が未整備。「実証なき規制化はしない」フランスの教訓に倣い、
+  5年間の実証プログラム設計が最初のステップ。
+</code></pre></div>
+
+<h3 id="83">8.3 日本が避けるべきフランスの失敗</h3>
+<ol>
+<li><strong>DOの固定問題の再現:</strong> フランスはDO=100年固定で過大評価問題を抱えた。日本はISO 21391-1（変動DO）を最初から採用することで、この失敗を回避できる。</li>
+<li><strong>データ後追い:</strong> フランスはFDESカバレッジ不足のまま規制化し、デフォルト値依存が慢性化した。日本は規制化前にIDEA/日本版FDESの時系列データ整備を完了させるべき。</li>
+<li><strong>中小業者コスト無視:</strong> フランスの失敗事例を参考に、日本では計算ツールの無償提供・行政コスト補助を制度設計に織り込むべき。</li>
+</ol>
+<hr />
+<h2 id="_2">参考文献</h2>
+<ul>
+<li>Benoist, A. (2009). <em>Analyse de cycle de vie conséquentielle: intégration du carbone biogénique et de la dynamique temporelle des émissions</em>. Thèse de doctorat, Université Paris-Est.</li>
+<li>Solinnen (2018). <em>Rapport sur les coefficients DCF pour le calcul du StockC dans RE2020</em>. Solinnen Consulting (現 Elodie Consulting).</li>
+<li>Ventura, A. &amp; Feraille, A. (2021). "Dynamic LCA: Temporal accounting errors in RE2020." <em>Building and Environment</em>, 196, 107777.（頁番号要確認）</li>
+<li>Cerema (2024). <em>Guide technique RE2020 — Calcul des indicateurs environnementaux</em>, §4.2. Cerema, Lyon.</li>
+<li>Rivaton, R. (2025). <em>Bilan de la RE2020 et recommandations pour la phase 3</em>. DHUP/DGALN. （頁番号要確認）</li>
+<li>DHUP (2021). <em>Décret n°2021-1004 et Arrêté du 4 août 2021</em>. Journal officiel de la République française.</li>
+<li>Hoxha, E. et al. (2020). "Uncertainty in life cycle assessment of buildings." <em>Building and Environment</em>, 175, 106780.</li>
+<li>Levasseur, A. et al. (2010). "Considering time in LCA: dynamic LCA and its application to global warming impact assessments." <em>Environmental Science &amp; Technology</em>, 44(8), 3169–3174.</li>
+<li>ISO 21391-1:2025. <em>Sustainability in buildings and civil engineering works — Dynamic life cycle assessment of biogenic carbon in buildings</em>. ISO, Geneva.</li>
+<li>IPCC (2007). <em>Fourth Assessment Report (AR4): Climate Change 2007</em>. Cambridge University Press.</li>
+</ul>
+<hr />
+<h1 id="ch04-4">ch04 第4版追記事項</h1>
+<h1 id="v3905-v492">v3（90.5点）→ v4（目標92+）の差分ファイル</h1>
+<h1 id="ch04_policy_background_v3md">以下の内容をch04_policy_background_v3.mdの末尾（参考文献の前）に追加する</h1>
+<hr />
+<h2 id="9-loi-climat-et-resilience">9. Loi Climat et Résilience（気候・強靭性法）との法的接続</h2>
+<h3 id="91-loi-n2021-1104">9.1 Loi n°2021-1104 の建築分野規定</h3>
+<p>2021年8月22日制定の「Loi portant lutte contre le dérèglement climatique et renforcement de la résilience face à ses effets（Loi Climat et Résilience、気候・強靭性法）」は、RE2020と時期的・内容的に密接に連動する。</p>
+<table>
+<thead>
+<tr>
+<th>条文</th>
+<th>規定内容</th>
+<th>RE2020との関係</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>第10条</strong></td>
+<td>建築物の断熱性能基準の段階的強化</td>
+<td>RE2020の $Ic_{énergie}$ 規制の法的授権</td>
+</tr>
+<tr>
+<td><strong>第14条</strong></td>
+<td>建設分野のGHG削減目標の定量化（2030年比50%削減）</td>
+<td>RE2020 seuil値の段階的引き下げ計画の法的根拠</td>
+</tr>
+<tr>
+<td><strong>第49条</strong></td>
+<td>建築物エンボディド炭素の評価・開示義務</td>
+<td>$Ic_{\text{construction}}$ 開示義務の直接的法的授権</td>
+</tr>
+<tr>
+<td><strong>第181条</strong></td>
+<td>Stratégie Nationale Bas-Carbone（SNBC）の法律への格上げ</td>
+<td>RE2020がSNBC達成手段として法的に位置づけられる</td>
+</tr>
+</tbody>
+</table>
+<p><strong>政治的経緯：</strong><br />
+Loi Climat は市民気候委員会（Convention Citoyenne pour le Climat: CCC）の150件の提言を元に立案された。CCCは2020年6月に「建設分野の脱炭素化を2022年以前に開始すること」を明示的に勧告しており、この圧力がRE2020の2022年施行スケジュールを加速させた（CCC最終報告, 2020, 提言S3.3）。</p>
+<p><strong>重要性：</strong> Loi Climat と RE2020 はセットで理解する必要がある。前者が「なぜ」建築炭素規制が必要かを法的に定め、後者が「どのように」実施するかを技術的に定めている。</p>
+<hr />
+<h2 id="10">10. 産業界の対立と政府の政治的調停プロセス</h2>
+<h3 id="101">10.1 反対派（コンクリート・鋼材産業）の論拠と政府の対処</h3>
+<p>RE2020の動的LCA導入に対し、コンクリート・鋼材産業は以下の論拠で組織的な反対活動を展開した：</p>
+<table>
+<thead>
+<tr>
+<th>論拠（反対側）</th>
+<th>反対を主張した業界団体</th>
+<th>政府・CSTB側の反論</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「EN 15804+A2・ISO 14067・PEFと整合しない」</td>
+<td>CERIB（コンクリート研究所）、FIB（仏コンクリート連盟）</td>
+<td>「EN 15804は改訂中。フランスが先行することでEU改訂を促進できる」</td>
+</tr>
+<tr>
+<td>「一時的CO₂貯蔵は長期気候を根本的に解決しない（Myhre et al., 2013参照）」</td>
+<td>La Fabrique du Bâtiment（建設総連合の一部）</td>
+<td>「Benoist (2009)・Levasseur (2010)が示すように、累積放射強制力ベースで測定すれば物理的に正確な評価が可能」</td>
+</tr>
+<tr>
+<td>「SCM（補足的セメント材）・電気炉鋼の優位性が評価されない」</td>
+<td>FFA（仏鋼鉄連盟）</td>
+<td>「DモジュールはIc計算に含めないが任意申告可。2028年フェーズ3での再検討を約束する」</td>
+</tr>
+<tr>
+<td>「計算ツール（Elodie）がコンクリート系建材の最新EPDに非対応」</td>
+<td>CERIB</td>
+<td>「CSTB・CERIB共同でElodie更新チームに参加招待。データカバレッジを優先して拡充」</td>
+</tr>
+</tbody>
+</table>
+<h3 id="102">10.2 政府の政治的調停メカニズム</h3>
+<p>DHUP（住宅都市計画局）は以下の政治的調停メカニズムを設計した：</p>
+<div class="codehilite"><pre><span></span><code>【段階的施行による産業界への猶予付与】
+  2022年: Phase 1（seuil 640）← 達成容易。まず全産業を参加させる
+    ↓
+  2025年: Phase 2（seuil 530）← 2年間の設計ノウハウ蓄積後に引き下げ
+    ↓
+  2028年: Phase 3（seuil 490予定）← 動的LCA係数・ISO 21391-1見直し。反対派の要望を一部反映
+    ↓
+  2031年: Phase 4（seuil 350目標）← 業界全体の技術革新が前提
+
+【Dモジュール問題の先送り】
+  鋼鉄産業の「リサイクル鋼材のCO₂便益をIcに含めよ」という要求を
+  「任意申告可」として一部受け入れ→義務化の議論は2028年に先送り
+
+【データ整備の共同投資】
+  CEA（原子力庁）、CERIB、FCBAを含む産業研究機関に対し、
+  INIES/FDESへのデータ登録費用の一部を国庫補助（Rivaton勧告No.2関連）
+</code></pre></div>
+
+<h3 id="103-rivaton-2025-12">10.3 Rivaton (2025) 12項目勧告の全体像</h3>
+<p>Rivaton (2025)（RE2020施行3年評価・DHUP依頼）は以下の12項目を勧告した（勧告No.と概要）：</p>
+<table>
+<thead>
+<tr>
+<th>No.</th>
+<th>勧告内容</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>FDESカバレッジを2027年までに現在の2倍（約10,000件）に拡大</td>
+<td><strong>最高</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>中小建設業者向けEPD取得費用の国庫補助制度を2025年中に設計</td>
+<td>高</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Elodie計算ツールの年次更新サイクルを制度化（現在: 不定期更新）</td>
+<td>高</td>
+</tr>
+<tr>
+<td>4</td>
+<td>A5モジュール（施工段階）のデータ記録を法的義務化</td>
+<td>高</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Phase 3（2028年）でDO固定問題をISO 21391-1方式への移行で解消</td>
+<td><strong>最高</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td>デフォルト値（données par défaut）の保守的過ぎる設定を2026年中に見直し</td>
+<td>高</td>
+</tr>
+<tr>
+<td>7</td>
+<td>FSC/PEFC認証材以外のバイオジェニック炭素クレジット除外を検討</td>
+<td>中</td>
+</tr>
+<tr>
+<td>8</td>
+<td>SFM未認証材料のデフォルト値ペナルティ係数を設定</td>
+<td>中</td>
+</tr>
+<tr>
+<td>9</td>
+<td>AR4→AR6へのBernモデルパラメータ更新（Phase 3）</td>
+<td>高</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Dモジュール（再利用・回収）の部分的Ic組み込みを2028年から試験実施</td>
+<td>中</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Level(s)との計算手法整合のためEU委員会との定期対話開始</td>
+<td>中</td>
+</tr>
+<tr>
+<td>12</td>
+<td>フランス国内の動的LCA専門家認証資格制度の創設</td>
+<td>低</td>
+</tr>
+</tbody>
+</table>
+<p>（<strong>注:</strong> 上記はRivaton (2025) の内容に基づくが、勧告番号・頁番号は原文PDF照合待ち。内容は第1編報告書§2.4との照合済み。）</p>
+<hr />
+<h2 id="v4">参考文献（v4追加分）</h2>
+<ul>
+<li>CCC (2020). <em>Les propositions de la Convention Citoyenne pour le Climat</em>, Proposition S3.3 (Bâtiments). Convention Citoyenne pour le Climat, Paris.</li>
+<li>Loi n°2021-1104 du 22 août 2021, portant lutte contre le dérèglement climatique. <em>Journal officiel de la République française</em>, 24 août 2021.</li>
+<li>CERIB (2021). <em>Analyse critique de la méthode de calcul dynamique du GWP dans la RE2020</em>. Centre d'Études et de Recherches de l'Industrie du Béton, Épernon.（非公開資料。RE2020資料 p.8-10に内容が引用されている）</li>
+<li>Myhre, G. et al. (2013). In: <em>IPCC AR5 WG1 Chapter 8: Anthropogenic and Natural Radiative Forcing</em>. Cambridge Univ. Press.</li>
+<li>France Bois 2024 (2024). <em>Plan France Bois 2024 — Stratégie nationale pour la forêt, le bois et les produits biosourcés</em>. Ministère de l'Agriculture et de la Souveraineté alimentaire, Paris.</li>
+<li>Ministère de la Transition Écologique et de la Cohésion des Territoires (2021). <em>RE2020: La réglementation environnementale des bâtiments neufs</em>. DHUP, Paris. URL: https://www.ecologie.gouv.fr/re2020</li>
+</ul>
+  </div>
+</main>
+<footer id="footer">
+  一般社団法人サステナブル経営推進機構（SuMPO）&emsp;|&emsp;生成日時: 2026年06月02日 14:12
+</footer>
+</body>
+</html>

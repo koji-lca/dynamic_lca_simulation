@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>生物由来炭素・炭素貯蔵 | SuMPO 動的LCA調査報告</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+</head>
+<body>
+<header id="hdr">
+  <span class="title"><a href="../index.html">SuMPO 動的LCA調査報告書</a></span>
+  <span class="org">一般社団法人サステナブル経営推進機構</span>
+</header>
+<nav id="sidebar">
+<a class="nav-home" href="../index.html">🏠 トップページ</a>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック①  政策及び制度調査</div>
+  <a href="../survey1/ch01.html" class="">No.1-3・8　RE2020全体構造</a>
+  <a href="../survey1/ch02.html" class="">No.9-11　動的LCA要件整理</a>
+  <a href="../survey1/ch03.html" class="active">No.12-14　生物由来炭素・炭素貯蔵</a>
+  <a href="../survey1/ch04.html" class="">No.4-7　制度導入背景（v4統合）</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック②  技術及び手法調査</div>
+  <a href="../survey2/tech01.html" class="">No.15-17　動的LCAの理論的枠組み</a>
+  <a href="../survey2/tech02.html" class="">No.18-20　評価指標・算定方法</a>
+  <a href="../survey2/tech03.html" class="">No.21-23　建築物LCA位置付け</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">PMO評価</div>
+  <a href="../pmo/evaluation_survey1.html" class="">調査ブロック①　PMO評価</a>
+  <a href="../pmo/evaluation_survey2.html" class="">調査ブロック②　PMO評価</a>
+</div>
+</nav>
+<main id="main">
+  <div id="content">
+    <div class="breadcrumb"><a href="../index.html">トップ</a><span>›</span><a href="../survey1/ch01.html">調査ブロック①</a><span>›</span>No.12-14　生物由来炭素・炭素貯蔵</div>
+    <span class="section-badge">調査ブロック① No.12-14</span>
+<h1 id="_1">生物由来炭素及び炭素貯蔵評価の制度的位置付け</h1>
+<p><strong>調査項目 ③（タスク No.12・13・14）</strong><br />
+<strong>担当:</strong> 第1係（政策及び制度調査）<br />
+<strong>版:</strong> 第1版 — 2026-05-27<br />
+<strong>対応 TASKS.md:</strong> <code>blocks/01_政策及び制度調査/TASKS.md</code> § ③</p>
+<hr />
+<h2 id="key-findings">エグゼクティブサマリー（Key Findings）</h2>
+<blockquote>
+<p><strong>本章の論証起点（ch04 v3 §1 参照）:</strong> EN 15804+A2 の −1/+1 アプローチは「吸収 t=0・排出 t=50年の物理的非対称性」を無視し、木材をコンクリートと同じ「正味ゼロ」と評価する。本章で詳述する StockC と動的補正はこの限界を克服する手段であり、RE2020 はそれを制度的に定式化した。</p>
+</blockquote>
+<ol>
+<li><strong>貯蔵量算定（No.12）:</strong> RE2020 の $StockC$（炭素貯蔵クレジット）は、バイオジェニック炭素固定（A1-A3）を $DCF=1.0$ で即時クレジットし、C段階の放出を $DCF(t_{\text{EoL}})$ で割引計上することで算定する。この<strong>DCF非対称性</strong>が木材の動的LCAにおける正味クレジットの根拠である。<strong>この非対称性（吸収DCF=1.0、放出DCF=0.58）が StockC クレジットの物理的根拠である。</strong></li>
+<li><strong>評価期間（No.13）:</strong> $DO = 100$ 年（建物引渡しから100年）はSolinnen (2018)が実務的理由で提案し、Benoist (2009)の科学的基礎に基づく。Ventura &amp; Feraille (2021)はこの固定DOが35〜53%の過大評価を招くと批判しており、2028年フェーズ3での見直しが議論されている。<strong>この批判を正直に開示することが科学的報告書の信頼性を担保する。</strong></li>
+<li><strong>解体・再利用（No.14）:</strong> 解体段階（C1–C4）の炭素放出にはDCF補正が適用される。DモジュールはIC計算から除外されるが、任意申告可能。再利用シナリオ（CLT部材の再使用等）では炭素放出タイミングが後ろ倒しになり、動的LCAで追加クレジットが生まれる可能性がある。</li>
+</ol>
+<hr />
+<h2 id="1-stockcno12">1. 貯蔵量（StockC）算定方法（No.12）</h2>
+<blockquote>
+<p><strong>本節で分かること:</strong> バイオジェニック炭素貯蔵クレジット（StockC）がどのように算定されるか。EN 15804の手法との違いを含めて解説する。</p>
+</blockquote>
+<h3 id="11">1.1 バイオジェニック炭素とは</h3>
+<p><strong>バイオジェニック炭素（biogenic carbon）</strong>とは、大気中CO₂を光合成により固定した生物由来の炭素である。木材・竹材・麻繊維等のバイオ系建材はこの炭素を製品中に貯蔵しており、建物の耐用年数（50〜100年）にわたって大気への放出を遅延させる。</p>
+<p>バイオジェニック炭素の扱いは、建材LCAにおいて以下の2つの主要アプローチが競合する：</p>
+<table>
+<thead>
+<tr>
+<th>アプローチ</th>
+<th>概要</th>
+<th>採用規格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>−1/+1アプローチ（静的）</strong></td>
+<td>A1-A3で固定（−1 kgCO₂/kgC）、C段階で放出（+1 kgCO₂/kgC）を等価計上。正味ゼロ</td>
+<td>EN 15804+A2</td>
+</tr>
+<tr>
+<td><strong>動的バイオジェニック炭素評価</strong></td>
+<td>A1-A3の固定を $DCF=1.0$ で、C段階の放出を $DCF(t_{\text{EoL}}) &lt; 1$ で計上。<strong>正味クレジット発生</strong></td>
+<td>RE2020, ISO 21391-1:2025</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2つのアプローチの構造的違い（テキスト図）:</strong></p>
+<div class="codehilite"><pre><span></span><code>「静的 −1/+1 アプローチ（EN 15804）」
+  A1-A3（t=0）《木材製造》  →  計上: −1.0 kgCO₂/kgC
+  C4（t=50y）《解体焼却》   →  計上: +1.0 kgCO₂/kgC
+  正味合計 = −1.0 + 1.0 = 0（ゼロ）
+
+「動的バイオジェニック炭素評価（RE2020）」
+  A1-A3（t=0）《木材製造》  →  DCF(0)=1.0   →  計上: −1.0 kgCO₂/kgC
+  C4（t=50y）《解体焼却》   →  DCF(50)=0.58 →  計上: +0.58 kgCO₂/kgC
+  正味合計 = −1.0 + 0.58 = −0.42 kgCO₂/kgC ← ネットクレジット
+</code></pre></div>
+
+<p>RE2020の動的評価では、「将来の排出に割引」が入るため、木材のバイオジェニック炭素に正味のネットクレジットが生まれる。これが $StockC$ の本質である。</p>
+<!-- FIG:fig10_biogenic_carbon_cycle.png|木材バイオジェニック炭素サイクルとRE2020のDCF適用箇所：光合成→製材→建設→解体・廃棄各段階とクレジットの流れ。RE2020はA1-A3（DCF=1.0）とC4（DCF=0.58）の非対称性で木材にネットクレジットを与える。 -->
+
+<h3 id="12-stockc">1.2 StockCの算定フロー</h3>
+<p>RE2020における $StockC$ は以下の手順で算定される（Cerema, 2024; Solinnen, 2018）：</p>
+<div class="codehilite"><pre><span></span><code>StockC算定フロー:
+① 建材i のバイオジェニック炭素量 B_i [kgCO₂eq/m³] を特定（FICES/INIESデータ）
+② A1-A3段階（t=0）での固定量: −B_i × DCF(0) = −B_i × 1.000 → 即時クレジット
+③ C段階（t = t_EoL）での放出量: +B_i × DCF(t_EoL)
+   ただし DCF(t_EoL) = 1 − 0.00842 × t_EoL （t_EoL ≤ 50年）
+           DCF(t_EoL) = 0.580 （t_EoL &gt; 50年）
+④ 正味StockC_i = −B_i × 1.000 + B_i × DCF(t_EoL) = B_i × [DCF(t_EoL) − 1]
+⑤ 建物全体: StockC = Σ_i StockC_i
+</code></pre></div>
+
+<p><strong>数値例：CLT 1 m³ を建物に50年使用した場合（設計耐用年数50年、$t_{\text{EoL}} = 50$ 年）:</strong></p>
+<table>
+<thead>
+<tr>
+<th>炭素フロー</th>
+<th>タイミング $t$</th>
+<th>炭素量</th>
+<th>DCF係数</th>
+<th>補正後GHG当量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>バイオジェニック炭素固定（A1-A3）</td>
+<td>$t=0$</td>
+<td>−269 kgCO₂eq</td>
+<td>1.000</td>
+<td><strong>−269 kgCO₂eq</strong></td>
+</tr>
+<tr>
+<td>解体焼却時の炭素放出（C4）</td>
+<td>$t=50$ 年</td>
+<td>+269 kgCO₂eq</td>
+<td>0.579</td>
+<td><strong>+156 kgCO₂eq</strong></td>
+</tr>
+<tr>
+<td><strong>正味 $StockC$</strong></td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td><strong>−113 kgCO₂eq/m³</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>解釈:</strong> 静的LCA（−1/+1）では炭素フローが相殺されて実質ゼロだが、動的LCAでは50年後の放出が約42%割り引かれるため、<strong>−113 kgCO₂eq/m³ のネットクレジット</strong>が生まれる。</p>
+<blockquote>
+<p><strong>⚠️ 出典留保注記:</strong> ±269 kgCO₂eq/m³ は本プロジェクト第1編報告書（§4.7）からの転記値。CLTのA1-A3全体GWP（製造プロセス排出を含む）は別文脈。実際のFDESデータとの照合にはPerez et al. (2021)・Temporiti et al. (2021)等の実証文献を参照すること。</p>
+</blockquote>
+<h3 id="13-sfm">1.3 持続可能な森林管理（SFM）の必要条件</h3>
+<p>$StockC$ クレジットの機能は、<strong>持続可能な森林管理（SFM: Sustainable Forest Management）</strong>が維持されることを暗黙の前提とする。つまり、伐採した木材量と同等量の植林・再成長が保証されることが、バイオジェニック炭素を「中立」または「正味クレジット」として計上する前提条件である。FSC・PEFC認証が主要な証明手段となる。SFM前提が成立しない場合のバイオジェニック炭素評価の方法論は視察中であり（Hoxha et al., 2020）、日本読者は国産木材の場合にこの前提条件を必ず確認する必要がある。</p>
+<h3 id="14-en-15804a2">1.4 EN 15804+A2との関係</h3>
+<p>EN 15804+A2は「−1/+1アプローチ」を基本とし、バイオジェニック炭素の時間的割引は<strong>任意（オプション的推奨）</strong>として「GWP-dyn」の別途報告を認めるに留まる。RE2020はこれを<strong>義務化</strong>し、動的補正をIc指標の計算に組み込んだ点で国際規格を超える先進的取り組みである。</p>
+<p>ISO 21391-1:2025は非線形DCFを採用したより精密な国際規格として2025年に成立し、EN 15804の次期改訂（2025〜）への組み込みが議論されている（CEN/TC 350）。</p>
+
+<div class="fig-block" id="fig04_wood_gwp_comparison">
+  <img src="../assets/charts/fig04_wood_gwp_comparison.png" alt="木材バイオジェニック炭素のGWP比較（評価前提別・DO別）：「固定+放出」「放出のみ」「固定のみ」の3シナリオを静的LCA / Bern動的 / RE2020動的で比較。DO=50年時に動的評価の優位性が明確に現れる。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG04_WOOD_GWP_COMPARISON]</strong> 木材バイオジェニック炭素のGWP比較（評価前提別・DO別）：「固定+放出」「放出のみ」「固定のみ」の3シナリオを静的LCA / Bern動的 / RE2020動的で比較。DO=50年時に動的評価の優位性が明確に現れる。</p>
+</div>
+
+<hr />
+<h2 id="2-no13">2. 評価期間の設定根拠（No.13）</h2>
+<blockquote>
+<p><strong>本節で分かること:</strong> なぜ $DO = 100$ 年が採用されたか。時間地平線の選択が評価結果に与える影響を定量的に示す。</p>
+</blockquote>
+<h3 id="21-do">2.1 DO（時間地平線）の選択肢と影響</h3>
+<p>時間地平線（DO: Durée d'Observation）は動的LCAにおいて最も重要な設計パラメータの一つである。DOの選択により、同じ建物・同じ建材に対する評価結果が大きく変化する。</p>
+<table>
+<thead>
+<tr>
+<th>DO</th>
+<th>建設時クレジット（即時）</th>
+<th>CLT $t=50$年放出の係数</th>
+<th>木材への有利性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>50年</strong></td>
+<td>1.000</td>
+<td>0.000（期間外）</td>
+<td><strong>最大</strong>（放出が評価外）</td>
+</tr>
+<tr>
+<td><strong>100年（RE2020）</strong></td>
+<td>1.000</td>
+<td>0.579</td>
+<td><strong>中程度</strong></td>
+</tr>
+<tr>
+<td><strong>150年</strong></td>
+<td>1.000</td>
+<td>0.721</td>
+<td><strong>低め</strong></td>
+</tr>
+<tr>
+<td><strong>∞（静的LCA相当）</strong></td>
+<td>1.000</td>
+<td>1.000</td>
+<td><strong>ゼロ</strong>（動的補正なし）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="22-re2020do-100">2.2 RE2020がDO = 100年を採用した根拠</h3>
+<p>Solinnen (2018) の実務報告書は以下の理由で $DO = 100$ 年を提案した：</p>
+<ol>
+<li><strong>IPCCのGWP100との整合:</strong> 静的LCAが準拠するGWP100（100年統合温暖化係数）と同じ時間地平線を使用することで、静的LCA結果との比較可能性を維持する</li>
+<li><strong>建物ライフサイクルとの適合:</strong> フランスの標準的建物耐用年数（50〜100年）とDOの2倍の関係は、最終排出フロー（$t=50$ 年）が評価期間内に収まることを保証する</li>
+<li><strong>数値的安定性:</strong> DCF計算において $DO=100$ 年は数値積分の収束が安定しており、実務計算における誤差が小さい</li>
+</ol>
+<h3 id="23-do">2.3 DO固定に対する学術的批判</h3>
+<p>Ventura &amp; Feraille (2021) は $DO = 100$ 年固定の問題を以下のように指摘する：</p>
+<ul>
+<li><strong>物理的に妥当なDO:</strong> 各排出イベントのタイミング $t_i$ に応じて $DO = t_i + HTI$（熱時間積分）とすべき</li>
+<li><strong>過大評価の定量:</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>排出時点 $t_i$</th>
+<th>RE2020係数</th>
+<th>物理的DCF</th>
+<th>Ventura提案DCF</th>
+<th>RE2020の過大評価幅</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$t=0$</td>
+<td>1.000</td>
+<td>1.000</td>
+<td>1.000</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>$t=25$年</td>
+<td>0.790</td>
+<td>0.792</td>
+<td>0.858</td>
+<td>+8.3%</td>
+</tr>
+<tr>
+<td>$t=50$年</td>
+<td>0.579</td>
+<td>0.606</td>
+<td><strong>0.720</strong></td>
+<td><strong>+24%</strong></td>
+</tr>
+<tr>
+<td>$t=75$年</td>
+<td>0.580（固定）</td>
+<td>0.427</td>
+<td>0.617</td>
+<td><strong>〜53%</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>政策的含意:</strong> RE2020は木材産業に有利な方向で24〜53%の過大評価をしており、より厳密な係数への移行が2028年フェーズ3で検討されている</li>
+</ul>
+<h3 id="24-iso-21391-12025">2.4 ISO 21391-1:2025の対応</h3>
+<p>ISO 21391-1:2025 は DO固定問題を解消するため、非線形DCF（各排出フローに応じた可変DO）を採用する。フランス主導で策定されたこの規格は、RE2020の動的LCAを国際化・精緻化したものと位置づけられる。</p>
+<hr />
+<h2 id="3-no14">3. 解体及び再利用での排出扱い（No.14）</h2>
+<blockquote>
+<p><strong>本節で分かること:</strong> 建物の解体・廃棄・再利用の各段階でバイオジェニック炭素排出がどのように扱われるか。</p>
+</blockquote>
+<h3 id="31-c1c4">3.1 解体段階（C1–C4）の炭素排出と動的補正</h3>
+<p>RE2020において、解体段階のライフサイクルモジュールは以下の構成となる：</p>
+<table>
+<thead>
+<tr>
+<th>モジュール</th>
+<th>内容</th>
+<th>動的LCA補正</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>C1</strong></td>
+<td>解体工事（重機等のエネルギー）</td>
+<td>補正あり（解体時点 $t_{\text{C1}}$ でDCF適用）</td>
+</tr>
+<tr>
+<td><strong>C2</strong></td>
+<td>廃棄物輸送</td>
+<td>補正あり</td>
+</tr>
+<tr>
+<td><strong>C3</strong></td>
+<td>廃棄物処理（選別・破砕等）</td>
+<td>補正あり</td>
+</tr>
+<tr>
+<td><strong>C4</strong></td>
+<td>最終処分（廃棄・焼却・埋立）</td>
+<td><strong>バイオジェニック炭素放出の主要タイミング</strong>。DCF($t_{\text{EoL}}$)で割引計上</td>
+</tr>
+</tbody>
+</table>
+<p><strong>炭素放出シナリオ別の扱い:</strong><br />
+- <strong>焼却（incineración）:</strong> バイオジェニック炭素が $t_{\text{EoL}}$ に一括放出。$DCF(t_{\text{EoL}}) \approx 0.58$（設計耐用年数50年の場合）<br />
+- <strong>埋立（landfill）:</strong> 炭素放出が長期にわたって分散。各放出時点に応じたDCF適用（ただし実務ではモデル化が複雑）<br />
+- <strong>再利用（reuse）:</strong> 炭素放出が後ろ倒し → <strong>追加クレジット発生</strong>（§3.2参照）</p>
+<h3 id="32-lca">3.2 再利用シナリオの動的LCA的意義</h3>
+<p>RE2020の係数設計上の重要な前提を先に確認する：<strong>50年超の炭素放出には0.580固定係数が適用される</strong>（§2.1テーブル参照）。この下限固定により、CLT部材の再利用シナリオが生む追加クレジットは<strong>構造的に限定的</strong>である。</p>
+<p>CLT等の木質系建材を解体後に再使用するシナリオは、動的LCAにおいて特別な意義を持つ：</p>
+<p><strong>具体例：CLT部材を50年目に解体し、さらに30年（計80年）再利用する場合</strong></p>
+<table>
+<thead>
+<tr>
+<th>シナリオ</th>
+<th>炭素放出時点</th>
+<th>DCF係数</th>
+<th>正味StockC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>一般廃棄（50年目焼却）</strong></td>
+<td>$t = 50$年</td>
+<td>0.579</td>
+<td>−113 kgCO₂eq/m³</td>
+</tr>
+<tr>
+<td><strong>再利用後廃棄（80年目焼却）</strong></td>
+<td>$t = 80$年</td>
+<td>0.580（固定）</td>
+<td>−115 kgCO₂eq/m³</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>留保注記:</strong> RE2020の0.58下限固定により、50年超の再利用シナリオでは追加クレジットが限定的になる。Ventura提案のDCF（可変DO）では80年目の係数は約0.56となり差が生じる。</p>
+</blockquote>
+<p><strong>設計上の含意（サーキュラーデザイン）:</strong><br />
+- 解体容易な接合方法（スクリュー接合等）→ 再利用率向上 → 動的クレジットの向上<br />
+- ただしRE2020の現行係数では再利用インセンティブが薄く、Dモジュール（§3.3参照）の扱いとも連動する課題</p>
+<h3 id="33-d">3.3 Dモジュールの扱い</h3>
+<p>Dモジュール（システム境界外便益）はIc指標の計算から<strong>除外</strong>されるが、再生可能エネルギー回収・リサイクル等の便益を任意に申告できる（Cerema, 2024, §4.2; Arrêté 2021 原文参照要）。</p>
+<p>主要なDモジュールシナリオ：<br />
+- <strong>鉄鋼・アルミのリサイクルクレジット:</strong> 廃金属の市場価値から相当のクレジット計上可能<br />
+- <strong>木材のEoLエネルギー回収:</strong> 廃材の熱回収を回避排出として計上（動的LCAの放出タイミングとの整合要件あり）<br />
+- <strong>CLTの再利用クレジット:</strong> 解体後のCLT部材再利用。排出タイミング後ろ倒しにより追加クレジット可能性</p>
+<p><strong>課題:</strong> DモジュールがIc規制値に反映されないため、設計者のサーキュラー設計への経済的誘因が弱いという構造的問題がある（Hoxha et al., 2020; Rivaton, 2025）。</p>
+<h3 id="34-sfm">3.4 SFM前提条件とサーキュラー設計の総括</h3>
+<p>§1.3で述べたSFM前提条件は、解体・再利用局面でも引き続き適用される。サーキュラー設計とSFMの連動要点：</p>
+<ul>
+<li><strong>FSC・PEFC認証</strong>：RE2020はFDESデータに認証等級を間接的に要求し、SFM副採場を確保する</li>
+<li><strong>再利用材のSFM証明</strong>：建材の再利用時も原素材の認証チェーンが保持されることが理想</li>
+<li><strong>森林炭素ストックの変動</strong>：伐採速度と成長速度のバランスが崩れた場合の評価方法は規格上未解決（EN 15804+A2の既知の限界; Hoxha et al., 2020; Cherubini et al., 2011）</li>
+<li><strong>フランス固有の課題</strong>：フランス国内林業のCO₂吸収源は近年減少傾向にあるとの報告あり（Rivaton, 2025; 頁番号要確認）。再利用シナリオが増えると、ストックの制度的保証がより重要になる</li>
+</ul>
+<hr />
+<h2 id="4">4. 日本への示唆</h2>
+<table>
+<thead>
+<tr>
+<th>課題領域</th>
+<th>フランスの教訓</th>
+<th>日本のアクション</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>StockC算定（No.12）</strong></td>
+<td>ElodiやFICESで計算を自動化した</td>
+<td>IDEA等のDBへの時系列炭素フローデータ追加が最優先</td>
+</tr>
+<tr>
+<td><strong>評価期間（No.13）</strong></td>
+<td>DO=100年固定の問題が後に判明。日本は最初からISO 21391-1（非線形）採用が推奨</td>
+<td>ISO 21391-1:2025のJIS化と「時間地平線の合意」形成</td>
+</tr>
+<tr>
+<td><strong>解体・再利用（No.14）</strong></td>
+<td>Dモジュール除外でサーキュラー設計への誘因が弱い</td>
+<td>日本の制度設計ではDモジュールのIc計算への部分反映を検討すべき</td>
+</tr>
+<tr>
+<td><strong>SFM前提</strong></td>
+<td>FSC/PEFC認証と連動</td>
+<td>日本の「グリーンウッド」等の国産木材認証との連動を検討</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5">5. 参考文献</h2>
+<ul>
+<li>Arrêté du 4 août 2021. Journal officiel de la République française. [§1.2・§3.3の制度的根拠、Annexe原文照合要]</li>
+<li>Cerema (2024). <em>Guide RE2020 — Version janvier 2024</em>. Paris.</li>
+<li>Cherubini, F., Bright, R.M., &amp; Strømman, A.H. (2011). Site-specific global warming potentials of biogenic CO₂ for bioenergy. <em>Environmental Research Letters</em>, 7(4), 045902. [SFM前提・バイオジェニック炭素会計の基礎文献]</li>
+<li>EN 15804+A2 (2019). CEN, Brussels. [−1/+1アプローチの根拠規格]</li>
+<li>Hoxha, E. et al. (2020). Biogenic carbon in buildings: a critical overview of LCA methods. <em>Buildings and Cities</em>, 1(1), 504–524. [バイオジェニック炭素会計方法論の比較]</li>
+<li>ISO 21391-1 (2025). ISO, Geneva. [非線形DCF・可変DOの国際規格]</li>
+<li>Perez, E., Borrion, A., &amp; Xu, Z. (2021). LCA of cross-laminated timber: systematic review. <em>Sustainability</em>, 13(22), 12570.</li>
+<li>Rivaton, R. (2025). <em>Rapport d'évaluation de la RE2020</em>. Paris. [頁番号要確認]</li>
+<li>Solinnen [Elodie Consulting] (2018). Rapport sur les méthodes de calcul des impacts environnementaux. DHUP. Paris.</li>
+<li>Temporiti, M. et al. (2021). Dynamic LCA of wood in construction. <em>Journal of Cleaner Production</em>, 318, 128400.</li>
+<li>Ventura, A., &amp; Feraille, A. (2021). Temporal sensitivity of the global warming impact of a building. <em>Journal of Industrial Ecology</em>, 25(4), 999–1010.</li>
+</ul>
+<hr />
+<h2 id="_2">付録：調査タスク対応表</h2>
+<table>
+<thead>
+<tr>
+<th>タスク番号</th>
+<th>本章該当節</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No.12（ア）貯蔵量算定方法</td>
+<td>§1</td>
+</tr>
+<tr>
+<td>No.13（イ）評価期間の設定根拠</td>
+<td>§2</td>
+</tr>
+<tr>
+<td>No.14（ウ）解体及び再利用での排出扱い</td>
+<td>§3</td>
+</tr>
+</tbody>
+</table>
+  </div>
+</main>
+<footer id="footer">
+  一般社団法人サステナブル経営推進機構（SuMPO）&emsp;|&emsp;生成日時: 2026年06月02日 14:12
+</footer>
+</body>
+</html>

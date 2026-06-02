@@ -1,0 +1,137 @@
+
+:root {
+  --nav-w: 260px;
+  --hdr-h: 56px;
+  --blue:  #0057BA;
+  --dblue: #125486;
+  --navy:  #193950;
+  --silver:#C5C9CD;
+  --gray:  #f4f6f8;
+  --text:  #1a1a2e;
+  --muted: #555;
+  --code-bg: #f0f3f6;
+  --border: #dde2e8;
+  --radius: 6px;
+  --shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+       color: var(--text); background: #fff; font-size: 15px; line-height: 1.7; }
+
+/* ── Header ── */
+#hdr { position: fixed; top: 0; left: 0; right: 0; height: var(--hdr-h);
+       background: var(--navy); color: #fff;
+       display: flex; align-items: center; padding: 0 24px;
+       z-index: 200; box-shadow: var(--shadow); gap: 16px; }
+#hdr .org { font-size: 13px; opacity: .7; white-space: nowrap; }
+#hdr .title { font-size: 16px; font-weight: 700; letter-spacing: .03em; }
+#hdr a { color: #fff; text-decoration: none; }
+#hdr a:hover { text-decoration: underline; }
+
+/* ── Sidebar ── */
+#sidebar { position: fixed; top: var(--hdr-h); left: 0; bottom: 0;
+           width: var(--nav-w); background: var(--gray);
+           border-right: 1px solid var(--border);
+           overflow-y: auto; padding: 16px 0; z-index: 100; }
+.nav-group { margin-bottom: 8px; }
+.nav-group-label { font-size: 11px; font-weight: 700; color: var(--navy);
+                   letter-spacing: .08em; text-transform: uppercase;
+                   padding: 12px 16px 4px; }
+.nav-group a { display: block; font-size: 13px; color: var(--text);
+               padding: 6px 16px 6px 20px; text-decoration: none;
+               border-left: 3px solid transparent;
+               transition: background .15s, border-color .15s; }
+.nav-group a:hover { background: #e8ecf0; border-left-color: var(--blue); }
+.nav-group a.active { background: #dce8f5; border-left-color: var(--blue);
+                      color: var(--dblue); font-weight: 600; }
+.nav-home { display: block; font-size: 13px; font-weight: 700; color: var(--navy);
+            padding: 8px 16px 12px; text-decoration: none;
+            border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+.nav-home:hover { color: var(--blue); }
+
+/* ── Main ── */
+#main { margin-left: var(--nav-w); padding-top: var(--hdr-h); min-height: 100vh; }
+#content { max-width: 880px; margin: 0 auto; padding: 36px 40px 80px; }
+
+/* ── Breadcrumb ── */
+.breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+.breadcrumb a { color: var(--blue); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span { margin: 0 6px; }
+
+/* ── Typography ── */
+h1 { font-size: 1.8rem; color: var(--navy); border-bottom: 3px solid var(--blue);
+     padding-bottom: 10px; margin: 0 0 28px; line-height: 1.3; }
+h2 { font-size: 1.25rem; color: var(--dblue); border-left: 4px solid var(--blue);
+     padding-left: 12px; margin: 36px 0 14px; }
+h3 { font-size: 1.05rem; color: var(--navy); margin: 28px 0 10px; }
+h4 { font-size: .95rem; color: var(--dblue); margin: 20px 0 8px; }
+p  { margin: 0 0 14px; }
+ul, ol { margin: 0 0 14px 22px; }
+li { margin-bottom: 4px; }
+a  { color: var(--blue); }
+
+/* ── Code ── */
+code { background: var(--code-bg); border-radius: 3px; padding: 1px 5px;
+       font-size: .88em; font-family: 'Fira Code', 'Courier New', monospace; }
+pre  { background: var(--code-bg); border: 1px solid var(--border);
+       border-radius: var(--radius); padding: 16px; overflow-x: auto;
+       margin: 0 0 18px; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: .87em; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 0 0 20px;
+        font-size: .9em; box-shadow: var(--shadow); border-radius: var(--radius);
+        overflow: hidden; }
+thead tr { background: var(--navy); color: #fff; }
+thead th { padding: 10px 14px; text-align: left; font-weight: 600; }
+tbody tr:nth-child(even) { background: var(--gray); }
+tbody tr:hover { background: #dce8f5; }
+td, th { padding: 9px 14px; border-bottom: 1px solid var(--border); }
+
+/* ── Blockquote ── */
+blockquote { border-left: 4px solid var(--blue); background: #eef4fb;
+             padding: 12px 16px; margin: 0 0 16px; border-radius: 0 var(--radius) var(--radius) 0; }
+blockquote p { margin: 0; color: var(--dblue); }
+
+/* ── Score card (PMO) ── */
+.score-card { display: flex; gap: 16px; flex-wrap: wrap; margin: 20px 0; }
+.score-item { background: var(--gray); border: 1px solid var(--border);
+              border-radius: var(--radius); padding: 16px 20px; text-align: center;
+              min-width: 140px; flex: 1; }
+.score-item .num { font-size: 2.4rem; font-weight: 800; color: var(--blue); line-height: 1; }
+.score-item .lbl { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.score-item.pass .num { color: #1a8a3a; }
+
+/* ── Section badge ── */
+.section-badge { display: inline-block; background: var(--blue); color: #fff;
+                 font-size: 11px; font-weight: 700; padding: 2px 8px;
+                 border-radius: 3px; margin-right: 8px; letter-spacing: .05em; }
+
+/* ── Footer ── */
+#footer { text-align: center; font-size: 12px; color: var(--muted);
+          padding: 20px; border-top: 1px solid var(--border);
+          background: var(--gray); margin-left: var(--nav-w); }
+
+/* ── Math (KaTeX) ── */
+.math-block { overflow-x: auto; margin: 16px 0; padding: 12px; background: var(--code-bg);
+              border-radius: var(--radius); border: 1px solid var(--border); }
+.katex-display { overflow: auto hidden; }
+
+/* ── Figures ── */
+.fig-block { margin: 28px 0; }
+.fig-block img { width: 100%; height: auto; border: 1px solid var(--border);
+                 border-radius: var(--radius); box-shadow: var(--shadow); }
+.fig-caption { font-size: .85em; color: var(--muted); margin-top: 8px;
+               text-align: center; font-style: italic; }
+.fig-caption strong { color: var(--navy); font-style: normal; }
+.fig-section-title { font-size: 1.1rem; font-weight: 700; color: var(--navy);
+                     border-left: 4px solid var(--blue); padding-left: 12px;
+                     margin: 40px 0 18px; }
+
+/* ── Responsive ── */
+@media (max-width: 720px) {
+  #sidebar { display: none; }
+  #main, #footer { margin-left: 0; }
+  #content { padding: 24px 16px 60px; }
+}

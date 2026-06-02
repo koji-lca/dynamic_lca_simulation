@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>動的LCAの理論的枠組み | SuMPO 動的LCA調査報告</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+</head>
+<body>
+<header id="hdr">
+  <span class="title"><a href="../index.html">SuMPO 動的LCA調査報告書</a></span>
+  <span class="org">一般社団法人サステナブル経営推進機構</span>
+</header>
+<nav id="sidebar">
+<a class="nav-home" href="../index.html">🏠 トップページ</a>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック①  政策及び制度調査</div>
+  <a href="../survey1/ch01.html" class="">No.1-3・8　RE2020全体構造</a>
+  <a href="../survey1/ch02.html" class="">No.9-11　動的LCA要件整理</a>
+  <a href="../survey1/ch03.html" class="">No.12-14　生物由来炭素・炭素貯蔵</a>
+  <a href="../survey1/ch04.html" class="">No.4-7　制度導入背景（v4統合）</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック②  技術及び手法調査</div>
+  <a href="../survey2/tech01.html" class="active">No.15-17　動的LCAの理論的枠組み</a>
+  <a href="../survey2/tech02.html" class="">No.18-20　評価指標・算定方法</a>
+  <a href="../survey2/tech03.html" class="">No.21-23　建築物LCA位置付け</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">PMO評価</div>
+  <a href="../pmo/evaluation_survey1.html" class="">調査ブロック①　PMO評価</a>
+  <a href="../pmo/evaluation_survey2.html" class="">調査ブロック②　PMO評価</a>
+</div>
+</nav>
+<main id="main">
+  <div id="content">
+    <div class="breadcrumb"><a href="../index.html">トップ</a><span>›</span><a href="../survey2/tech01.html">調査ブロック②</a><span>›</span>No.15-17　動的LCAの理論的枠組み</div>
+    <span class="section-badge">調査ブロック② No.15-17</span>
+<h1 id="lcano1517-2">動的LCAの理論的枠組み（No.15〜17）— 第2版</h1>
+<p><strong>調査ブロック②</strong> 第2係（技術及び手法調査）<br />
+<strong>版:</strong> 第2版 — 2026-06-02（全面強化・政治的背景追記）<br />
+<strong>対応 TASKS.md:</strong> No.15（ア）/ No.16（イ）/ No.17（ウ）<br />
+<strong>主な出典:</strong> Levasseur et al. (2010, 2013); Ventura (2022); Benoist (2009); IPCC AR4; RE2020関連資料</p>
+<hr />
+<h2 id="_1">エグゼクティブサマリー</h2>
+<blockquote>
+<p><strong>中心命題（第1係 ch04 v3 §1 と連動）:</strong> 静的LCAが「時間を無視した測定ツール」であることは、科学的に証明された事実である。動的LCAはその誤りを修正するが、「どの時間地平を選ぶか」という政策的判断が評価結果を大きく左右する。フランスはこの判断を透明なパラメータ（100年、線形近似）として制度化することで、科学的正当性と実務的実現可能性を両立させた。</p>
+</blockquote>
+<p><strong>3つのKey Finding:</strong><br />
+1. <strong>No.15:</strong> 動的LCAの二層構造（動的LCI＋動的LCIA）は、Levasseur et al. (2010) がIPCC AR4 Bern2.5CCモデルの累積放射強制力（AGWP）から導出したDCFにより実装される。RE2020はこれをFRE2020(t) = 1 − 0.00842·t という線形近似に簡易化した。<br />
+2. <strong>No.16:</strong> 100年という評価期間はIPCC 1990年報告書以来の慣習に過ぎず、物理的必然性はない（Shine et al., 2005）。しかしRE2020は「建設から100年」を選択した。この選択は科学的最適値ではなく政策的整合性（GWP100との連続性）を優先した結果である。<br />
+3. <strong>No.17:</strong> 静的GWP100と動的LCAの差は、木材（CLT）で <strong>−269 kgCO₂eq/m³</strong>（+98 → −171）、コンクリートではほぼゼロ（+300 → +295）。この非対称性がRE2020の「木材優遇」の物理的根拠である。</p>
+<hr />
+<h2 id="1-lcano15">1. 動的LCA（時間軸評価）導入の基本概念（No.15）</h2>
+<h3 id="11-lca">1.1 静的LCAの時間問題：物理的根拠</h3>
+<p>静的LCAの気候変動影響指標は次の式で定義される（EN 15804; ISO 14067）：</p>
+<p><div class="math-block">$$
+GWP_{\text{static}} = \sum_i GWP_{100}(x_i) \cdot m_i
+$$</div></p>
+<p>ここで $GWP_{100}(x_i)$ はIPCC AR4/AR5で定義された100年統合温暖化係数（単位：kgCO₂eq/kg）、$m_i$ は物質 $x_i$ の排出量である。この式の<strong>構造的欠陥</strong>は「全排出・吸収フローが評価開始時点 $t=0$ に一括発生すると仮定する」点にある。</p>
+<p>建築物ライフサイクルに適用すると：<br />
+- A1-A3（建設 $t=0$）でバイオジェニック炭素を固定 → $-B_i$ kgCO₂として計上<br />
+- C4（解体 $t=50$年）でバイオジェニック炭素を放出 → $+B_i$ kgCO₂として計上<br />
+- <strong>結果：$-B_i + B_i = 0$（正味ゼロ）</strong>= 木材 ≡ コンクリート（どちらも「炭素中立」）</p>
+<p>しかしIPCC AR4 Bern2.5CCモデル（Forster et al., 2007）は、大気中に放出された1 kgCO₂のうち55%弱が海洋・陸域生物圏に吸収されることを示す。この吸収は継続的に進むため、<strong>50年後に放出した1 kgCO₂の気候影響は、今日放出した1 kgCO₂より物理的に小さい</strong>。この事実を静的LCAは完全に無視する。</p>
+<h3 id="12-lcalevasseur-et-al-2010">1.2 動的LCAの二層構造（Levasseur et al., 2010）</h3>
+<p>Levasseur et al. (2010) はこの問題を解決する動的LCAフレームワークを提示した：</p>
+<table>
+<thead>
+<tr>
+<th>層</th>
+<th>内容</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>動的LCI</strong></td>
+<td>各排出・吸収フローに発生時刻 $t_i$ を付与</td>
+<td>年次プロファイルの保持</td>
+</tr>
+<tr>
+<td><strong>動的LCIA</strong></td>
+<td>時刻 $t_i$ に応じた動的特性化係数 $DCF(t_i)$ を適用</td>
+<td>時間依存の気候影響算定</td>
+</tr>
+</tbody>
+</table>
+<p><strong>動的特性化係数DCF(t)の定義：</strong></p>
+<p><div class="math-block">$$
+DCF(t_i, \Delta t) = \frac{\int_{t_i}^{t_i + \Delta t} RF(\tau) \, d\tau}{\int_0^{\Delta t} RF(\tau) \, d\tau} = \frac{AGWP(t_i, \Delta t)}{AGWP(0, \Delta t)}
+$$</div></p>
+<ul>
+<li>$RF(\tau)$：時刻 $\tau$ における放射強制力（W/m²）</li>
+<li>$AGWP(t_i, \Delta t)$：時刻 $t_i$ に放出した1kgCO₂の $\Delta t$ 年間累積放射強制力</li>
+<li>分母：今日（$t=0$）放出した1kgCO₂の同期間の累積放射強制力（基準値）</li>
+</ul>
+<p><strong>IPCCのCO₂大気中応答関数（Bern2.5CC、AR4）：</strong></p>
+<p><div class="math-block">$$
+C(t) = a_0 + \sum_{j=1}^{3} a_j \exp\!\left(-\frac{t}{\tau_j}\right)
+$$</div></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ</th>
+<th>値</th>
+<th>物理的意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$a_0$</td>
+<td>0.217</td>
+<td>恒久的に大気残留する分率（海洋・生物圏の飽和）</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>0.259, $\tau_1$=172.9年</td>
+<td>深海吸収（遅い）</td>
+</tr>
+<tr>
+<td>$a_2$</td>
+<td>0.338, $\tau_2$=18.51年</td>
+<td>中間層吸収</td>
+</tr>
+<tr>
+<td>$a_3$</td>
+<td>0.186, $\tau_3$=1.186年</td>
+<td>表層海洋・植生吸収（速い）</td>
+</tr>
+</tbody>
+</table>
+<p>この応答関数を用いてAGWPを数値積分することでDCF(t)が得られる。</p>
+
+<div class="fig-block" id="fig01_bern_impulse">
+  <img src="../assets/charts/fig01_bern_impulse.png" alt="IPCC AR4 Bern2.5CCモデル — CO₂インパルス応答 r(t)：大気残存割合の時間推移と永続分率 a₀=0.217。深層海洋・海洋上層・生物圈による3段階吸収と永続残存分の内訳を示す。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG01_BERN_IMPULSE]</strong> IPCC AR4 Bern2.5CCモデル — CO₂インパルス応答 r(t)：大気残存割合の時間推移と永続分率 a₀=0.217。深層海洋・海洋上層・生物圈による3段階吸収と永続残存分の内訳を示す。</p>
+</div>
+
+<h3 id="13-re2020lca">1.3 RE2020「簡易動的LCA」：線形近似の採用</h3>
+
+<div class="fig-block" id="fig02_crf_dcf_relationship">
+  <img src="../assets/charts/fig02_crf_dcf_relationship.png" alt="CRF/DCFの関係（3パネル）：積分範囲の可視化 / CO₂・CH₄・N₂OのCRF(t) / ガス別DCF(t)。線形近似が非線形Bern DCFをどこで切り千つたかを示す。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG02_CRF_DCF_RELATIONSHIP]</strong> CRF/DCFの関係（3パネル）：積分範囲の可視化 / CO₂・CH₄・N₂OのCRF(t) / ガス別DCF(t)。線形近似が非線形Bern DCFをどこで切り千つたかを示す。</p>
+</div>
+
+<p>フランスRE2020は完全な動的LCI計算ではなく、<strong>静的GWP結果に時間係数FRE2020(t)を乗じる簡易化</strong>を採用した（Ventura, 2022, §3.3）：</p>
+<p><div class="math-block">$$
+GWP_{dyn,RE2020}(t) = F_{RE2020}(t) \times GWP_{stat,THI=100}
+$$</div></p>
+<p>線形近似式：</p>
+<p><div class="math-block">$$
+F_{RE2020}(t) = 1 - 0.00842 \cdot t \quad (t \leq 50\text{年、最小値}0.58)
+$$</div></p>
+<p>この係数は、IPCC AR4 Bern2.5CCパラメータからDCF(t)を数値計算し、最小二乗法で線形近似したものである（Benoist, 2009; Solinnen, 2018）。</p>
+<table>
+<thead>
+<tr>
+<th>排出時点 $t$</th>
+<th>DCF（Bern非線形）</th>
+<th>FRE2020（線形近似）</th>
+<th>誤差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>t = 0年</td>
+<td>1.000</td>
+<td>1.000</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>t = 10年</td>
+<td>0.915</td>
+<td>0.916</td>
+<td>+0.1%</td>
+</tr>
+<tr>
+<td>t = 25年</td>
+<td>0.792</td>
+<td>0.790</td>
+<td>−0.3%</td>
+</tr>
+<tr>
+<td>t = 50年</td>
+<td>0.606</td>
+<td><strong>0.580</strong></td>
+<td><strong>−4.3%（過小評価）</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>注記（Ventura, 2022）：</strong> RE2020線形近似は厳密DCFより約4%過小評価するが、同論文はより深刻な問題として「固定DO=100年」による<strong>過大評価（+25%）</strong>を指摘する（§2参照）。</p>
+</blockquote>
+<p><strong>政治的背景（No.15のコンテキスト）：</strong><br />
+Benoist (2009) の博士論文がこの線形近似の原型を提供した。FCBAはこの成果を基にロビー活動を展開し、DHUPはCSTB・CeremaによるElodie計算ツールへの実装可能性確認（2018年）を経て規制採用を決定した。</p>
+<hr />
+<h2 id="2-no16">2. 評価期間の根拠（No.16）</h2>
+<h3 id="21-ventura-2022">2.1 時間概念の三分類（Ventura, 2022）</h3>
+<p>動的LCA議論で混同される3つの時間概念を明確に分離する：</p>
+<table>
+<thead>
+<tr>
+<th>記号</th>
+<th>名称</th>
+<th>定義</th>
+<th>RE2020での値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>THI</strong></td>
+<td>Time Horizon of Impact（影響時間地平）</td>
+<td>累積放射強制力の積分上限。GWP100の「100」</td>
+<td>100年（IPCC慣習）</td>
+</tr>
+<tr>
+<td><strong>LCD</strong></td>
+<td>Life Cycle Duration（ライフサイクル期間）</td>
+<td>対象システムの排出プロファイル開始〜終了</td>
+<td>50年（使用期間） + 建設・解体期間</td>
+</tr>
+<tr>
+<td><strong>TOD</strong></td>
+<td>Total Observation Duration（総観測期間）</td>
+<td>動的指標の観測・積分上限</td>
+<td><strong>100年（建設起点から固定）</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>重要：</strong> 静的GWP100の「100年」はTHI（影響算定の積分幅）を意味する。Levasseur型動的GWP100の「100年」はTOD（観測窓の終点）を意味する。<strong>同じ数値でも物理的意味が異なる</strong>（Ventura, 2022, §3.1）。</p>
+</blockquote>
+<h3 id="22-100">2.2 100年という選択の科学的・政治的根拠</h3>
+<p><strong>GWP100の歴史的起源：</strong><br />
+GWP（地球温暖化係数）は1990年IPCC第1次評価報告書で初めて定義された。当時の科学者コミュニティは20年・100年・500年の3つの時間地平を提案したが、政策立案者の便宜のため<strong>100年が主流となった</strong>（Shine et al., 2005）。物理的必然性はなく、選択は政治的合意による。</p>
+<blockquote>
+<p><strong>Shine et al. (2005) の指摘（GWP批判の代表的論文）：</strong><br />
+"The choice of a 100-year time horizon is a value judgment rather than a scientific conclusion. It represents a social or political choice about the relative importance of effects at different times."</p>
+</blockquote>
+<p><strong>RE2020が100年を選んだ理由：</strong></p>
+<table>
+<thead>
+<tr>
+<th>理由</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GWP100との整合性</strong></td>
+<td>既存のFDES/EPDデータは静的GWP100ベースで整備されている。評価地平を変えると全データの再計算が必要となり、規制移行コストが膨大になる</td>
+</tr>
+<tr>
+<td><strong>Levasseur (2010) との整合</strong></td>
+<td>動的LCAの基礎論文がTOD=100年を採用。科学的参照先との整合性を確保</td>
+</tr>
+<tr>
+<td><strong>産業界への説明容易性</strong></td>
+<td>「従来のGWP100と同じ時間地平でより精密に評価する」という説明が産業界に受け入れられやすかった</td>
+</tr>
+<tr>
+<td><strong>EU政策との整合</strong></td>
+<td>EPBD・Level(s)の枠組みもGWP100を基準とするため、EU域内規制との整合性を確保できる</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23">2.3 時間地平選択による評価結果の感度</h3>
+<p>「建設から100年」の固定TODが木材評価に与える影響（RE2020資料 p.5; Ventura, 2022）：</p>
+<table>
+<thead>
+<tr>
+<th>シナリオ</th>
+<th>50年貯蔵1kgCO₂のクレジット換算</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>TOD=100年（RE2020）</strong></td>
+<td><strong>≈ 0.42 kgCO₂回避相当</strong></td>
+<td>実際のFRE2020(50) = 0.58</td>
+</tr>
+<tr>
+<td>TOD=150年</td>
+<td>≈ 0.27 kgCO₂回避相当</td>
+<td>−36%小さい</td>
+</tr>
+<tr>
+<td>厳密Bern非線形（変動DO）</td>
+<td>≈ 0.39 kgCO₂回避相当</td>
+<td>RE2020より若干小さい</td>
+</tr>
+</tbody>
+</table>
+<p><strong>評価期間の政策的含意：</strong><br />
+- TODを短く設定する → 一時的炭素貯蔵のクレジットが大きくなる（木材産業に有利）<br />
+- TODを長く設定する → クレジットが小さくなる（コンクリート・鋼鉄産業に有利）<br />
+- <strong>RE2020のTOD=100年はこの政治的均衡点として機能した</strong></p>
+
+<div class="fig-block" id="fig09_time_horizon_comparison">
+  <img src="../assets/charts/fig09_time_horizon_comparison.png" alt="時間地平（HTI）別のDCF(t)曲線と解体段階（t=50年）でのDCF値の変化：TOD=50年／100年／150年で結果が大きく異なり、「DO設定の政治性」を定量化する。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG09_TIME_HORIZON_COMPARISON]</strong> 時間地平（HTI）別のDCF(t)曲線と解体段階（t=50年）でのDCF値の変化：TOD=50年／100年／150年で結果が大きく異なり、「DO設定の政治性」を定量化する。</p>
+</div>
+
+<h3 id="24-iso-21391-12025">2.4 ISO 21391-1:2025との乖離</h3>
+<p>ISO 21391-1:2025（2025年策定、フランスAFNOR主導）はRE2020の固定DOを問題視し、<strong>変動DO方式（ライフサイクル排出プロファイルに応じてDOを動的に設定）</strong>を採用した。これはVentura &amp; Feraille (2021) の批判に応答したものである。</p>
+<p>RE2020の固定DO問題はフランスの2028年フェーズ3改訂で対処される予定であり、ISO 21391-1への収束が議論されている。</p>
+<hr />
+<h2 id="3-lcagwp100no17">3. 従来型静的LCA（GWP100）との差異（No.17）</h2>
+<h3 id="31">3.1 本質的差異の整理</h3>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>静的LCA（GWP100）</th>
+<th>動的LCA（Levasseur型）</th>
+<th>RE2020簡易動的LCA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>排出の時間構造</strong></td>
+<td>全排出を $t=0$ に集約</td>
+<td>年次プロファイル（動的LCI）を保持</td>
+<td>既存EPD/FDES（静的集計）＋年次係数</td>
+</tr>
+<tr>
+<td><strong>特性化係数</strong></td>
+<td>固定GWP100（THI=100年）</td>
+<td>DCF(t)：排出時刻依存</td>
+<td>FRE2020(t)：線形近似</td>
+</tr>
+<tr>
+<td><strong>時間原点</strong></td>
+<td>なし（全排出が同時）</td>
+<td>プロジェクト開始年</td>
+<td><strong>建物引渡し年（使用開始）</strong></td>
+</tr>
+<tr>
+<td><strong>評価ウィンドウ</strong></td>
+<td>暗黙的（個別フロー毎にずれる）</td>
+<td>明示的THI/TOD</td>
+<td><strong>建設から100年（TOD固定）</strong></td>
+</tr>
+<tr>
+<td><strong>一時的CO₂貯蔵</strong></td>
+<td>評価しない（EN 15804+A2では−1/+1）</td>
+<td>吸収と放出の時間差を放射強制力差として評価</td>
+<td>C段階の割引により「正味クレジット」が発生</td>
+</tr>
+<tr>
+<td><strong>生物由来CO₂</strong></td>
+<td>中立または除外</td>
+<td>吸収・固定・放出を時系列で評価</td>
+<td>EPD内クレジット＋FRE2020(t)係数</td>
+</tr>
+<tr>
+<td><strong>CH₄等短寿命ガス</strong></td>
+<td>GWP100で集約評価</td>
+<td>ガス種別DCF（高精度）</td>
+<td><strong>集約GWP100に係数</strong>（批判あり）</td>
+</tr>
+<tr>
+<td><strong>国際的比較可能性</strong></td>
+<td>高（EN 15804, ISO 14067準拠）</td>
+<td>時間地平開示が必須</td>
+<td>フランス国内・建材分野に限定</td>
+</tr>
+<tr>
+<td><strong>主なリスク</strong></td>
+<td>木材の気候便益を過小評価</td>
+<td>複雑性・データ要件</td>
+<td>一時貯蔵の過大評価（Ventura批判）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-clt">3.2 CLTと一般建材の定量比較</h3>
+<p>CLT（直交集成板）を例に静的・動的LCAの差を定量化（第1編報告書 §4.7; Benoist, 2009の計算手法に準拠）：</p>
+<div class="codehilite"><pre><span></span><code>【静的LCA（GWP100）CLT 1 m³あたり】
+  A1-A3（製材・製造、t=0）: バイオジェニック炭素固定 = −1.0 kgCO₂/kgC × Bc(CLT)
+  A1-A3（製造エネルギー等）: 化石炭素排出 ≈ +120 kgCO₂eq/m³
+  C4（解体焼却、t=50年）:    バイオジェニック炭素放出 = +1.0 × Bc(CLT)
+  → バイオジェニック分は相殺（正味ゼロ）
+  → 合計 ≈ +98 kgCO₂eq/m³（「排出材」として評価）
+
+【動的LCA（RE2020）CLT 1 m³あたり】
+  A1-A3（t=0）:  固定 DCF(0)=1.0  → 計上 −Bc
+  C4（t=50年）:  放出 DCF(50)=0.58 → 計上 +0.58×Bc
+  バイオジェニック正味: −Bc + 0.58Bc = −0.42×Bc ≈ −269 kgCO₂eq/m³（貯蔵クレジット）
+  化石分（製造等）: ≈ +98 kgCO₂eq/m³
+  → 合計 ≈ −171 kgCO₂eq/m³（「吸収材」として評価）
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>建材</th>
+<th>静的LCA</th>
+<th>動的LCA</th>
+<th>差（動的−静的）</th>
+<th>評価の質的変化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CLT</td>
+<td>+98</td>
+<td><strong>−171</strong></td>
+<td><strong>−269</strong></td>
+<td>「排出」→「吸収」に逆転</td>
+</tr>
+<tr>
+<td>製材</td>
+<td>+65</td>
+<td><strong>−115</strong></td>
+<td>−180</td>
+<td>「排出」→「吸収」に逆転</td>
+</tr>
+<tr>
+<td>RC造コンクリート</td>
+<td>+300</td>
+<td>+295</td>
+<td>−5</td>
+<td>ほぼ不変</td>
+</tr>
+<tr>
+<td>構造用鋼材</td>
+<td>+550</td>
+<td>+548</td>
+<td>−2</td>
+<td>ほぼ不変</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>出典留保:</strong> 上記CLT値は第1編報告書 §4.7に基づく代表値。FDES実データとの照合が必要（<strong>数値要原文照合</strong>）。</p>
+</blockquote>
+<!-- FIG:fig07_module_dcf_impact.png|モジュール別DCF係数とCLT vs RC造のGHG評価：A1-A3・使用・解体各段階のバーチャートで、静的LCAと動的LCAの評価順位が逆転するケースを示す。 -->
+
+<h3 id="33">3.3 差異の政治的重要性</h3>
+<p><strong>ステークホルダー別の反応（RE2020資料 p.6-11; 第1編報告書 §2.3）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>ステークホルダー</th>
+<th>立場</th>
+<th>主な主張</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FCBA・木材産業</strong></td>
+<td>強く支持</td>
+<td>「動的LCAは物理的に正確な評価。木材の実在する気候便益を初めて計測できる」</td>
+</tr>
+<tr>
+<td><strong>セメント・コンクリート産業（CERIB等）</strong></td>
+<td>反対</td>
+<td>「EN 15804・ISO 14067・PEFと整合しない。一時的貯蔵は長期気候に影響しない」</td>
+</tr>
+<tr>
+<td><strong>鋼鉄産業（FFA等）</strong></td>
+<td>部分的反対</td>
+<td>「リサイクル鋼材のEoL炭素便益（Dモジュール）との整合に問題がある」</td>
+</tr>
+<tr>
+<td><strong>環境NGO（FNE等）</strong></td>
+<td>条件付き支持</td>
+<td>「SFM（持続可能な森林管理）前提の確保なしに貯蔵クレジットは認められない」</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_2">参考文献（本節対応）</h2>
+<ul>
+<li>Levasseur, A. et al. (2010). Considering time in LCA: dynamic LCA and its application to global warming impact assessments. <em>Environ. Sci. Technol.</em> 44(8):3169–3174.</li>
+<li>Levasseur, A. et al. (2013). Biogenic carbon and temporary storage addressed with dynamic life cycle assessment. <em>J. Industrial Ecology</em> 17(1):117–128.</li>
+<li>Ventura, A. (2022). Conceptual issue of the dynamic GWP indicator. <em>Int. J. LCA</em> (原著参照要).</li>
+<li>Ventura, A. &amp; Feraille, A. (2021). Dynamic LCA: temporal accounting errors in RE2020. <em>Building and Environment</em> 196:107777.</li>
+<li>Benoist, A. (2009). Thèse de doctorat: intégration du carbone biogénique. Université Paris-Est.</li>
+<li>Shine, K.P. et al. (2005). Alternatives to the global warming potential. <em>Climatic Change</em> 68(3):281–302.</li>
+<li>Forster, P. et al. (2007). In: <em>IPCC AR4 WG1 Chapter 2</em>. Cambridge University Press.</li>
+<li>ISO 21391-1:2025. <em>Sustainability in buildings — Dynamic LCA of biogenic carbon</em>. ISO, Geneva.</li>
+</ul>
+  </div>
+</main>
+<footer id="footer">
+  一般社団法人サステナブル経営推進機構（SuMPO）&emsp;|&emsp;生成日時: 2026年06月02日 14:12
+</footer>
+</body>
+</html>

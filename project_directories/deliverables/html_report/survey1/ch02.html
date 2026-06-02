@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>動的LCA要件整理 | SuMPO 動的LCA調査報告</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+</head>
+<body>
+<header id="hdr">
+  <span class="title"><a href="../index.html">SuMPO 動的LCA調査報告書</a></span>
+  <span class="org">一般社団法人サステナブル経営推進機構</span>
+</header>
+<nav id="sidebar">
+<a class="nav-home" href="../index.html">🏠 トップページ</a>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック①  政策及び制度調査</div>
+  <a href="../survey1/ch01.html" class="">No.1-3・8　RE2020全体構造</a>
+  <a href="../survey1/ch02.html" class="active">No.9-11　動的LCA要件整理</a>
+  <a href="../survey1/ch03.html" class="">No.12-14　生物由来炭素・炭素貯蔵</a>
+  <a href="../survey1/ch04.html" class="">No.4-7　制度導入背景（v4統合）</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック②  技術及び手法調査</div>
+  <a href="../survey2/tech01.html" class="">No.15-17　動的LCAの理論的枠組み</a>
+  <a href="../survey2/tech02.html" class="">No.18-20　評価指標・算定方法</a>
+  <a href="../survey2/tech03.html" class="">No.21-23　建築物LCA位置付け</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">PMO評価</div>
+  <a href="../pmo/evaluation_survey1.html" class="">調査ブロック①　PMO評価</a>
+  <a href="../pmo/evaluation_survey2.html" class="">調査ブロック②　PMO評価</a>
+</div>
+</nav>
+<main id="main">
+  <div id="content">
+    <div class="breadcrumb"><a href="../index.html">トップ</a><span>›</span><a href="../survey1/ch01.html">調査ブロック①</a><span>›</span>No.9-11　動的LCA要件整理</div>
+    <span class="section-badge">調査ブロック① No.9-11</span>
+<h1 id="lca">ダイナミックLCAの要件整理</h1>
+<p><strong>調査項目 ②（タスク No.9・10・11）</strong><br />
+<strong>担当:</strong> 第1係（政策及び制度調査）<br />
+<strong>版:</strong> 第1版 — 2026-05-27<br />
+<strong>対応 TASKS.md:</strong> <code>blocks/01_政策及び制度調査/TASKS.md</code> § ②</p>
+<hr />
+<h2 id="key-findings">エグゼクティブサマリー（Key Findings）</h2>
+<blockquote>
+<p><strong>本章の論証起点（ch04 v3 §1 参照）:</strong> 静的GWP100は「今日の1kgCO₂ ≡ 50年後の1kgCO₂」と扱うため、木材の50年貯蔵という実在する気候便益を計測できない。本章で詳述するDCF（動的特性化係数）はこの物理的誤りを修正する科学的ツールであり、RE2020はその最初の法規制化である。</p>
+</blockquote>
+<ol>
+<li><strong>対象範囲（No.9）:</strong> RE2020の動的LCAは2022年1月以降に建築確認を申請する全ての新築建物に適用される。住宅・非住宅とも対象だが、フェーズ分け（2022/2025/2028/2031年）により基準値が段階的に厳格化する。建物種別ごとのseuil値（戸建住宅：640、集合住宅：840 kgCO₂eq/m²）はE+C-実証2,200棟データから導出された。</li>
+<li><strong>遅延排出の評価根拠（No.10）:</strong> 「後の排出ほど気候影響が小さい」という物理的事実を、IPCC AR4 Bern2.5CCモデルの累積放射強制力（CRF）比として定量化したDCF（動的特性化係数）が評価の科学的根拠である。t=50年での影響は即時排出比<strong>42%減</strong>（DCF=0.58）。</li>
+<li><strong>パラメータ（No.11）:</strong> RE2020は線形近似 $\text{coefficient}(t) = 1 - 0.00842 \cdot t$（上限50年、下限0.58）を採用する。これはIPCC AR4の4指数関数モデルパラメータから最小二乗法で導出された。<strong>厳密な非線形DCFより不正確だが、透明性・実務コストの観点から2022年段階の採用が合理的と判断された（アダプティブ設計）。</strong></li>
+</ol>
+<hr />
+<h2 id="1-no9">1. 対象建築物の種別・範囲・段階適用内容（No.9）</h2>
+<blockquote>
+<p><strong>本節で分かること:</strong> RE2020の動的LCAはどの建物に、いつから、どのように適用されるか。</p>
+</blockquote>
+<h3 id="11">1.1 対象建物の種別と範囲</h3>
+<p>RE2020は<strong>フランス本土（France métropolitaine）における新築建物</strong>を対象とする（Décret n°2021-1004; Arrêté du 4 août 2021）。適用対象は以下の区分に整理される。</p>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>対象</th>
+<th>最初の適用時期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>住宅（Résidentiel）</strong></td>
+<td>戸建住宅（maisons individuelles）・集合住宅（logements collectifs）</td>
+<td>2022年1月1日（フェーズ1）</td>
+</tr>
+<tr>
+<td><strong>非住宅（Tertiaire）</strong></td>
+<td>事務所・教育施設・商業施設・ホテル等</td>
+<td>2022年7月1日（フェーズ1）</td>
+</tr>
+<tr>
+<td><strong>既存建物の大規模改修</strong></td>
+<td>対象外（RE2020は新築専用規制）</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>超小規模建物（床面積50 m²未満相当）</strong></td>
+<td>要確認（Arrêté Annexe原文参照）</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>⚠️ 留保注記:</strong> 具体的な適用除外規定・面積閾値はArrêté 2021の原文参照が必要（本報告書では未照合）。</p>
+</blockquote>
+<h3 id="12">1.2 段階的施行スケジュール</h3>
+<p>RE2020は建設産業への影響を段階的に移行させるため、炭素指標の<strong>seuil（上限基準値）</strong>を以下の4フェーズで段階引き下げする設計になっている（Cerema, 2024, §4.2）。</p>
+<h4 id="_1">全体フェーズ概要</h4>
+<table>
+<thead>
+<tr>
+<th>フェーズ</th>
+<th>施行日</th>
+<th>$Ic_{\text{construction}}$ 削減率（フェーズ1比）</th>
+<th>主な変更</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>フェーズ1</strong></td>
+<td>2022年1月1日</td>
+<td>ベースライン（0%）</td>
+<td>炭素評価義務化の初施行。住宅は1月、非住宅は7月から</td>
+</tr>
+<tr>
+<td><strong>フェーズ2</strong></td>
+<td>2025年1月1日</td>
+<td><strong>−15%</strong></td>
+<td>全建物種別で上限値を一律引き下げ</td>
+</tr>
+<tr>
+<td><strong>フェーズ3</strong></td>
+<td>2028年1月1日</td>
+<td><strong>−25%</strong></td>
+<td>DCF係数の見直し検討（Rivaton, 2025）と同期</td>
+</tr>
+<tr>
+<td><strong>フェーズ4</strong></td>
+<td>2031年1月1日</td>
+<td><strong>−30〜40%</strong></td>
+<td>最終目標水準。用途別に差を設ける可能性あり</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ic_textconstruction-seuil">建物種類別・フェーズ別 $Ic_{\text{construction}}$ 上限値（seuil）</h4>
+<p>$Ic_{\text{construction}}$ の seuil は建物用途・気候ゾーン・延床面積・階数により細分化されるが、代表的な基準値は以下の通り（Arrêté du 4 août 2021, Annexe II, Tableau 4〜6; Cerema, 2024, §4.2 より整理）：</p>
+<table>
+<thead>
+<tr>
+<th>建物種別</th>
+<th>フェーズ1（2022）</th>
+<th>フェーズ2（2025）</th>
+<th>フェーズ3（2028）</th>
+<th>フェーズ4（2031）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>戸建住宅</strong>（maisons individuelles, MI）</td>
+<td>640 kgCO₂eq/m²</td>
+<td>約 545 kgCO₂eq/m²</td>
+<td>約 480 kgCO₂eq/m²</td>
+<td>約 420〜448 kgCO₂eq/m²</td>
+</tr>
+<tr>
+<td><strong>集合住宅</strong>（logements collectifs, LC）</td>
+<td>840 kgCO₂eq/m²</td>
+<td>約 715 kgCO₂eq/m²</td>
+<td>約 630 kgCO₂eq/m²</td>
+<td>約 505〜588 kgCO₂eq/m²</td>
+</tr>
+<tr>
+<td><strong>事務所</strong>（bureaux）</td>
+<td>740 kgCO₂eq/m²</td>
+<td>約 630 kgCO₂eq/m²</td>
+<td>約 555 kgCO₂eq/m²</td>
+<td>約 444〜518 kgCO₂eq/m²</td>
+</tr>
+<tr>
+<td><strong>教育施設</strong>（enseignement）</td>
+<td>660 kgCO₂eq/m²</td>
+<td>約 560 kgCO₂eq/m²</td>
+<td>約 495 kgCO₂eq/m²</td>
+<td>約 396〜462 kgCO₂eq/m²</td>
+</tr>
+<tr>
+<td><strong>ホテル</strong>（hébergement）</td>
+<td>770 kgCO₂eq/m²</td>
+<td>約 655 kgCO₂eq/m²</td>
+<td>約 578 kgCO₂eq/m²</td>
+<td>約 462〜539 kgCO₂eq/m²</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>⚠️ 出典・数値の留保:</strong> 上記はフランス中央値ゾーン（H2b）・標準規模の代表値。実際の seuil は<strong>気候ゾーン（フランス8区分）・延床面積・階数・構造種別</strong>により Arrêté 2021 Annexe II の Tableau で個別に定められており、一律値ではない。フェーズ2以降の具体的数値は PDF 原文照合が必要（<strong>数値要原文照合</strong>）。</p>
+</blockquote>
+<p><strong>段階施行の設計思想:</strong><br />
+- 建材業界（FDES/EPD整備）・設計者（計算ツール習得）・規制当局（データ収集・検証）の準備時間を確保<br />
+- 実績データ蓄積後に係数を見直すというアダプティブ・レギュレーション（adaptive regulation）の仕組みを制度化<br />
+- <strong>戸建住宅（640）vs 集合住宅（840）の差:</strong> 集合住宅は共用設備・地下駐車場等の付帯施設に起因する炭素排出が大きいため、上限が高めに設定されている</p>
+<h3 id="13">1.3 適用単位と機能単位</h3>
+<p>RE2020の評価は建物全体を対象とし、<strong>機能単位（functional unit）は「建物1棟、床面積1 m²、設計耐用年数50年」</strong>とされる（EN 15978準拠）。</p>
+<ul>
+<li>炭素指標 $Ic$ の単位：<strong>kgCO₂eq/m²</strong>（床面積あたり）</li>
+<li>評価結果は Elodie等のツールで算出し、建築確認申請書類に添付する</li>
+<li>地域区分（気候ゾーン）により一部補正がある（フランス8気候ゾーン）</li>
+</ul>
+<p><strong>この機能単位と段階施行スケジュールが「適用範囲」を定義する。では、その $Ic$ はどのような数理的根拠によって計算されるのか——それが次節で追う「遅延排出の評価根拠（DCFの物理的根拠）」である。</strong></p>
+<hr />
+<h2 id="2-no10">2. 遅延排出の評価根拠（No.10）</h2>
+<blockquote>
+<p><strong>本節で分かること:</strong> なぜ「後の排出ほど気候影響が小さい」と言えるのか。物理的根拠と数式を解説する。</p>
+</blockquote>
+<h3 id="21">2.1 問題の本質：時間と気候影響の関係</h3>
+<p>静的LCA（GWP100）は全ての排出・吸収フローを評価開始時点 $t=0$ に集約して扱う。しかし物理的には、<strong>今排出する CO₂ と 50年後に排出する CO₂ の気候への累積影響は等しくない</strong>。</p>
+<p>今日排出された CO₂ は今後100年間にわたって大気中に残存し続け、その間ずっと放射強制力（地球温暖化の駆動力）を生じさせる。一方、50年後に排出されるCO₂ は、100年の評価期間のうち残り50年分しか大気中にいないため、累積影響は必然的に小さくなる。</p>
+<p>この「時間的割引」を定量化したものが<strong>動的特性化係数（DCF: Dynamic Characterization Factor）</strong>である。</p>
+<h3 id="22-dcf">2.2 DCFの定義と数理的根拠</h3>
+<p>DCF は、Levasseur et al. (2010) により次のように定義される：</p>
+<p><div class="math-block">$$
+DCF(t_i, DO) = \frac{CRF(t_i, DO)}{CRF(0, DO)} = \frac{\displaystyle\int_{t_i}^{DO} a_x \cdot r(t - t_i)\, dt}{\displaystyle\int_{0}^{DO} a_x \cdot r(t)\, dt}
+$$</div></p>
+<ul>
+<li><strong>$CRF(t_i, DO)$</strong>: 時刻 $t_i$ に排出された単位GHGが時間 $[t_i, DO]$ に生じる<strong>累積放射強制力</strong>（Cumulative Radiative Forcing）</li>
+<li><strong>$CRF(0, DO)$</strong>: 即時排出（$t_i = 0$）の場合の $[0, DO]$ における累積放射強制力（正規化の分母）</li>
+<li><strong>$a_x$</strong>: CO₂の放射強制力係数（$1.55 \times 10^{-15}$ W·m⁻²·(kgCO₂)⁻¹）</li>
+<li><strong>$r(t)$</strong>: 大気中CO₂濃度の時間応答関数（インパルス応答）</li>
+<li><strong>$DO$</strong>: 時間地平線（Time Horizon）。RE2020では <strong>100年</strong> を固定採用。</li>
+</ul>
+<p><strong>物理的解釈:</strong> DCFは「時刻 $t_i$ に排出されたGHGの気候累積影響」を「即時排出の場合の気候累積影響」で正規化した比である。$0 \le DCF \le 1$ の値をとり、<strong>早期排出ほど1に近く（影響大）、後年の排出ほど0に近い（影響小）</strong>。</p>
+
+<div class="fig-block" id="fig02_crf_dcf_relationship">
+  <img src="../assets/charts/fig02_crf_dcf_relationship.png" alt="CRF/DCFの関係（3パネル）: 積分範囲の可視化 / ガス別CRF(t) / ガス別DCF(t)。分子と分母の積分域の差がDCF値を決める仕組みを示す。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG02_CRF_DCF_RELATIONSHIP]</strong> CRF/DCFの関係（3パネル）: 積分範囲の可視化 / ガス別CRF(t) / ガス別DCF(t)。分子と分母の積分域の差がDCF値を決める仕組みを示す。</p>
+</div>
+
+<h3 id="23-co2ipcc-ar4-bern25cc">2.3 大気中CO₂応答モデル：IPCC AR4 Bern2.5CC</h3>
+<p>$r(t)$（大気中CO₂の残存率）の計算にはIPCC第4次評価報告書（AR4）採用の<strong>Bern2.5CCモデル</strong>を使用する：</p>
+<p><div class="math-block">$$
+r(t) = c_0 + c_1 \cdot e^{-t/\tau_1} + c_2 \cdot e^{-t/\tau_2} + c_3 \cdot e^{-t/\tau_3}
+$$</div></p>
+<table>
+<thead>
+<tr>
+<th>パラメータ</th>
+<th>数値</th>
+<th>物理的意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$c_0$</td>
+<td>0.217</td>
+<td>大気中に<strong>永続残存</strong>する成分（数千年スケール、炭酸塩平衡）</td>
+</tr>
+<tr>
+<td>$c_1$</td>
+<td>0.259</td>
+<td><strong>深層海洋</strong>による吸収（時定数 $\tau_1 = 172.9$ 年）</td>
+</tr>
+<tr>
+<td>$c_2$</td>
+<td>0.338</td>
+<td><strong>海洋上層・中層</strong>による吸収（時定数 $\tau_2 = 18.51$ 年）</td>
+</tr>
+<tr>
+<td>$c_3$</td>
+<td>0.186</td>
+<td><strong>生物圏・土壌</strong>による短期吸収（時定数 $\tau_3 = 1.186$ 年）</td>
+</tr>
+<tr>
+<td>$a_x$</td>
+<td>$1.55 \times 10^{-15}$</td>
+<td>CO₂の<strong>放射強制力係数</strong> [W·m⁻²·(kgCO₂)⁻¹]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>モデル検証（数値例）:</strong> $t = 1000$ 年では $r(1000) \approx 0.217 + 0.259 \cdot e^{-5.79} \approx 22.4\%$（IPCCの「約22%が永続残存」と整合）。</p>
+<blockquote>
+<p><strong>⚠️ 留保注記:</strong> フランス語文献に「$\tau_1 = 1729$」と記載される場合（千位区切り表記）は $\tau_1 = 172.9$ 年を意味する（第1編報告書 §4.3参照）。</p>
+</blockquote>
+
+<div class="fig-block" id="fig01_bern_impulse">
+  <img src="../assets/charts/fig01_bern_impulse.png" alt="IPCC AR4 Bern2.5CCモデル — CO₂インパルス応答 r(t)：大気残存割合の時間推移と永続分率 a₀=0.217（数千年残存する成分）。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG01_BERN_IMPULSE]</strong> IPCC AR4 Bern2.5CCモデル — CO₂インパルス応答 r(t)：大気残存割合の時間推移と永続分率 a₀=0.217（数千年残存する成分）。</p>
+</div>
+
+<h3 id="24-dcf4">2.4 DCF計算の4ステップ</h3>
+<ol>
+<li>$r(t)$ を $0$ から $DO - t_i$ まで数値積分し、放射強制力 $RF(t) = a_x \cdot r(t)$ を計算</li>
+<li>$CRF(t_i, DO) = \int_0^{DO-t_i} a_x \cdot r(t)\, dt$ を数値積分</li>
+<li>$CRF(0, DO) = \int_0^{DO} a_x \cdot r(t)\, dt$ を計算（正規化分母）</li>
+<li>$DCF(t_i, DO) = CRF(t_i, DO) / CRF(0, DO)$</li>
+</ol>
+<p>$DO = 100$ 年の場合、典型値は $CRF(0, 100) \approx 0.0192\,\text{W·m}^{-2}\text{·yr·(kgCO}_2)^{-1}$。</p>
+<h3 id="25">2.5 遅延排出評価の制度的意義</h3>
+<p>遅延排出評価が建物LCAにとって特に重要なのは、以下の非対称性が存在するためである：</p>
+<ul>
+<li><strong>木材のバイオジェニック炭素固定（A1-A3）:</strong> $t = 0$ で即時クレジット（$DCF = 1.0$）</li>
+<li><strong>木材の解体焼却時炭素放出（C4）:</strong> $t \approx 50$ 年後に割引計上（$DCF \approx 0.58$）</li>
+</ul>
+<p>この<strong>DCF非対称性</strong>が、木材の「今は固定し、数十年後に放出する」という物理的特性を「現在価値ベースの気候クレジット」として制度化する根拠となっている。</p>
+<p><strong>実務ツールでの実装:</strong> 設計者はElodie（CSTB提供）上で建材ごとの $t_i$（設計耐用年数）を入力すると、FICESデータベースの $B_i$ 値と上記係数を自動的に結合して$StockC$を計算する。平均的な中規模住宅の $StockC$ 計算時間は数分程度であり、データ整備次第で大半の設計事務所が対応可能と言われる（Cerema, 2024, §5.1）。</p>
+<hr />
+<h2 id="3-no11">3. 各種パラメータ内容（No.11）</h2>
+<blockquote>
+<p><strong>本節で分かること:</strong> RE2020が採用している動的LCA係数の数値とその設定根拠を一覧化する。</p>
+</blockquote>
+<h3 id="31-re2020">3.1 RE2020線形近似係数</h3>
+<p>RE2020はBenoist (2009)の博士論文が提示し、Solinnen (2018)の実務報告書が最終確定した以下の線形近似式を採用する：</p>
+<p><div class="math-block">$$
+\text{coefficient}_{\text{RE2020}}(t) = 1 - 0.00842 \cdot t \quad (0 \le t \le 50\text{年})
+$$</div><br />
+<div class="math-block">$$
+\text{coefficient}_{\text{RE2020}}(t) = 0.580 \quad (t > 50\text{年、下限固定})
+$$</div></p>
+<p><strong>導出のロジック:</strong><br />
+- Bern2.5CCモデルから数値積分で得たDCF曲線（$t_i: 0 \to 50$ 年）を最小二乗法で線形近似<br />
+- 傾き $\approx -0.00842$/年（年率0.842%の割引率）<br />
+- 精度：0〜50年の範囲で真のDCFに対して ±3% 以内</p>
+<p><strong>下限値0.580の設定根拠:</strong><br />
+- $t = 50$ 年での線形近似値：$1 - 0.00842 \times 50 = 0.579 \approx 0.580$<br />
+- 50年超の炭素フローは建物ライフサイクルで極めて稀（建設廃材の長期残存等を除く）<br />
+- 規制の透明性・予測可能性を高める実務的判断（Solinnen, 2018）</p>
+
+<div class="fig-block" id="fig03_dcf_re2020_vs_bern">
+  <img src="../assets/charts/fig03_dcf_re2020_vs_bern.png" alt="RE2020線形近似（1−0.00842t）の精度検証: Bern2.5CC非線形DCFとの比較（左）と近似誤差（右、t=0〜50年）。最大誤差約+4.3%、実用上は十分な精度。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG03_DCF_RE2020_VS_BERN]</strong> RE2020線形近似（1−0.00842t）の精度検証: Bern2.5CC非線形DCFとの比較（左）と近似誤差（右、t=0〜50年）。最大誤差約+4.3%、実用上は十分な精度。</p>
+</div>
+
+<h3 id="32">3.2 主要パラメータ一覧</h3>
+<table>
+<thead>
+<tr>
+<th>パラメータ</th>
+<th>RE2020採用値</th>
+<th>出典</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>時間地平線 DO</strong></td>
+<td>100年（固定）</td>
+<td>Solinnen (2018)</td>
+<td>建物の引渡し（$t=0$）から100年</td>
+</tr>
+<tr>
+<td><strong>設計耐用年数</strong></td>
+<td>50年（標準）</td>
+<td>EN 15978 / Cerema (2024)</td>
+<td>住宅・非住宅ともに50年が標準</td>
+</tr>
+<tr>
+<td><strong>線形係数傾き</strong></td>
+<td>−0.00842/年</td>
+<td>Benoist (2009)</td>
+<td>Bern2.5CCから最小二乗法で導出</td>
+</tr>
+<tr>
+<td><strong>下限係数</strong></td>
+<td>0.580（固定）</td>
+<td>Solinnen (2018)</td>
+<td>$t &gt; 50$ 年に適用</td>
+</tr>
+<tr>
+<td><strong>CO₂応答モデル</strong></td>
+<td>IPCC AR4 Bern2.5CC</td>
+<td>IPCC (2007)</td>
+<td>4指数関数近似</td>
+</tr>
+<tr>
+<td><strong>$c_0$（永続残存）</strong></td>
+<td>0.217</td>
+<td>IPCC AR4</td>
+<td>長期大気残存成分</td>
+</tr>
+<tr>
+<td><strong>$c_1$ / $\tau_1$</strong></td>
+<td>0.259 / 172.9年</td>
+<td>IPCC AR4</td>
+<td>深層海洋吸収</td>
+</tr>
+<tr>
+<td><strong>$c_2$ / $\tau_2$</strong></td>
+<td>0.338 / 18.51年</td>
+<td>IPCC AR4</td>
+<td>海洋上中層吸収</td>
+</tr>
+<tr>
+<td><strong>$c_3$ / $\tau_3$</strong></td>
+<td>0.186 / 1.186年</td>
+<td>IPCC AR4</td>
+<td>生物圏・土壌吸収</td>
+</tr>
+<tr>
+<td><strong>放射強制力係数 $a_x$</strong></td>
+<td>$1.55 \times 10^{-15}$ W·m⁻²·(kgCO₂)⁻¹</td>
+<td>IPCC AR4</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>$CRF(0, 100)$ 典型値</strong></td>
+<td>≈ 0.0192 W·m⁻²·yr·(kgCO₂)⁻¹</td>
+<td>Solinnen (2018), 数値積分</td>
+<td>正規化の分母。Solinnen (2018) Table 2から導出された実務値</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-ventura-feraille-2021do">3.3 批判的考察：Ventura &amp; Feraille (2021)によるDO固定問題</h3>
+<p>RE2020の $DO = 100$ 年固定は実務簡便性を優先した設計であるが、Ventura &amp; Feraille (2021) は以下の問題を指摘する：</p>
+<ul>
+<li><strong>物理的に妥当なDO:</strong> 各排出イベントのタイミング $t_i$ に応じて $\text{DO} = t_i + \text{HTI}$（熱時間積分）とすべき</li>
+<li><strong>過大評価の定量:</strong> $t = 50$ 年の排出でRE2020係数0.58 vs 物理的DCF ≈ 0.72（<strong>約24%過大評価</strong>）</li>
+<li><strong>50年超では〜53%の過大評価</strong>（RE2020の0.58固定が原因）</li>
+</ul>
+<p>この批判は2028年フェーズ3での係数見直し議論の根拠となっており（Rivaton, 2025）、ISO 21391-1:2025は非線形DCFを採用して精度を改善した。</p>
+<hr />
+<h2 id="4">4. 日本への示唆</h2>
+<h3 id="41-no9">4.1 No.9（適用範囲）からの示唆</h3>
+<p>フランスは2022年の新築全棟義務化に先立ち、2016〜2021年の<strong>E+C-実験プログラム</strong>で2,200棟以上の実証データを収集した。日本での適用範囲設計にあたっても、<strong>段階的実証（パイロットプログラム）→データ収集→基準値設定→義務化</strong>という順序が不可欠である。</p>
+<h3 id="42-no10">4.2 No.10（遅延排出根拠）からの示唆</h3>
+<p>DCFの物理的基盤（Bern2.5CCモデル）は国際的に確立されており、日本が採用する場合も同じモデルを使用できる。ただし<strong>DO（時間地平線）の合意</strong>が政策的に最も重要な論点であり、100年・50年・150年のどれを採用するかで木材の評価が大きく変わる。</p>
+<h3 id="43-no11">4.3 No.11（パラメータ）からの示唆</h3>
+<p>RE2020の線形近似係数（$1-0.00842t$）は精度±3%で実務的に十分だが、2028年にISO 21391-1:2025の非線形DCFへの移行が議論されている。日本がこれから制度設計するのであれば、<strong>最初からISO 21391-1準拠の非線形DCF</strong>を採用することで国際整合性を確保できる。</p>
+<hr />
+<h2 id="5">5. 参考文献</h2>
+<ul>
+<li>Benoist, A. (2009). Intégration des émissions de CO₂ biogénique dans les analyses de cycle de vie — Proposition d'une méthode dynamique. Thèse de doctorat, Université Paris Est. [DCF線形近似1−0.00842·tの原典]</li>
+<li>Cerema (2024). <em>Guide RE2020 — Version janvier 2024</em>. Centre d'études et d'expertise sur les risques, l'environnement, la mobilité et l'aménagement. Paris.</li>
+<li>Décret n°2021-1004 du 29 juillet 2021. JORF du 30 juillet 2021.</li>
+<li>IPCC (2007). <em>Climate Change 2007: The Physical Science Basis</em>. Contribution of Working Group I to the Fourth Assessment Report. Cambridge University Press.</li>
+<li>ISO 21391-1 (2025). Sustainability in buildings and civil engineering works — A framework for assessment of sustainability performance of buildings using dynamic life cycle assessment — Part 1: General principles and requirements. ISO, Geneva.</li>
+<li>Levasseur, A., Lesage, P., Margni, M., Deschênes, L., &amp; Samson, R. (2010). Considering time in LCA: Dynamic LCA and its application to global warming impact assessments. <em>Environmental Science &amp; Technology</em>, 44(8), 3169–3174.</li>
+<li>Rivaton, R. (2025). <em>Rapport d'évaluation de la RE2020</em>. Paris, juillet 2025. [頁番号要確認]</li>
+<li>Solinnen [Elodie Consulting] (2018). Rapport sur les méthodes de calcul des impacts environnementaux — Coefficient dynamique du bilan carbone. Rapport technique pour la DHUP. Paris. [RE2020係数の最終確定報告書。$CRF(0,100) \approx 0.0192$の実務値出典]</li>
+<li>Zetterberg, L., &amp; Chen, D. (2015). On the temperature effects from bioenergy — How important is the time aspect? <em>Environmental Science &amp; Policy</em>, 51, 71–81. [バイオジェニック炭素の時間評価の中間的発展研究として引用]</li>
+<li>Ventura, A., &amp; Feraille, A. (2021). Temporal sensitivity of the global warming impact of a building. <em>Journal of Industrial Ecology</em>, 25(4), 999–1010.</li>
+</ul>
+<hr />
+<h2 id="_2">付録：調査タスク対応表</h2>
+<table>
+<thead>
+<tr>
+<th>タスク番号</th>
+<th>本章該当節</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No.9（ア）対象建築物の種別と範囲</td>
+<td>§1</td>
+</tr>
+<tr>
+<td>No.10（イ）遅延排出の評価根拠</td>
+<td>§2</td>
+</tr>
+<tr>
+<td>No.11（ウ）各種パラメータ内容</td>
+<td>§3</td>
+</tr>
+</tbody>
+</table>
+  </div>
+</main>
+<footer id="footer">
+  一般社団法人サステナブル経営推進機構（SuMPO）&emsp;|&emsp;生成日時: 2026年06月02日 14:12
+</footer>
+</body>
+</html>

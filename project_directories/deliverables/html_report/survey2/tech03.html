@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>建築物LCA算定における位置付け | SuMPO 動的LCA調査報告</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+</head>
+<body>
+<header id="hdr">
+  <span class="title"><a href="../index.html">SuMPO 動的LCA調査報告書</a></span>
+  <span class="org">一般社団法人サステナブル経営推進機構</span>
+</header>
+<nav id="sidebar">
+<a class="nav-home" href="../index.html">🏠 トップページ</a>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック①  政策及び制度調査</div>
+  <a href="../survey1/ch01.html" class="">No.1-3・8　RE2020全体構造</a>
+  <a href="../survey1/ch02.html" class="">No.9-11　動的LCA要件整理</a>
+  <a href="../survey1/ch03.html" class="">No.12-14　生物由来炭素・炭素貯蔵</a>
+  <a href="../survey1/ch04.html" class="">No.4-7　制度導入背景（v4統合）</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック②  技術及び手法調査</div>
+  <a href="../survey2/tech01.html" class="">No.15-17　動的LCAの理論的枠組み</a>
+  <a href="../survey2/tech02.html" class="">No.18-20　評価指標・算定方法</a>
+  <a href="../survey2/tech03.html" class="active">No.21-23　建築物LCA位置付け</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">PMO評価</div>
+  <a href="../pmo/evaluation_survey1.html" class="">調査ブロック①　PMO評価</a>
+  <a href="../pmo/evaluation_survey2.html" class="">調査ブロック②　PMO評価</a>
+</div>
+</nav>
+<main id="main">
+  <div id="content">
+    <div class="breadcrumb"><a href="../index.html">トップ</a><span>›</span><a href="../survey2/tech01.html">調査ブロック②</a><span>›</span>No.21-23　建築物LCA算定における位置付け</div>
+    <span class="section-badge">調査ブロック② No.21-23</span>
+<h1 id="lcano2123-2">建築物LCA算定における位置付け（No.21〜23）— 第2版</h1>
+<p><strong>調査ブロック②</strong> 第2係（技術及び手法調査）<br />
+<strong>版:</strong> 第2版 — 2026-06-02（全面強化・算定環境・静的連携・結果利用の詳細記述を追記）<br />
+<strong>対応 TASKS.md:</strong> No.21（ア）/ No.22（イ）/ No.23（ウ）<br />
+<strong>主な出典:</strong> CSTB (2022); Cerema (2024); Rivaton (2025); DHUP (2021); Levasseur et al. (2013)</p>
+<hr />
+<h2 id="_1">エグゼクティブサマリー</h2>
+<p><strong>3つのKey Finding:</strong><br />
+1. <strong>No.21（算定環境）:</strong> RE2020のLCA算定エコシステムは「INIES/FDESデータベース → Elodie計算ソフト → 申請機関への提出」という三層構造で成立する。フランスはこの計算環境を無償公開しており、導入障壁は他国比で低い。一方、FDESカバレッジ不足とデフォルト値依存が最大の実務課題である。<br />
+2. <strong>No.22（静的LCA関係性）:</strong> RE2020は「静的LCA＋時間補正係数」という<strong>ハイブリッド設計</strong>を採用した。静的LCAの結果（FDES/EPDの集計GWP値）に動的係数FRE2020(t)を乗じる方式であり、既存の静的LCAインフラを最大限活用しながら動的補正を追加する実用的アプローチである。<br />
+3. <strong>No.23（評価結果利用）:</strong> Ic指標の開示は建築確認申請の必須書類となり、設計段階の意思決定、金融機関のESG評価、保険料算定、EUタクソノミー適合判定に活用されつつある。日本でもこのエコシステム全体を参照することが必要である。</p>
+<hr />
+<h2 id="1-no21">1. 算定環境（マニュアル、ツール、人材育成）（No.21）</h2>
+<h3 id="11-lca">1.1 フランスのLCA算定エコシステム三層構造</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">【第</span><span class="mi">1</span><span class="err">層：データベース】</span>
+<span class="w">  </span><span class="n">INIES</span><span class="w"> </span><span class="p">(</span><span class="n">inies</span><span class="o">.</span><span class="n">fr</span><span class="p">)</span><span class="w">  </span><span class="err">←</span><span class="w"> </span><span class="err">中央データポータル</span>
+<span class="w">  </span><span class="err">├──</span><span class="w"> </span><span class="n">FDES</span><span class="err">（</span><span class="n">Fiche</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">Déclaration</span><span class="w"> </span><span class="n">Environnementale</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="n">Sanitaire</span><span class="err">）</span>
+<span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">・建材メーカーが作成する環境製品宣言（フランス版</span><span class="n">EPD</span><span class="err">）</span>
+<span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">・</span><span class="mi">2026</span><span class="err">年現在、約</span><span class="mi">5</span><span class="p">,</span><span class="mi">500</span><span class="err">件収録（うち木材系</span><span class="w"> </span><span class="err">約</span><span class="mi">800</span><span class="err">件）</span>
+<span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">・バイオジェニック炭素データを含む（一部のみ）</span>
+<span class="w">  </span><span class="err">├──</span><span class="w"> </span><span class="n">PEP</span><span class="err">（</span><span class="n">Product</span><span class="w"> </span><span class="n">Environmental</span><span class="w"> </span><span class="n">Profile</span><span class="err">）──</span><span class="w"> </span><span class="err">電気設備機器</span>
+<span class="w">  </span><span class="err">└──</span><span class="w"> </span><span class="n">PEP</span><span class="w"> </span><span class="n">ecopassport</span><span class="w"> </span><span class="err">──</span><span class="w"> </span><span class="err">建築設備システム</span>
+
+<span class="w">  </span><span class="err">デフォルト値（</span><span class="n">données</span><span class="w"> </span><span class="n">par</span><span class="w"> </span><span class="n">défaut</span><span class="err">）</span>
+<span class="w">  </span><span class="err">・</span><span class="n">FDESが存在しない建材に使用する</span><span class="err">「保守的（不利側）」標準値</span>
+<span class="w">  </span><span class="err">・過度に高い</span><span class="n">GWP値のため</span><span class="err">、</span><span class="n">Ic計算を不利にする側面がある</span><span class="err">（課題）</span>
+
+<span class="err">【第</span><span class="mi">2</span><span class="err">層：計算ソフトウェア】</span>
+<span class="w">  </span><span class="n">Elodie</span><span class="err">（</span><span class="n">CSTB開発</span><span class="err">・無償提供）───</span><span class="w"> </span><span class="err">主要ツール（シェア</span><span class="mi">80</span><span class="o">%</span><span class="err">超）</span>
+<span class="w">  </span><span class="err">├──</span><span class="w"> </span><span class="err">バージョン</span><span class="p">:</span><span class="w"> </span><span class="mi">2024</span><span class="err">年版（</span><span class="n">Elodie</span><span class="w"> </span><span class="n">v5</span><span class="o">.</span><span class="n">x相当</span><span class="err">）</span>
+<span class="w">  </span><span class="err">├──</span><span class="w"> </span><span class="err">機能</span><span class="p">:</span><span class="w"> </span><span class="n">INIESからFDESを直接インポート</span><span class="err">・</span><span class="n">Ic計算自動化</span>
+<span class="w">  </span><span class="err">├──</span><span class="w"> </span><span class="err">動的</span><span class="n">LCA</span><span class="p">:</span><span class="w"> </span><span class="n">FRE2020</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="err">の自動適用・</span><span class="n">StockC自動算定</span>
+<span class="w">  </span><span class="err">├──</span><span class="w"> </span><span class="err">出力</span><span class="p">:</span><span class="w"> </span><span class="err">申請用</span><span class="n">PDFレポート</span><span class="err">（</span><span class="n">DHUP指定フォーマット</span><span class="err">）</span>
+<span class="w">  </span><span class="err">└──</span><span class="w"> </span><span class="err">動作環境</span><span class="p">:</span><span class="w"> </span><span class="n">Windows</span><span class="err">（</span><span class="n">Web版も提供中</span><span class="err">）</span>
+
+<span class="w">  </span><span class="err">その他ツール（</span><span class="n">CEQUA認証</span><span class="err">）</span><span class="p">:</span>
+<span class="w">  </span><span class="err">├──</span><span class="w"> </span><span class="n">NOVABASE</span><span class="w"> </span><span class="n">Edificius</span><span class="w"> </span><span class="n">LCA</span><span class="err">──</span><span class="w"> </span><span class="n">BIM連携特化</span>
+<span class="w">  </span><span class="err">├──</span><span class="w"> </span><span class="n">ArchiLCA</span><span class="w"> </span><span class="err">──</span><span class="w"> </span><span class="err">設計初期段階向け簡易ツール</span>
+<span class="w">  </span><span class="err">└──</span><span class="w"> </span><span class="n">eTool</span><span class="err">（豪州）──</span><span class="w"> </span><span class="err">一部フランス語版対応</span>
+
+<span class="err">【第</span><span class="mi">3</span><span class="err">層：申請・認証機関】</span>
+<span class="w">  </span><span class="err">建築確認申請（</span><span class="n">Permis</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">construire</span><span class="err">）</span><span class="w">  </span><span class="err">←</span><span class="w"> </span><span class="err">法的義務</span>
+<span class="w">  </span><span class="err">├──</span><span class="w"> </span><span class="err">計算書（</span><span class="n">Elodie出力PDF</span><span class="err">）を添付</span>
+<span class="w">  </span><span class="err">├──</span><span class="w"> </span><span class="err">計算書は認証機関の審査（</span><span class="n">Cerqual</span><span class="p">,</span><span class="w"> </span><span class="n">Bureau</span><span class="w"> </span><span class="n">Veritas等</span><span class="err">）</span>
+<span class="w">  </span><span class="err">└──</span><span class="w"> </span><span class="n">BBCA</span><span class="err">（低炭素建築認証）──</span><span class="w"> </span><span class="err">任意認証（</span><span class="n">Ic</span><span class="o">=</span><span class="n">seuil</span><span class="err">×</span><span class="mf">0.70</span><span class="err">以下）</span>
+</code></pre></div>
+
+<h3 id="12-elodie">1.2 Elodie計算ツールの詳細仕様</h3>
+<p>CSTBが開発・無償提供するElodie（エロディ）はRE2020計算の事実上の標準ツールである：</p>
+<table>
+<thead>
+<tr>
+<th>仕様</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>開発機関</strong></td>
+<td>CSTB（Centre Scientifique et Technique du Bâtiment）</td>
+</tr>
+<tr>
+<td><strong>提供形態</strong></td>
+<td>無償提供（Web登録制、フランス居住者・法人向け）</td>
+</tr>
+<tr>
+<td><strong>INIES連携</strong></td>
+<td>5,500件のFDES/PEPを直接インポート可能</td>
+</tr>
+<tr>
+<td><strong>RE2020対応</strong></td>
+<td>FRE2020(t)自動適用・StockC自動算定・Ic_energy連携</td>
+</tr>
+<tr>
+<td><strong>BIM連携</strong></td>
+<td>IFC形式（一部）・Autodesk Revit連携プラグイン（ベータ）</td>
+</tr>
+<tr>
+<td><strong>バリデーション</strong></td>
+<td>DHUP認定（法的提出書類の生成が可能）</td>
+</tr>
+<tr>
+<td><strong>精度</strong></td>
+<td>整合化FDES使用時±5%以内（Cerema, 2024 §6.2）</td>
+</tr>
+<tr>
+<td><strong>課題</strong></td>
+<td>複雑建材の動的タイムラインが手入力必須・クラウド連携未成熟</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13">1.3 人材育成・訓練要件</h3>
+<p><strong>資格・訓練体制（2022年〜）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>対象者</th>
+<th>必要スキル</th>
+<th>フランスの対応</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>BET（構造設計事務所）</strong></td>
+<td>Elodie操作・FDESデータ選択・Ic目標設定</td>
+<td>CSTB主催オンライン研修（無償）・動画マニュアル</td>
+</tr>
+<tr>
+<td><strong>建築家・設計者</strong></td>
+<td>LCA結果読解・設計段階での材料比較判断</td>
+<td>CAUE（建築・都市・環境委員会）主催セミナー</td>
+</tr>
+<tr>
+<td><strong>施工業者</strong></td>
+<td>施工段階（A5）のエネルギー・資材記録</td>
+<td>業界団体（FFB, FIF等）が作成する記録様式</td>
+</tr>
+<tr>
+<td><strong>建材メーカー</strong></td>
+<td>FDES作成・INIESへの登録</td>
+<td>CSTB認定FDES検証機関（有償）</td>
+</tr>
+<tr>
+<td><strong>審査機関スタッフ</strong></td>
+<td>計算書の整合性チェック</td>
+<td>DHUPガイド（2022年版）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>訓練上の課題（Rivaton, 2025 推奨事項 No.3）：</strong><br />
+- 小規模設計事務所でのElodieスキル不足が深刻（中小設計事務所の約40%が外注）<br />
+- FDESデータ品質のばらつきを設計者が判断できるリテラシー不足<br />
+- 施工段階（A5モジュール）の記録が実務で省略されることが多い</p>
+<h3 id="14">1.4 他国との比較</h3>
+<table>
+<thead>
+<tr>
+<th>国</th>
+<th>標準ツール</th>
+<th>データベース</th>
+<th>件数</th>
+<th>動的LCA対応</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>フランス</strong></td>
+<td>Elodie（無償）</td>
+<td>INIES/FDES</td>
+<td>約5,500</td>
+<td><strong>あり（RE2020）</strong></td>
+</tr>
+<tr>
+<td>ドイツ</td>
+<td>ÖKOBAUDAT準拠</td>
+<td>ÖKOBAUDAT</td>
+<td>約1,200</td>
+<td>なし（静的GWP100）</td>
+</tr>
+<tr>
+<td>スウェーデン</td>
+<td>Byggsektorns</td>
+<td>ECO Platform</td>
+<td>約300</td>
+<td>なし（静的）</td>
+</tr>
+<tr>
+<td>英国</td>
+<td>One Click LCA</td>
+<td>BSRIA</td>
+<td>非公開</td>
+<td>なし（静的）</td>
+</tr>
+<tr>
+<td><strong>日本</strong></td>
+<td>IDEA-BIM</td>
+<td>IDEA v2.3</td>
+<td>約3,000</td>
+<td><strong>なし（最優先課題）</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-lcano22">2. 静的LCA評価との関係性（No.22）</h2>
+<h3 id="21-re2020">2.1 RE2020のハイブリッド設計思想</h3>
+<p>RE2020の計算は純粋な動的LCAではなく、<strong>「静的LCAの結果を入力として動的係数を後付けで掛ける」</strong>ハイブリッド方式である：</p>
+<div class="codehilite"><pre><span></span><code><span class="err">【静的</span><span class="n">LCAデータ</span><span class="err">（入力層）】</span>
+<span class="w">  </span><span class="n">FDES</span><span class="o">/</span><span class="n">EPD</span><span class="err">（静的</span><span class="n">GWP100値</span><span class="err">）</span>
+<span class="w">       </span><span class="err">│</span>
+<span class="w">       </span><span class="err">│</span><span class="w"> </span><span class="err">×</span><span class="w"> </span><span class="n">F_RE2020</span><span class="p">(</span><span class="n">t_m</span><span class="p">)</span><span class="w">        </span><span class="err">←</span><span class="w"> </span><span class="err">動的係数の後付け適用</span>
+<span class="w">       </span><span class="err">▼</span>
+<span class="err">【動的補正後の</span><span class="n">GWP値</span><span class="err">（算定層）】</span>
+<span class="w">  </span><span class="o">+</span><span class="w"> </span><span class="n">StockC</span><span class="err">（バイオジェニック炭素クレジット）</span>
+<span class="w">  </span><span class="err">─────────────────────────────</span>
+<span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">Ic_construction</span><span class="w"> </span><span class="p">[</span><span class="n">kgCO₂eq</span><span class="o">/</span><span class="n">m²</span><span class="p">]</span><span class="w">  </span><span class="err">←</span><span class="w"> </span><span class="n">RE2020評価指標</span><span class="err">（出力層）</span>
+</code></pre></div>
+
+<p><strong>このハイブリッド設計の合理性：</strong><br />
+- 既存の静的EPD/FDESインフラを流用 → 新たなデータ整備コストを最小化<br />
+- 動的LCI（年次排出プロファイル）の整備を不要とする<br />
+- Elodie計算ツールへの実装が容易（係数の掛け算のみ追加）</p>
+<h3 id="22">2.2 モジュール別の静的・動的評価マッピング</h3>
+<table>
+<thead>
+<tr>
+<th>LCAモジュール</th>
+<th>内容</th>
+<th>静的/動的</th>
+<th>$F_{RE2020}(t)$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A1</strong></td>
+<td>原材料採取</td>
+<td><strong>静的GWP100</strong></td>
+<td>1.000（t=0）</td>
+</tr>
+<tr>
+<td><strong>A2</strong></td>
+<td>輸送（製造地→建設現場）</td>
+<td>静的</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td><strong>A3</strong></td>
+<td>製造プロセス</td>
+<td>静的</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td><strong>A4</strong></td>
+<td>建設現場への輸送</td>
+<td>静的</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td><strong>A5</strong></td>
+<td>施工・建設</td>
+<td>静的</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td><strong>B1</strong></td>
+<td>使用</td>
+<td>静的</td>
+<td>0.790（t=25年平均）</td>
+</tr>
+<tr>
+<td><strong>B2-B5</strong></td>
+<td>維持管理・修繕・改修</td>
+<td>静的</td>
+<td>0.790（平均）</td>
+</tr>
+<tr>
+<td><strong>B6</strong></td>
+<td>運用エネルギー消費</td>
+<td>静的</td>
+<td>$Ic_{énergie}$として別計上</td>
+</tr>
+<tr>
+<td><strong>B7</strong></td>
+<td>運用水消費</td>
+<td>除外</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>C1</strong></td>
+<td>解体</td>
+<td>静的</td>
+<td>0.580（t=50年）</td>
+</tr>
+<tr>
+<td><strong>C2</strong></td>
+<td>廃材輸送</td>
+<td>静的</td>
+<td>0.580</td>
+</tr>
+<tr>
+<td><strong>C3</strong></td>
+<td>廃棄物処理</td>
+<td>静的</td>
+<td>0.580</td>
+</tr>
+<tr>
+<td><strong>C4</strong></td>
+<td>廃棄</td>
+<td><strong>動的（StockC放出）</strong></td>
+<td>0.580</td>
+</tr>
+<tr>
+<td><strong>D</strong></td>
+<td>再利用・回収ポテンシャル</td>
+<td>静的</td>
+<td><strong>Ic除外（任意申告）</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>バイオジェニック炭素は特別扱い：</strong><br />
+- A1-A3（t=0）: 固定量 $-B$ を $F=1.0$ で計上 → $-B$<br />
+- C4（t=50年）: 放出量 $+B$ を $F=0.58$ で計上 → $+0.58B$<br />
+- <strong>正味 StockC = $-B(1-0.58) = -0.42B$</strong>（負値＝クレジット）</p>
+<h3 id="23-lca">2.3 静的LCAとの差異が大きいケース・小さいケース</h3>
+<p><strong>差異が大きいケース（動的補正の効果が顕著）：</strong><br />
+1. バイオジェニック炭素量が多い建材（CLT、LVL、木質パネル等）<br />
+2. 使用段階（B段階）で大量の取替え・修繕が発生する建材<br />
+3. 解体段階（C段階）で焼却される建材</p>
+<p><strong>差異が小さいケース（動的補正がほぼ効かない）：</strong><br />
+1. バイオジェニック炭素がない建材（コンクリート、鋼材、ガラス）<br />
+2. A1-A3のみで評価が完結する短寿命部材<br />
+3. 製造段階（A）の化石燃料由来排出が支配的な建材</p>
+
+<div class="fig-block" id="fig04_wood_gwp_comparison">
+  <img src="../assets/charts/fig04_wood_gwp_comparison.png" alt="木材GWP: 静的LCA vs 動的LCA（Bern非線形 / RE2020線形近似）の評価前提別・DO別比較。バイオジェニック炭素の「固定+放出」「放出のみ」「固定のみ」の3シナリオで差異が最大化する条件を示す。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG04_WOOD_GWP_COMPARISON]</strong> 木材GWP: 静的LCA vs 動的LCA（Bern非線形 / RE2020線形近似）の評価前提別・DO別比較。バイオジェニック炭素の「固定+放出」「放出のみ」「固定のみ」の3シナリオで差異が最大化する条件を示す。</p>
+</div>
+
+<h3 id="24-en-15804a2">2.4 EN 15804+A2との整合と矛盾</h3>
+<table>
+<thead>
+<tr>
+<th>規格/規制</th>
+<th>バイオジェニック炭素の扱い</th>
+<th>一時貯蔵評価</th>
+<th>時間軸評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>EN 15804+A2（欧州標準）</strong></td>
+<td>−1/+1（A1で−1、C4で+1。正味ゼロ）</td>
+<td>なし</td>
+<td>なし</td>
+</tr>
+<tr>
+<td><strong>ISO 14067</strong></td>
+<td>開示義務あり（正味ゼロの立場）</td>
+<td>なし</td>
+<td>なし</td>
+</tr>
+<tr>
+<td><strong>EN 15978（建物LCA）</strong></td>
+<td>EN 15804準拠</td>
+<td>なし</td>
+<td>なし</td>
+</tr>
+<tr>
+<td><strong>RE2020（フランス国内）</strong></td>
+<td>FRE2020(t)適用・StockCクレジット</td>
+<td><strong>あり</strong></td>
+<td><strong>あり</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>矛盾の政治的重要性:</strong> EN 15804は欧州委員会策定の統一規格であり、フランスのRE2020はこれと相容れない。CERIB（コンクリート産業研究所）はこの矛盾を「EU規制との非整合性」として批判しており、欧州内での方法論論争が続いている（RE2020資料 p.8-10）。フランス政府は「EN 15804+A2は科学的進歩に遅れており、改訂が必要」という立場で対抗している。</p>
+</blockquote>
+
+<div class="fig-block" id="fig05_bern_sensitivity">
+  <img src="../assets/charts/fig05_bern_sensitivity.png" alt="Bernモデル感度シミュレーション（2×2グリッド）：Bernパラメータ変更がインパルス応答・CRF・DCF・木材GWPに与える影響の全体像。モデル不確実性の定量的把握に活用。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG05_BERN_SENSITIVITY]</strong> Bernモデル感度シミュレーション（2×2グリッド）：Bernパラメータ変更がインパルス応答・CRF・DCF・木材GWPに与える影響の全体像。モデル不確実性の定量的把握に活用。</p>
+</div>
+
+<hr />
+<h2 id="3-no23">3. 評価結果の利用方法・表示方法（No.23）</h2>
+<h3 id="31-ic">3.1 Ic指標の法的要件と開示フロー</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">【設計段階（着工前）】</span>
+<span class="w">  </span><span class="err">①</span><span class="w"> </span><span class="err">設計者が</span><span class="n">ElodieでIc試算</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="err">設計段階での材料比較・最適化</span>
+<span class="w">  </span><span class="err">②</span><span class="w"> </span><span class="n">Ic目標値</span><span class="err">（</span><span class="n">seuil値</span><span class="err">）を満たすかチェック</span>
+
+<span class="err">【建築確認申請（</span><span class="n">Permis</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">construire</span><span class="err">）】</span>
+<span class="w">  </span><span class="err">③</span><span class="w"> </span><span class="n">Elodie出力のPDFレポートを申請書類に添付</span><span class="err">（法的義務）</span>
+<span class="w">  </span><span class="err">④</span><span class="w"> </span><span class="n">Ic_construction</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Ic_énergie</span><span class="w"> </span><span class="err">の両方の開示が必要</span>
+
+<span class="err">【施工段階】</span>
+<span class="w">  </span><span class="err">⑤</span><span class="w"> </span><span class="err">設計段階</span><span class="n">LCA</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="err">実施段階</span><span class="n">LCAへの更新</span><span class="err">（</span><span class="n">A5実績値の反映</span><span class="err">）</span>
+
+<span class="err">【完成・引渡し段階】</span>
+<span class="w">  </span><span class="err">⑥</span><span class="w"> </span><span class="err">最終</span><span class="n">Ic値の確定</span><span class="err">・認証機関への提出</span>
+<span class="w">  </span><span class="err">⑦</span><span class="w"> </span><span class="n">DHUP指定フォーマットで記録保存</span><span class="err">（</span><span class="mi">10</span><span class="err">年間）</span>
+</code></pre></div>
+
+<h3 id="32-seuil20222031">3.2 段階別seuil値（2022〜2031年）</h3>
+<p>RE2020の規制値は建物種別ごとに設定され、段階的に引き下げられる：</p>
+<p><strong>住宅（集合住宅）の Ic_construction seuil値：</strong></p>
+<table>
+<thead>
+<tr>
+<th>フェーズ</th>
+<th>適用期間</th>
+<th>seuil [kgCO₂eq/m²]</th>
+<th>削減率（Phase1比）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Phase 1</strong></td>
+<td>2022〜2024年</td>
+<td>640</td>
+<td>基準</td>
+</tr>
+<tr>
+<td><strong>Phase 2</strong></td>
+<td>2025〜2027年</td>
+<td>530</td>
+<td>−17%</td>
+</tr>
+<tr>
+<td><strong>Phase 3</strong></td>
+<td>2028〜2030年</td>
+<td>490（予定）</td>
+<td>−23%</td>
+</tr>
+<tr>
+<td><strong>Phase 4</strong></td>
+<td>2031年〜</td>
+<td>350（目標）</td>
+<td>−45%</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>出典:</strong> Arrêté du 4 août 2021; Rivaton (2025) pp.12-16（要頁番号確認）</p>
+</blockquote>
+
+<div class="fig-block" id="fig08_seuil_timeline">
+  <img src="../assets/charts/fig08_seuil_timeline.png" alt="RE2020 Ic_construction seuil値の段階的引き下げスケジュール（Phase 1〜4）と申告書フォーマット：建物種別ごとの上限値推移と2031年最終目標を視覚化。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG08_SEUIL_TIMELINE]</strong> RE2020 Ic_construction seuil値の段階的引き下げスケジュール（Phase 1〜4）と申告書フォーマット：建物種別ごとの上限値推移と2031年最終目標を視覚化。</p>
+</div>
+
+<h3 id="33">3.3 任意認証・ラベル体系との関係</h3>
+<p>RE2020の義務的Ic開示に加え、より低炭素な建物を認証する任意ラベル体系が存在する：</p>
+<table>
+<thead>
+<tr>
+<th>ラベル</th>
+<th>運営機関</th>
+<th>Ic要件</th>
+<th>特徴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>BBCA（低炭素建築認証）</strong></td>
+<td>BBCA協会</td>
+<td>seuil × 0.70以下</td>
+<td>最もプレスティッジ。木造建築で取得しやすい</td>
+</tr>
+<tr>
+<td><strong>E+C-ラベル</strong></td>
+<td>DHUP（旧実証プログラムの認証継続）</td>
+<td>seuil × 0.85以下</td>
+<td>E+C-の成果を認証継続</td>
+</tr>
+<tr>
+<td><strong>NF HQE Bâtiment</strong></td>
+<td>Qualitel</td>
+<td>Ic基準含む総合評価</td>
+<td>高コスト・大規模建物向け</td>
+</tr>
+<tr>
+<td><strong>BREEAM（英）</strong></td>
+<td>BRE</td>
+<td>部分的Ic評価</td>
+<td>フランスでは少数派</td>
+</tr>
+</tbody>
+</table>
+<h3 id="34">3.4 金融・保険分野での活用</h3>
+<p>Ic指標は建築分野を超えて金融・保険分野でも活用が進んでいる：</p>
+<table>
+<thead>
+<tr>
+<th>用途</th>
+<th>活用方法</th>
+<th>段階</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>グリーンボンド適格性</strong></td>
+<td>Ic値がEUタクソノミー技術基準の参照指標（建物の「実質的貢献」判定）</td>
+<td>検討中（2026年確定予定）</td>
+</tr>
+<tr>
+<td><strong>住宅ローン金利優遇</strong></td>
+<td>BBCA認証建物への住宅ローン金利割引（一部銀行）</td>
+<td>実施中（Crédit Agricole等）</td>
+</tr>
+<tr>
+<td><strong>保険料算定</strong></td>
+<td>低Ic建物の長寿命性を前提にした保険モデル</td>
+<td>試験的</td>
+</tr>
+<tr>
+<td><strong>ESG報告</strong></td>
+<td>不動産ポートフォリオのScope 3排出量計算にIc値を使用</td>
+<td>実施中（大手不動産ファンド）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="35-ic">3.5 Ic値の表示フォーマット</h3>
+<p>法的開示フォーマット（DHUP指定、Elodie出力書式に準拠）：</p>
+<div class="codehilite"><pre><span></span><code><span class="err">【</span><span class="n">RE2020</span><span class="w"> </span><span class="err">環境性能申告書（抜粋）】</span>
+
+<span class="err">建物名称</span><span class="p">:</span><span class="w"> </span><span class="err">○○集合住宅</span>
+<span class="err">住所</span><span class="p">:</span><span class="w"> </span><span class="err">○○</span><span class="p">,</span><span class="w"> </span><span class="n">France</span>
+<span class="err">評価者</span><span class="p">:</span><span class="w"> </span><span class="err">○○設計事務所（</span><span class="n">Elodie</span><span class="w"> </span><span class="n">v5</span><span class="o">.</span><span class="n">x使用</span><span class="err">）</span>
+<span class="err">申告日</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="n">XX</span><span class="o">-</span><span class="n">XX</span><span class="o">-</span><span class="n">XX</span>
+
+<span class="err">─────────────────────────────────────────</span>
+<span class="err">評価指標</span><span class="w">                   </span><span class="err">算定値</span><span class="w">       </span><span class="n">seuil値</span><span class="w">     </span><span class="err">判定</span>
+<span class="err">─────────────────────────────────────────</span>
+<span class="n">Ic_construction</span><span class="w"> </span><span class="p">[</span><span class="n">kgCO₂eq</span><span class="o">/</span><span class="n">m²</span><span class="p">]</span><span class="w">  </span><span class="mi">412</span><span class="w">         </span><span class="mi">640</span><span class="w">        </span><span class="err">✅</span><span class="w"> </span><span class="err">適合</span>
+<span class="w">  </span><span class="err">うち</span><span class="w"> </span><span class="n">A1</span><span class="o">-</span><span class="n">A3</span><span class="w">                 </span><span class="o">-</span><span class="mi">85</span>
+<span class="w">  </span><span class="err">うち</span><span class="w"> </span><span class="n">B段階</span><span class="w">                  </span><span class="o">+</span><span class="mi">50</span>
+<span class="w">  </span><span class="err">うち</span><span class="w"> </span><span class="n">C段階</span><span class="w">                 </span><span class="o">+</span><span class="mi">447</span>
+<span class="w">  </span><span class="err">うち</span><span class="w"> </span><span class="n">StockC</span><span class="w">                 </span><span class="err">−</span><span class="mi">85</span><span class="w">  </span><span class="err">←</span><span class="w"> </span><span class="err">バイオジェニック炭素クレジット</span>
+<span class="n">Ic_énergie</span><span class="w"> </span><span class="p">[</span><span class="n">kgCO₂eq</span><span class="o">/</span><span class="n">m²</span><span class="o">/</span><span class="err">年</span><span class="p">]</span><span class="w">    </span><span class="mf">2.9</span><span class="w">          </span><span class="mf">4.0</span><span class="w">        </span><span class="err">✅</span><span class="w"> </span><span class="err">適合</span>
+<span class="err">─────────────────────────────────────────</span>
+</code></pre></div>
+
+<h3 id="36-lca">3.6 国際的比較：他国の建物LCA開示制度</h3>
+<table>
+<thead>
+<tr>
+<th>国/地域</th>
+<th>制度名</th>
+<th>動的LCA</th>
+<th>Ic相当指標</th>
+<th>法的義務</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>フランス</strong></td>
+<td>RE2020</td>
+<td><strong>あり</strong></td>
+<td>Ic_construction</td>
+<td>義務（2022〜）</td>
+</tr>
+<tr>
+<td>EU全体</td>
+<td>EPBD 2024</td>
+<td>開発中（~2027）</td>
+<td>WLC</td>
+<td>義務化予定（2030目標）</td>
+</tr>
+<tr>
+<td>ドイツ</td>
+<td>GEG+QNBB</td>
+<td>なし</td>
+<td>CO₂eq/m²</td>
+<td>義務化なし（奨励）</td>
+</tr>
+<tr>
+<td>スウェーデン</td>
+<td>PBL §9</td>
+<td>なし</td>
+<td>kgCO₂eq/m²</td>
+<td>義務（2022〜、開示のみ）</td>
+</tr>
+<tr>
+<td>英国</td>
+<td>UKGBC WLC</td>
+<td>なし</td>
+<td>kgCO₂eq/m²</td>
+<td>義務化なし（推奨）</td>
+</tr>
+<tr>
+<td><strong>日本</strong></td>
+<td>CASBEE/建築物炭素申告（検討中）</td>
+<td><strong>なし</strong></td>
+<td>—</td>
+<td><strong>義務化なし</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>日本への含意（第1係 ch04 v3 §8 との連動）:</strong> 日本は2026年現在、建物LCAの法的義務化が存在しない。フランスのRE2020をモデルとして「5年実証 → 段階的義務化」のロードマップ設計を急ぐことが産官学共通の課題である。特にElodie相当の国産計算ツール（動的LCA対応）の早期整備が最優先事項である。</p>
+</blockquote>
+<h3 id="37">3.7 産業界の反応と活用状況</h3>
+<p><strong>推進側（木材・CLT建材業界）の活用：</strong><br />
+- CLT製品のFDES登録を積極化（StockCクレジットの最大化）<br />
+- Ic値の低さを「マーケティング指標」として活用（BBCA認証取得建物の広告）<br />
+- 設計者向けの「材料比較シミュレーター」提供（FCBA開発）</p>
+<p><strong>抵抗側（コンクリート・鋼材業界）の対応：</strong><br />
+- CERIB：「EU規格と整合しない国内規制は将来改訂されるべき」と継続的主張<br />
+- 鋼材産業：「Dモジュール（リサイクル鋼材の炭素便益）をIcに組み込むべき」と要求<br />
+- 双方の主張は2028年フェーズ3改訂の議題として正式に取り上げられている</p>
+<hr />
+<h2 id="_2">参考文献（本節対応）</h2>
+<ul>
+<li>CSTB (2022). <em>Elodie: Guide d'utilisation v4.5</em>. CSTB, Paris.</li>
+<li>Cerema (2024). <em>Guide technique RE2020: Calcul des indicateurs</em>. Cerema, Lyon.</li>
+<li>DHUP (2021). <em>Arrêté du 4 août 2021 relatif aux exigences de la RE2020</em>. Journal Officiel.</li>
+<li>Rivaton, R. (2025). <em>Bilan de la RE2020 et recommandations pour la phase 3</em>. DHUP/DGALN.</li>
+<li>Levasseur, A. et al. (2013). Biogenic carbon and temporary storage addressed with dynamic LCA. <em>J. Industrial Ecology</em> 17(1):117–128.</li>
+<li>BBCA Association (2023). <em>Référentiel BBCA Logement 2023</em>. BBCA, Paris.</li>
+<li>Commission Européenne (2024). <em>Directive EPBD 2024/1275</em>. OJ EU L.</li>
+<li>INIES (2024). <em>Base de données INIES: mode d'emploi 2024</em>. CSTB/FFB, Paris.</li>
+<li>Qualitel (2023). <em>Référentiel NF HQE Bâtiment Durable 2023</em>. Cerqual, Paris.</li>
+</ul>
+  </div>
+</main>
+<footer id="footer">
+  一般社団法人サステナブル経営推進機構（SuMPO）&emsp;|&emsp;生成日時: 2026年06月02日 14:12
+</footer>
+</body>
+</html>

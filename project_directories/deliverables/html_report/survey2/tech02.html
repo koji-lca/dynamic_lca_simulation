@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>評価指標及び算定方法 | SuMPO 動的LCA調査報告</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+</head>
+<body>
+<header id="hdr">
+  <span class="title"><a href="../index.html">SuMPO 動的LCA調査報告書</a></span>
+  <span class="org">一般社団法人サステナブル経営推進機構</span>
+</header>
+<nav id="sidebar">
+<a class="nav-home" href="../index.html">🏠 トップページ</a>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック①  政策及び制度調査</div>
+  <a href="../survey1/ch01.html" class="">No.1-3・8　RE2020全体構造</a>
+  <a href="../survey1/ch02.html" class="">No.9-11　動的LCA要件整理</a>
+  <a href="../survey1/ch03.html" class="">No.12-14　生物由来炭素・炭素貯蔵</a>
+  <a href="../survey1/ch04.html" class="">No.4-7　制度導入背景（v4統合）</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">調査ブロック②  技術及び手法調査</div>
+  <a href="../survey2/tech01.html" class="">No.15-17　動的LCAの理論的枠組み</a>
+  <a href="../survey2/tech02.html" class="active">No.18-20　評価指標・算定方法</a>
+  <a href="../survey2/tech03.html" class="">No.21-23　建築物LCA位置付け</a>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">PMO評価</div>
+  <a href="../pmo/evaluation_survey1.html" class="">調査ブロック①　PMO評価</a>
+  <a href="../pmo/evaluation_survey2.html" class="">調査ブロック②　PMO評価</a>
+</div>
+</nav>
+<main id="main">
+  <div id="content">
+    <div class="breadcrumb"><a href="../index.html">トップ</a><span>›</span><a href="../survey2/tech01.html">調査ブロック②</a><span>›</span>No.18-20　評価指標及び算定方法</div>
+    <span class="section-badge">調査ブロック② No.18-20</span>
+<h1 id="no1820-2">評価指標及び算定方法（No.18〜20）— 第2版</h1>
+<p><strong>調査ブロック②</strong> 第2係（技術及び手法調査）<br />
+<strong>版:</strong> 第2版 — 2026-06-02（全面強化・放射強制力・炭素循環の科学的記述を大幅拡充）<br />
+<strong>対応 TASKS.md:</strong> No.18（ア）/ No.19（イ）/ No.20（ウ）<br />
+<strong>主な出典:</strong> Benoist (2009); Solinnen (2018); IPCC AR4/AR6; EN 16485; Houghton (2007); Grubb (2021)</p>
+<hr />
+<h2 id="_1">エグゼクティブサマリー</h2>
+<p><strong>3つのKey Finding:</strong><br />
+1. <strong>No.18（算定方法）:</strong> RE2020の時間軸評価パラメータは「Benoist (2009) → Solinnen (2018) → Elodie実装」という10年かけた段階的検証の産物。線形近似係数0.00842は精度・透明性・実装容易性の三者均衡点として選択された。<br />
+2. <strong>No.19（炭素循環）:</strong> 木材のバイオジェニック炭素評価は「大気→光合成→製品→廃棄（焼却/分解）→大気」のサイクルを時系列で追う。このサイクルのどこに時間軸評価を適用するかで、評価結果が劇的に変わる。<br />
+3. <strong>No.20（放射強制力）:</strong> RE2020が「気候変動への影響が時間依存する」と言えるのは、CO₂の大気中減衰（半減期100年超）により、将来放出されたCO₂が蓄積する累積放射強制力（AGWP）が現在放出より小さいという物理的事実による。</p>
+<hr />
+<h2 id="1-no18">1. 時間軸評価の処理方法・パラメータ根拠（No.18）</h2>
+<h3 id="11">1.1 算定パラメータの全体像</h3>
+<p>RE2020における動的LCA指標 $Ic_{\text{construction}}$ の算定は以下のパラメータで完全に定義される：</p>
+<table>
+<thead>
+<tr>
+<th>パラメータ</th>
+<th>記号</th>
+<th>値</th>
+<th>根拠文献</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>観測期間（固定）</td>
+<td>DO / TOD</td>
+<td>100年（建物引渡しから）</td>
+<td>Solinnen (2018); Levasseur (2010)</td>
+</tr>
+<tr>
+<td>動的係数（線形近似）</td>
+<td>$F_{RE2020}(t)$</td>
+<td>$1 - 0.00842 \cdot t$</td>
+<td>Benoist (2009) → Solinnen (2018)</td>
+</tr>
+<tr>
+<td>係数下限値</td>
+<td>$F_{min}$</td>
+<td>0.58（$t=50$年時）</td>
+<td>RE2020 Arrêté 2021-08-04</td>
+</tr>
+<tr>
+<td>バイオジェニック炭素基準</td>
+<td>StockC</td>
+<td>A1-A3での固定量 [kgCO₂/m²]</td>
+<td>INIES/FDESデータ</td>
+</tr>
+<tr>
+<td>評価境界</td>
+<td>モジュール</td>
+<td>A〜C（D除外、任意申告可）</td>
+<td>EN 15804+A2準拠</td>
+</tr>
+<tr>
+<td>標準使用期間</td>
+<td>SLP</td>
+<td>50年（住宅）/ 建物種別で相違</td>
+<td>Cerema (2024) §2.1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-000842">1.2 線形近似係数0.00842の導出プロセス</h3>
+<p><strong>Step 1: IPCC AR4 Bern2.5CCモデルによる応答関数設定</strong></p>
+<p><div class="math-block">$$
+C_{CO_2}(t) = a_0 + \sum_{j=1}^{3} a_j \exp\!\left(-\frac{t}{\tau_j}\right)
+$$</div></p>
+<p>AR4値: $a_0=0.217,\ a_1=0.259(\tau_1=172.9),\ a_2=0.338(\tau_2=18.51),\ a_3=0.186(\tau_3=1.186)$</p>
+<p><strong>Step 2: 累積放射強制力（AGWP）の数値積分</strong></p>
+<p><div class="math-block">$$
+AGWP(t_i, \Delta t) = A_{CO_2} \int_{t_i}^{t_i+\Delta t} C_{CO_2}(\tau - t_i)\, d\tau
+$$</div></p>
+<p>$A_{CO_2} = 1.548 \times 10^{-14}$ W m⁻² kg⁻¹（Forster et al., 2007）</p>
+<p><strong>Step 3: 比率DCF(t)の計算</strong></p>
+<p><div class="math-block">$$
+DCF(t) = \frac{AGWP(t, \Delta t)}{AGWP(0, \Delta t)}
+$$</div></p>
+<p>$\Delta t = 100$年（TO＝100）を固定すると $DCF(0)=1.0$ が基準になる。</p>
+<p><strong>Step 4: 線形回帰</strong></p>
+<p>Benoist (2009) がt=0〜50年の範囲でDCF(t)を線形回帰した結果：</p>
+<p><div class="math-block">$$
+F_{RE2020}(t) = 1 - 0.00842 \cdot t \quad (R^2 = 0.9997)
+$$</div></p>
+<p>この近似の適合度は極めて高く（$R^2 &gt; 0.999$）、t=50年以内の範囲では実用誤差は4%以下である。Solinnen (2018) がこれを実務パラメータとして確定させ、CSTBがElodie計算ツールに実装した。</p>
+
+<div class="fig-block" id="fig03_dcf_re2020_vs_bern">
+  <img src="../assets/charts/fig03_dcf_re2020_vs_bern.png" alt="RE2020線形近似（1−0.00842t）の精度検証: Bern2.5CC非線形DCFとの比較（左）と近似誤差（右、t=0〜50年）。R²=0.9997、最大誤差約+4.3%。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG03_DCF_RE2020_VS_BERN]</strong> RE2020線形近似（1−0.00842t）の精度検証: Bern2.5CC非線形DCFとの比較（左）と近似誤差（右、t=0〜50年）。R²=0.9997、最大誤差約+4.3%。</p>
+</div>
+
+<h3 id="13">1.3 係数の段階的検証と制度化プロセス</h3>
+<div class="codehilite"><pre><span></span><code><span class="mf">2009</span><span class="n">年</span><span class="w"> </span><span class="n">Benoist博士論文</span>
+<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="n">線形近似</span><span class="w"> </span><span class="mf">1</span><span class="o">-</span><span class="mf">0.00842</span><span class="n">t</span><span class="w"> </span><span class="n">を最初に導出</span>
+<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="n">ただし学術論文レベル</span><span class="err">、</span><span class="n">実務化なし</span>
+
+<span class="mf">2016</span><span class="o">-</span><span class="mf">2018</span><span class="n">年</span><span class="w"> </span><span class="n">E</span><span class="o">+</span><span class="n">C</span><span class="o">-</span><span class="n">実証プログラム</span>
+<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="mf">200</span><span class="n">棟の試算でElodie計算に仮実装して検証</span>
+<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="n">実務者が使えることを確認</span>
+<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="n">FDESデータとの整合性を検証</span>
+
+<span class="mf">2018</span><span class="n">年</span><span class="w"> </span><span class="n">Solinnen報告書</span>
+<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="n">Benoist係数を実務パラメータとして正式確認</span>
+<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="n">CSTBがElodie</span><span class="w"> </span><span class="n">v2</span><span class="mf">.5</span><span class="n">に完全実装</span>
+
+<span class="mf">2021</span><span class="n">年</span><span class="w"> </span><span class="n">RE2020</span><span class="w"> </span><span class="n">Arrêté</span><span class="err">（</span><span class="n">省令</span><span class="err">）</span>
+<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="n">F_RE2020</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.00842</span><span class="n">t</span><span class="w"> </span><span class="n">を法規として確定</span>
+<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="n">産業界</span><span class="err">・</span><span class="n">学術界双方の同意を得て規制化</span>
+
+<span class="mf">2025</span><span class="n">年</span><span class="w"> </span><span class="n">ISO</span><span class="w"> </span><span class="mf">21391</span><span class="o">-</span><span class="mf">1</span><span class="p">:</span><span class="mf">2025</span><span class="err">（</span><span class="n">国際規格</span><span class="err">）</span>
+<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="n">非線形DCF</span><span class="err">（</span><span class="n">Bern数値積分直接使用</span><span class="err">）</span><span class="n">を採用</span>
+<span class="w">  </span><span class="err">→</span><span class="w"> </span><span class="n">RE2020の線形近似は</span><span class="err">「</span><span class="n">過渡期の簡易化</span><span class="err">」</span><span class="n">として位置づけ</span>
+</code></pre></div>
+
+<h3 id="14-ic_construction">1.4 Ic_constructionの完全算定式</h3>
+<p>RE2020の建物LCA評価指標 $Ic_{\text{construction}}$ の完全形：</p>
+<p><div class="math-block">$$
+Ic_{\text{construction}} = \frac{1}{SHON} \sum_{m \in \{A,B,C\}} \left[ \sum_i E_i^{(m)} \cdot GWP_{100}(i) \cdot F_{RE2020}(t_m) + StockC \right]
+$$</div></p>
+<p>記号：<br />
+- $SHON$：対象面積（m²）<br />
+- $E_i^{(m)}$：モジュール $m$ における物質 $i$ の排出量（kg）<br />
+- $GWP_{100}(i)$：IPCC AR4の静的温暖化係数<br />
+- $F_{RE2020}(t_m)$：モジュール $m$ の発生時刻に対応する時間係数<br />
+- $StockC$：バイオジェニック炭素貯蔵クレジット（負値）</p>
+<p><strong>時刻 $t_m$ の割当ルール（Cerema, 2024）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>モジュール</th>
+<th>物理的タイミング</th>
+<th>$t_m$</th>
+<th>$F_{RE2020}(t_m)$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1-A3</td>
+<td>建設段階（引渡し前）</td>
+<td>0年</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td>B1-B7</td>
+<td>使用段階（平均）</td>
+<td>25年</td>
+<td>0.790</td>
+</tr>
+<tr>
+<td>C1-C4</td>
+<td>解体・廃棄</td>
+<td>50年</td>
+<td><strong>0.580</strong></td>
+</tr>
+<tr>
+<td>D（任意）</td>
+<td>再利用・回収</td>
+<td>50年超</td>
+<td>（Ic計算外）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-no19">2. 炭素循環（吸収・固定・放出）の扱い（No.19）</h2>
+<h3 id="21">2.1 森林・木材建材の炭素サイクル全体像</h3>
+<p>バイオジェニック炭素の流れは以下の5段階を経る：</p>
+<div class="codehilite"><pre><span></span><code>【大気CO₂】
+    │ 光合成（年間NPP: 森林0.5〜3.0 kgC/m²/年）
+    ▼
+【樹木バイオマス（生体）】
+    │ 伐採・搬出（収穫木材製品HWP）
+    ▼
+【製材・集成材・CLT（製品内貯蔵）】
+    │ 建物として使用（50〜75年間）
+    ▼
+【建物構造材（長期貯蔵）】
+    │ 解体後：① 焼却（C4）→ CO₂即時放出
+    │          ② 埋立（C4）→ 数十年かけてCH₄+CO₂ゆっくり放出
+    │          ③ 再利用（D）→ さらに貯蔵延長
+    ▼
+【大気CO₂（帰還）】
+</code></pre></div>
+
+<p><strong>LCA評価との対応：</strong><br />
+- 光合成による固定：A1段階（製材・製造）でFDESに記録<br />
+- 製品内貯蔵：$StockC$ として評価期間中クレジット<br />
+- 解体・廃棄：C4段階にFRE2020(50)を適用して割引計上</p>
+<!-- FIG:fig10_biogenic_carbon_cycle.png|木材バイオジェニック炭素サイクルとRE2020のDCF適用箇所：光合成→製材→建設→解体各段階の炭素フロー。A1-A3（DCF=1.0）とC4（DCF=0.58）の非対称性がStockCクレジットの源泉。 -->
+
+<h3 id="22-ipcchwp">2.2 IPCCの収穫木材製品（HWP）会計との関係</h3>
+<p>IPCC 2006 GLは収穫木材製品（Harvested Wood Products: HWP）の炭素ストックを「生産国アプローチ」「消費国アプローチ」「大気流束アプローチ」の3種で定義する（Eggleston et al., 2006）。RE2020はこれと整合させる形で：</p>
+<table>
+<thead>
+<tr>
+<th>IPCC HWP分類</th>
+<th>平均半減期</th>
+<th>RE2020での扱い</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>製材・木材製品</td>
+<td>35年</td>
+<td>建物LCIのA1-A3でFDES計上</td>
+</tr>
+<tr>
+<td>木質ボード</td>
+<td>25年</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>紙・パルプ</td>
+<td>2年</td>
+<td>RE2020対象外（建材でない）</td>
+</tr>
+<tr>
+<td><strong>建築用途構造材</strong></td>
+<td><strong>50年以上</strong></td>
+<td><strong>RE2020 StockC計算の対象</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>科学的留保:</strong> 焼却（C4）の場合はCO₂即時放出として FRE2020(50)=0.58 を適用。埋立（C4）の場合はCH₄発生（GWP100=28）を考慮すべきだが、RE2020の実務実装では焼却と同等扱いの場合が多い（データ不足による）。<strong>これは制度的限界である（Rivaton勧告 No.4参照）。</strong></p>
+</blockquote>
+<h3 id="23-sfm">2.3 SFM（持続可能な森林管理）前提の問題</h3>
+<p>動的LCAのバイオジェニック炭素クレジットは「伐採した樹木の代わりに新たな樹木が植えられ、同量のCO₂が再固定される」という<strong>持続可能な森林管理（SFM）</strong>を前提とする。</p>
+<p><strong>この前提が崩れるケース（RE2020の潜在的リスク）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>リスク</th>
+<th>内容</th>
+<th>深刻度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>非認証材の使用</td>
+<td>FSC/PEFC認証なし木材ではSFM保証なし</td>
+<td>中（フランス国内材は概ね認証済）</td>
+</tr>
+<tr>
+<td>海外輸入材</td>
+<td>認証体制が弱い地域からの輸入CLT</td>
+<td>高（中国・ロシア材）</td>
+</tr>
+<tr>
+<td>気候変動による森林劣化</td>
+<td>旱魃・病虫害で再植林の吸収量が低下</td>
+<td>長期的に高</td>
+</tr>
+<tr>
+<td>大規模伐採期の一時的炭素負債</td>
+<td>収穫直後から再固定までの数年間、大気炭素は増加</td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<p>RE2020はFSC/PEFC認証の提出を義務付けているが、認証の品質格差については2028年フェーズ3での対処が計画されている（Rivaton, 2025 推奨事項 No.7）。</p>
+<h3 id="24-en-16485">2.4 EN 16485との関係</h3>
+<p>EN 16485:2014「木材・木製品の環境製品宣言」はバイオジェニック炭素の報告を義務付ける欧州規格である。RE2020との関係：</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>EN 16485</th>
+<th>RE2020</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>バイオジェニック炭素報告</td>
+<td>A1-A3: −B、C4: +B として別途報告</td>
+<td>A1-A3クレジット（DCF=1.0）＋C4割引（DCF=0.58）</td>
+</tr>
+<tr>
+<td>時間軸評価</td>
+<td>なし（静的）</td>
+<td>あり（FRE2020(t)）</td>
+</tr>
+<tr>
+<td>正味クレジット</td>
+<td>認めない（−1/+1のみ）</td>
+<td><strong>認める（StockC）</strong></td>
+</tr>
+<tr>
+<td>データ元</td>
+<td>FDES/EPD</td>
+<td>INIES（FR国内DB）＋FDES</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-no20">3. 放射強制力の考え方との関係性（No.20）</h2>
+<h3 id="31-radiative-forcing">3.1 放射強制力（Radiative Forcing）の物理的定義</h3>
+<p><strong>放射強制力（RF）</strong> は、大気成分の変化により地球のエネルギー収支に生じる擾乱を表す：</p>
+<p><div class="math-block">$$
+RF(t) = \Delta F(t) \quad [\text{W/m}^2]
+$$</div></p>
+<ul>
+<li><strong>正のRF（+）:</strong> 温暖化効果（CO₂、CH₄が増加する場合）</li>
+<li><strong>負のRF（−）:</strong> 冷却効果（エアロゾル、大規模植林等）</li>
+<li><strong>CO₂の放射強制力定式化（簡易式、IPCC AR4）：</strong></li>
+</ul>
+<p><div class="math-block">$$
+RF_{CO_2}(C) = 5.35 \ln\!\left(\frac{C}{C_0}\right) \quad [\text{W/m}^2]
+$$</div></p>
+<p>$C_0$: 産業化前CO₂濃度（278 ppm）</p>
+<h3 id="32-gwpagwp">3.2 GWPとAGWPの関係</h3>
+<p>GWP（地球温暖化係数）は放射強制力の時間積分として定義される：</p>
+<p><div class="math-block">$$
+GWP_H = \frac{AGWP_H(x)}{AGWP_H(CO_2)} = \frac{\int_0^H RF_x(t)\,dt}{\int_0^H RF_{CO_2}(t)\,dt}
+$$</div></p>
+<ul>
+<li>$H$: 時間地平（100年→ GWP100）</li>
+<li>$AGWP_H(x)$: 物質 $x$ の $H$ 年間累積放射強制力</li>
+<li><strong>$AGWP_H(CO_2)$: これがDCF計算の分母</strong></li>
+</ul>
+<p><strong>CO₂のAGWP_100：</strong> $AGWP_{100}(CO_2) \approx 8.69 \times 10^{-14}$ W m⁻² yr kg⁻¹（AR4値）</p>
+<h3 id="33-co2">3.3 なぜ「将来放出のCO₂は気候影響が小さい」のか</h3>
+<p>この直感に反する命題の物理的根拠：</p>
+<ol>
+<li><strong>CO₂の大気寿命:</strong> 放出したCO₂の約55%は10〜100年かけて海洋・陸域生物圏に吸収される（Bern2.5CC応答関数）。残り約22%（$a_0=0.217$）は事実上永続する。</li>
+<li><strong>将来放出のAGWP:</strong> 観測窓（TOD=100年）の終点に近い時点で放出されたCO₂は、積分が残り少ない期間しかない。例：$t=99$年に放出 → 積分は1年分のみ。</li>
+</ol>
+<p><div class="math-block">$$
+DCF(t=50, \Delta=100) = \frac{\int_{50}^{100} RF(\tau-50)\,d\tau}{\int_0^{100} RF(\tau)\,d\tau} \approx 0.58
+$$</div></p>
+<p>この0.58という値は「今日放出した1kgCO₂と比較して、50年後放出する1kgCO₂の気候への累積影響は58%に相当する」ことを意味する。</p>
+
+<div class="fig-block" id="fig06_gas_dcf_comparison">
+  <img src="../assets/charts/fig06_gas_dcf_comparison.png" alt="CO₂・CH₄・N₂OのDCF(t)比較：ガス種別に将来排出の割引率が異なる。CH₄はCO₂より急適にDCFが低下し、木材腐敗由来CH₄の放出時期予測の重要性を示す。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG06_GAS_DCF_COMPARISON]</strong> CO₂・CH₄・N₂OのDCF(t)比較：ガス種別に将来排出の割引率が異なる。CH₄はCO₂より急適にDCFが低下し、木材腐敗由来CH₄の放出時期予測の重要性を示す。</p>
+</div>
+
+<h3 id="34-lca">3.4 放射強制力視点からの動的LCAの位置付け</h3>
+<div class="codehilite"><pre><span></span><code>【静的LCA（GWP100）】
+  排出1kgCO₂（t=0想定） × GWP100 = 1 kgCO₂eq
+  排出1kgCO₂（t=50年実際） × GWP100 = 1 kgCO₂eq ← 同じとする誤り
+
+【動的LCA（放射強制力ベース）】
+  排出1kgCO₂（t=0） → AGWP(0,100) → DCF=1.0 → 1.00 kgCO₂eq
+  排出1kgCO₂（t=50年）→ AGWP(50,100) → DCF=0.58 → 0.58 kgCO₂eq ← 物理的に正確
+</code></pre></div>
+
+<p><strong>政策的重要性：</strong><br />
+- RE2020がCH₄排出に時間軸評価を適用しない点（静的GWP100を使用）は科学的限界である。CH₄のDCF(t)はCO₂より急速に減衰するため、将来の木材腐敗（CH₄発生）を過大評価する可能性がある。<br />
+- ISO 21391-1:2025はこの問題にも対処し、バイオジェニック起源ガスを種別に動的評価する枠組みを提示した（§6 参照）。</p>
+<h3 id="35-ipcc-ar6">3.5 IPCC AR6 最新知見との整合</h3>
+<p>IPCC AR6（2021）は大気中CO₂応答関数のパラメータをAR4から若干更新した：</p>
+<table>
+<thead>
+<tr>
+<th>パラメータ</th>
+<th>AR4 Bern2.5CC</th>
+<th>AR6（推奨値）</th>
+<th>RE2020への影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$a_0$（永続分率）</td>
+<td>0.217</td>
+<td>0.200</td>
+<td>DCF(t) がやや大きくなる（木材に不利）</td>
+</tr>
+<tr>
+<td>$\tau_1$</td>
+<td>172.9年</td>
+<td>394.4年</td>
+<td>深海吸収がより遅い → 同上</td>
+</tr>
+<tr>
+<td>$AGWP_{100}$</td>
+<td>$8.69 \times 10^{-14}$</td>
+<td>$9.17 \times 10^{-14}$</td>
+<td>GWP100値が若干変動</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>制度的含意:</strong> RE2020は現在もAR4ベースのパラメータを使用。AR6への更新は係数値を若干変化させるが、<strong>方法論的な正当性には影響しない</strong>。フランス政府は2028年フェーズ3改訂でAR6パラメータへの更新を検討中（Rivaton, 2025 推奨事項 No.9）。</p>
+</blockquote>
+
+<div class="fig-block" id="fig11_ar4_vs_ar6">
+  <img src="../assets/charts/fig11_ar4_vs_ar6.png" alt="IPCC AR4 vs AR6 Bernパラメータ更新がDCF(t)に与える影響：永続分率a₀の低下（0.217→0.200）と深海およびタウ時定数更新が動的評価結果に与える定量的影響。" loading="lazy">
+  <p class="fig-caption"><strong>[FIG11_AR4_VS_AR6]</strong> IPCC AR4 vs AR6 Bernパラメータ更新がDCF(t)に与える影響：永続分率a₀の低下（0.217→0.200）と深海およびタウ時定数更新が動的評価結果に与える定量的影響。</p>
+</div>
+
+<hr />
+<h2 id="_2">参考文献（本節対応）</h2>
+<ul>
+<li>Benoist, A. (2009). Thèse: carbone biogénique et dynamique temporelle. Université Paris-Est.</li>
+<li>Solinnen (2018). Rapport DCF coefficients pour RE2020. Solinnen Consulting.</li>
+<li>Forster, P. et al. (2007). In: <em>IPCC AR4 WG1 Ch.2</em>. Cambridge Univ. Press.</li>
+<li>IPCC (2021). <em>AR6 WG1 Ch.7: The Earth's Energy Budget</em>. Cambridge Univ. Press.</li>
+<li>Eggleston, H.S. et al. (2006). <em>IPCC 2006 GL: Vol. 4 Agriculture, Forestry and Other Land Use</em>. IPCC, Geneva.</li>
+<li>EN 16485:2014. <em>Round and sawn timber — Environmental product declarations</em>. CEN, Brussels.</li>
+<li>Houghton, R.A. (2007). Balancing the global carbon budget. <em>Annual Review of Earth and Planetary Sciences</em> 35:313–347.</li>
+<li>Rivaton, R. (2025). <em>Bilan RE2020 et recommandations phase 3</em>. DHUP/DGALN.</li>
+<li>Cerema (2024). <em>Guide technique RE2020 §4.2 et §5</em>. Cerema, Lyon.</li>
+<li>Grubb, M. et al. (2021). <em>Planetary Economics: Energy, Climate Change and the Three Domains of Sustainable Development</em>. Earthscan/Routledge. (GWP政策決定の政治経済学)</li>
+</ul>
+  </div>
+</main>
+<footer id="footer">
+  一般社団法人サステナブル経営推進機構（SuMPO）&emsp;|&emsp;生成日時: 2026年06月02日 14:12
+</footer>
+</body>
+</html>
