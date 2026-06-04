@@ -450,7 +450,48 @@ $$</div></p>
   </div>
 </main>
 <footer id="footer">
-  一般社団法人サステナブル経営推進機構（SuMPO）&emsp;|&emsp;生成日時: 2026年06月02日 14:12
+  一般社団法人サステナブル経営推進機構（SuMPO）&emsp;|&emsp;生成日時: 2026年06月04日 11:40
 </footer>
+
+<!-- Lightbox overlay -->
+<div id="lb-overlay" role="dialog" aria-modal="true">
+  <span id="lb-close" title="閉じる" aria-label="閉じる">&times;</span>
+  <img id="lb-img" src="" alt="">
+  <div id="lb-caption"></div>
+</div>
+
+<script>
+(function(){
+  var overlay = document.getElementById('lb-overlay');
+  var lbImg   = document.getElementById('lb-img');
+  var lbCap   = document.getElementById('lb-caption');
+  var lbClose = document.getElementById('lb-close');
+  function open(src, alt) {
+    lbImg.src = src; lbImg.alt = alt;
+    lbCap.textContent = alt;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+  document.querySelectorAll('.fig-block img').forEach(function(img) {
+    img.addEventListener('click', function() {
+      var cap = '';
+      var capEl = img.closest('.fig-block').querySelector('.fig-caption');
+      if (capEl) cap = capEl.textContent.trim();
+      open(img.src, cap);
+    });
+  });
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay || e.target === lbClose) close();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') close();
+  });
+})();
+</script>
 </body>
 </html>

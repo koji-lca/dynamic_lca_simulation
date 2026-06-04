@@ -121,13 +121,31 @@ blockquote p { margin: 0; color: var(--dblue); }
 /* ── Figures ── */
 .fig-block { margin: 28px 0; }
 .fig-block img { width: 100%; height: auto; border: 1px solid var(--border);
-                 border-radius: var(--radius); box-shadow: var(--shadow); }
+                 border-radius: var(--radius); box-shadow: var(--shadow);
+                 cursor: zoom-in; transition: opacity .15s; }
+.fig-block img:hover { opacity: .88; }
 .fig-caption { font-size: .85em; color: var(--muted); margin-top: 8px;
                text-align: center; font-style: italic; }
 .fig-caption strong { color: var(--navy); font-style: normal; }
 .fig-section-title { font-size: 1.1rem; font-weight: 700; color: var(--navy);
                      border-left: 4px solid var(--blue); padding-left: 12px;
                      margin: 40px 0 18px; }
+
+/* ── Lightbox ── */
+#lb-overlay { display: none; position: fixed; inset: 0; z-index: 9000;
+              background: rgba(0,0,0,.82); align-items: center;
+              justify-content: center; cursor: zoom-out; padding: 24px; }
+#lb-overlay.open { display: flex; }
+#lb-overlay img { max-width: 92vw; max-height: 90vh; object-fit: contain;
+                  border-radius: var(--radius); box-shadow: 0 4px 32px rgba(0,0,0,.5);
+                  cursor: default; }
+#lb-caption { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+              background: rgba(0,0,0,.65); color: #eee; font-size: .82em;
+              padding: 6px 16px; border-radius: 20px; max-width: 80vw;
+              text-align: center; pointer-events: none; }
+#lb-close { position: fixed; top: 16px; right: 20px; color: #fff; font-size: 2rem;
+            line-height: 1; cursor: pointer; user-select: none;
+            text-shadow: 0 1px 4px rgba(0,0,0,.6); }
 
 /* ── Responsive ── */
 @media (max-width: 720px) {

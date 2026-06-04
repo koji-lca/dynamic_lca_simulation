@@ -180,13 +180,31 @@ blockquote p { margin: 0; color: var(--dblue); }
 /* ── Figures ── */
 .fig-block { margin: 28px 0; }
 .fig-block img { width: 100%; height: auto; border: 1px solid var(--border);
-                 border-radius: var(--radius); box-shadow: var(--shadow); }
+                 border-radius: var(--radius); box-shadow: var(--shadow);
+                 cursor: zoom-in; transition: opacity .15s; }
+.fig-block img:hover { opacity: .88; }
 .fig-caption { font-size: .85em; color: var(--muted); margin-top: 8px;
                text-align: center; font-style: italic; }
 .fig-caption strong { color: var(--navy); font-style: normal; }
 .fig-section-title { font-size: 1.1rem; font-weight: 700; color: var(--navy);
                      border-left: 4px solid var(--blue); padding-left: 12px;
                      margin: 40px 0 18px; }
+
+/* ── Lightbox ── */
+#lb-overlay { display: none; position: fixed; inset: 0; z-index: 9000;
+              background: rgba(0,0,0,.82); align-items: center;
+              justify-content: center; cursor: zoom-out; padding: 24px; }
+#lb-overlay.open { display: flex; }
+#lb-overlay img { max-width: 92vw; max-height: 90vh; object-fit: contain;
+                  border-radius: var(--radius); box-shadow: 0 4px 32px rgba(0,0,0,.5);
+                  cursor: default; }
+#lb-caption { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+              background: rgba(0,0,0,.65); color: #eee; font-size: .82em;
+              padding: 6px 16px; border-radius: 20px; max-width: 80vw;
+              text-align: center; pointer-events: none; }
+#lb-close { position: fixed; top: 16px; right: 20px; color: #fff; font-size: 2rem;
+            line-height: 1; cursor: pointer; user-select: none;
+            text-shadow: 0 1px 4px rgba(0,0,0,.6); }
 
 /* ── Responsive ── */
 @media (max-width: 720px) {
@@ -249,6 +267,47 @@ def page(title: str, breadcrumb_html: str, body_html: str,
 <footer id="footer">
   一般社団法人サステナブル経営推進機構（SuMPO）&emsp;|&emsp;生成日時: {GENERATED}
 </footer>
+
+<!-- Lightbox overlay -->
+<div id="lb-overlay" role="dialog" aria-modal="true">
+  <span id="lb-close" title="閉じる" aria-label="閉じる">&times;</span>
+  <img id="lb-img" src="" alt="">
+  <div id="lb-caption"></div>
+</div>
+
+<script>
+(function(){{
+  var overlay = document.getElementById('lb-overlay');
+  var lbImg   = document.getElementById('lb-img');
+  var lbCap   = document.getElementById('lb-caption');
+  var lbClose = document.getElementById('lb-close');
+  function open(src, alt) {{
+    lbImg.src = src; lbImg.alt = alt;
+    lbCap.textContent = alt;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }}
+  function close() {{
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }}
+  document.querySelectorAll('.fig-block img').forEach(function(img) {{
+    img.addEventListener('click', function() {{
+      var cap = '';
+      var capEl = img.closest('.fig-block').querySelector('.fig-caption');
+      if (capEl) cap = capEl.textContent.trim();
+      open(img.src, cap);
+    }});
+  }});
+  overlay.addEventListener('click', function(e) {{
+    if (e.target === overlay || e.target === lbClose) close();
+  }});
+  document.addEventListener('keydown', function(e) {{
+    if (e.key === 'Escape') close();
+  }});
+}})();
+</script>
 </body>
 </html>"""
 
@@ -605,6 +664,50 @@ def _build_index():
 <footer id="footer">
   一般社団法人サステナブル経営推進機構（SuMPO）&emsp;|&emsp;生成日時: {GENERATED}
 </footer>
+
+<!-- Lightbox overlay -->
+<div id="lb-overlay" role="dialog" aria-modal="true">
+  <span id="lb-close" title="閉じる" aria-label="閉じる">&times;</span>
+  <img id="lb-img" src="" alt="">
+  <div id="lb-caption"></div>
+</div>
+
+<script>
+(function(){{
+  var overlay = document.getElementById('lb-overlay');
+  var lbImg   = document.getElementById('lb-img');
+  var lbCap   = document.getElementById('lb-caption');
+  var lbClose = document.getElementById('lb-close');
+  function open(src, alt) {{
+    lbImg.src = src; lbImg.alt = alt;
+    lbCap.textContent = alt;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }}
+  function close() {{
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }}
+  document.querySelectorAll('.fig-block img, .gallery-item img').forEach(function(img) {{
+    img.addEventListener('click', function() {{
+      var cap = img.alt || '';
+      var capEl = img.closest('.fig-block, .gallery-item');
+      if (capEl) {{
+        var c = capEl.querySelector('.fig-caption, .gallery-caption');
+        if (c) cap = c.textContent.trim();
+      }}
+      open(img.src, cap);
+    }});
+  }});
+  overlay.addEventListener('click', function(e) {{
+    if (e.target === overlay || e.target === lbClose) close();
+  }});
+  document.addEventListener('keydown', function(e) {{
+    if (e.key === 'Escape') close();
+  }});
+}})();
+</script>
 </body>
 </html>"""
 
