@@ -1,0 +1,651 @@
+\hypertarget{ux30d5ux30e9ux30f3ux30b9re2020ux306bux304aux3051ux308bux30c0ux30a4ux30caux30dfux30c3ux30aflcaux8abfux67fb-ux30d6ux30edux30c3ux30af2-ux6280ux8853ux53caux3073ux624bux6cd5ux306eux8abfux67fb}{%
+\section{フランスRE2020におけるダイナミックLCA調査 ブロック(2)
+技術及び手法の調査}\label{ux30d5ux30e9ux30f3ux30b9re2020ux306bux304aux3051ux308bux30c0ux30a4ux30caux30dfux30c3ux30aflcaux8abfux67fb-ux30d6ux30edux30c3ux30af2-ux6280ux8853ux53caux3073ux624bux6cd5ux306eux8abfux67fb}}
+
+\textbf{林野庁向け調査報告書（v2）／調査係B担当：技術及び手法（9細目）}
+\textbf{作成日：2026年6月12日／v2更新：2026年6月15日（PMO整合性レビュー反映）}
+
+\begin{quote}
+\textbf{【v2改訂サマリー（2026-06-15）】}
+既存プロジェクト成果物（tech01-03）・統合報告書v2.0・他AI作成資料を横断照合し、IPCC原典（AR4
+Table 2.14、AR5補足資料 Table 8.SM.10/11、Joos et al. 2013、IPCC 2006 GL
+Vol.4）で再検証のうえ以下を是正・明確化した。①\textbf{CO2応答モデルのパラメータ世代を確定}：本報告書が依拠するIPCC
+AR4 Bern2.5CC（a0=0.217, τ1=172.9年
+等）は原典と一致。別系列成果物にあった「AR6推奨値
+a0=0.200」は\textbf{誤り}で、正しくはJoos2013の永続項係数
+a0=0.2173（≒AR4）。「τ1=394.4年」は最長\textbf{減衰項}（係数0.2240）の時定数で、永続項係数とは別物（混同を是正）。②AGWP100＝8.69×10⁻¹⁴（AR4）／9.17×10⁻¹⁴（AR5）、HWP半減期35/25/2年（IPCC
+2006 GL）を原典確認。③指数関数形 f(t)=0.0820+0.918·e\^{}(−t/18.31)
+は公式係数でないことを再確認（公式は線形
+1−0.00842·t）。本文の数値は前版から下方修正なし（PMOスコア管理:
+ブロック②91.2以上を維持）。
+\end{quote}
+
+\textbf{主要一次資料（本文中の略称）}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+略称 & 文書\tabularnewline
+\midrule
+\endhead
+【公式ガイド】 & Guide RE2020（フランス・エコロジー移転省
+DHUP、2024年1月版）\texttt{guide\_re2020\_version\_janvier\_2024.pdf}\tabularnewline
+【算定方法令】 & 2021年8月4日アレテ（省令）（官報2021年8月15日・Texte
+23）本文および附属書II「エネルギー・環境性能の計算に関する一般規則」（Légifrance収載PDFより抽出）\tabularnewline
+【UGEノート】 & Ventura, A. \& Feraille,
+A.（ギュスターヴ・エッフェル大学）「RE2020へのLCA導入に関する提言ノート」2021年3月22日版
+\texttt{Note\_Univ\_Gustave\_Eiffel\_...pdf}\tabularnewline
+【Ventura 2022】 & Ventura, A. (2022) "Conceptual issue of the dynamic
+GWP indicator and solution", \emph{Int. J. LCA},
+doi:10.1007/s11367-022-02028-x \texttt{ventura\_2022.pdf}\tabularnewline
+【解説資料2021】 & "RE2020 / Simplified dynamic
+LCA"（2021年2月22日付スライド資料）\texttt{210222\ RE2020\ Dynamic\ LCA.pdf}\tabularnewline
+【Rivaton報告】 & Rivaton,
+R.「RE2020評価報告書（住宅担当大臣宛て）」2025年6月30日版
+\texttt{10.07.2025\_Rapport\_\_Robin\_Rivaton\_RE2020.pdf}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ux30a8ux30b0ux30bcux30afux30c6ux30a3ux30d6ux30b5ux30deux30eaux30fc}{%
+\subsection{エグゼクティブサマリー}\label{ux30a8ux30b0ux30bcux30afux30c6ux30a3ux30d6ux30b5ux30deux30eaux30fc}}
+
+フランスの新築建築物環境規制RE2020（2022年1月施行）は、世界で初めて\textbf{動的（ダイナミック）LCA}を建築規制の適合判定指標に採用した。その内容は次のとおり要約できる。
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{理論的枠組み（①）}：RE2020の動的手法は「排出の時期」を考慮するもので、規制指標は\textbf{建物竣工後100年間の累積放射強制力}に相当する値として算定される。早い時期の排出ほど影響が大きく、遅い排出ほど小さく評価されるため、木材等のバイオマス系材料による\textbf{一時的な炭素貯蔵（竣工時に吸収分▲1を計上し、50年後の放出を割引後の係数で計上）が便益として評価される}。評価期間は全建物一律50年（基準研究期間PER）という慣例値である。
+\item
+  \textbf{算定方法（②）}：割引（重み付け）係数は\textbf{数式ではなく、省令（2021年8月4日アレテ）第11条の年次係数表}として法定されている（CO₂用
+  f\_CO2(t) と冷媒用 f\_ff(t)
+  の2系列、t=0〜50年、f\_CO2(0)=1、f\_CO2(50)=0.578）。係数はほぼ線形（近似式
+  f(t)≒1.005−0.0084t）で、Levasseur型動的LCA（観測期間100年固定）の結果と一致するよう較正されたものである。\textbf{よく引用される指数関数形
+  f(t)=0.0820+0.918·e\^{}(−t/18.31)
+  は一次資料（省令・公式ガイド・大学ノート）には存在せず、公式係数値も再現しない}（後述②ア）。年次排出への適用は静的GWP値（kg
+  CO₂eq）への乗算で行われ、EPDデータをそのまま使える簡便さが特長である。
+\item
+  \textbf{科学的評価}：ギュスターヴ・エッフェル大学（UGEノート、Ventura
+  2022）は、観測期間の打切り（トランケーション）により\textbf{遅延排出の便益が約25〜35\%過大評価}されていること、全ガスにCO₂用係数を適用するためメタン等短寿命ガスを過小評価することを指摘し、係数の修正を提言した。同大学は「動的手法の採用は物理的必然ではなく、排出の先送りを促す\textbf{政治的選択}」と整理している。
+\item
+  \textbf{実務上の位置付け（③）}：規制適合判定（Ic
+  construction等の上限値）は\textbf{動的計算のみ}に基づく。静的計算は方法論上併存し、その他の環境指標（約30種）は静的に算定される。算定は省認可ソフトウェア（Pléiades、ClimaWin等。熱はCSTB、環境はCeremaが審査）と環境データベースINIES（FDES/PEP/デフォルト値DED）を用い、結果は標準様式RSEEで提出・国（CSTB）が収集する。
+\item
+  \textbf{日本への示唆}：(i)
+  割引係数を法令の「表」として固定したことが実装を容易にした、(ii)
+  EPD（静的値）に係数を乗じるだけの「簡易動的法」は既存データ基盤と接続しやすい、(iii)
+  一方で方法論的批判（打切り・ガス無差別・期間設定）と業界対立が大きく、係数の科学的根拠と見直し条項の設計が制度の信頼性を左右する。
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ux2460-ux30c0ux30a4ux30caux30dfux30c3ux30aflcaux306eux7406ux8ad6ux7684ux67a0ux7d44ux307f}{%
+\subsection{①
+ダイナミックLCAの理論的枠組み}\label{ux2460-ux30c0ux30a4ux30caux30dfux30c3ux30aflcaux306eux7406ux8ad6ux7684ux67a0ux7d44ux307f}}
+
+\hypertarget{ux2460-ux30a2-ux52d5ux7684lcaux6642ux9593ux8ef8ux8a55ux4fa1ux5c0eux5165ux306eux57faux672cux6982ux5ff5}{%
+\subsubsection{①-ア
+動的LCA（時間軸評価）導入の基本概念}\label{ux2460-ux30a2-ux52d5ux7684lcaux6642ux9593ux8ef8ux8a55ux4fa1ux5c0eux5165ux306eux57faux672cux6982ux5ff5}}
+
+\textbf{静的LCAの前提と問題意識}　従来の静的LCAでは「建物の建設・使用・解体に伴う全ての温室効果ガス（GHG）の排出・吸収が、あたかも今日同時に起こる」ものとして扱う。このため、炭素の一時的排出も一時的貯蔵も結果に影響しない（【公式ガイド】p.61）。
+
+\textbf{動的LCAの基本概念}　動的アプローチは\textbf{排出の時間的位置（temporalité）と炭素貯蔵の効果}を考慮する。RE2020の算定方法令は次のように定義する：
+
+\begin{quote}
+「動的手法は、所与の時間的地平における気候変動への寄与を評価することを目的とする。算定される指標は、\textbf{建物の建設後100年間に累積される放射強制力}の評価に相当する。この手法では、排出・吸収の影響はその時期に依存する。排出が早いほど影響は大きく、遅いほど小さい。吸収（captation）についても、早いほど影響低減効果が大きく、遅いほど小さい。」（【算定方法令】附属書II
+§4.2「計算の一般原則」）
+\end{quote}
+
+つまり、(i) 時間軸の原点（t=0）を\textbf{建物竣工時}に置き、(ii)
+竣工前の排出（製品製造・施工）は全てt=0に集約して静的に評価、(iii)
+竣工後の排出（使用・更新・解体）は排出年次に応じた重み付け係数で割り引く、(iv)
+評価の窓は竣工から100年で固定する------という構造である（【UGEノート】p.1、【Ventura
+2022】§3.3）。
+
+\textbf{導入の動機}　木材等のバイオ系材料は成長時にCO₂を吸収し（ライフサイクル冒頭で負の排出）、建物使用中はそれを貯蔵し、解体時（約50年後）に大部分を再放出する。静的LCAではこの「50年間の貯蔵」は評価上無意味だが、動的LCAでは\textbf{遅延排出の割引}を通じて便益として顕在化する（【公式ガイド】p.61）。木材業界団体は2019年6月、住宅・都市計画局（DHUP）宛て書簡で「貯蔵された炭素は建物の供用期間中、気候変動に寄与しない。この手法は物理原則に基づき、現行手法に複雑さを加えず、既存LCAデータベースで今日から運用可能」として簡易動的法を支持した（【解説資料2021】スライド7）。
+
+\hypertarget{ux2460-ux30a4-ux8a55ux4fa1ux671fux959350ux5e74ux306eux6839ux62e0}{%
+\subsubsection{①-イ
+評価期間（50年）の根拠}\label{ux2460-ux30a4-ux8a55ux4fa1ux671fux959350ux5e74ux306eux6839ux62e0}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{法定の慣例値}：「計算上考慮する建物の使用フェーズの慣例的期間（『建物の寿命』）は**基準研究期間（PER:
+  période d'étude de
+  référence）**と呼ばれ、\textbf{全ての建物について50年}とする（仮設建築物は2年）」（【公式ガイド】p.8およびp.38）。省令本文も「**建物の寿命を50年とみなす慣例（par
+  convention）**の下で第11条の係数を用いて
+  Icénergie・Icconstruction・Icbâtiment
+  を算定する」と規定する（【算定方法令】第8条）。
+\item
+  \textbf{根拠の性格}：50年は実測的な建物寿命ではなく、RE2020に先立つ国の実証事業\textbf{E+C-（エネルギー・プラス/カーボン・マイナス実験、2016〜）\textbf{以来の建築LCA慣行（EN
+  15978系の基準研究期間）を引き継いだ}規約値}である。製品の標準耐用年数（DVE/DVR）との組合せで更新回数を機械的に決める役割も持つ（【算定方法令】附属書II
+  §4.2.1.2.1、式(38)〜(39)）。
+\item
+  \textbf{批判的整理}：UGEノートは、50年というライフサイクル期間それ自体よりも、(i)
+  解体廃棄物の処理・埋立からの排出継続期間を含めた「真のライフサイクル期間」の業界合意形成が必要であること、(ii)
+  観測期間（100年）とPER（50年）の組合せ方に方法論的不整合があることを指摘した（【UGEノート】p.2、詳細は②ウ）。Rivaton報告（2025年の政府委託評価）は「\textbf{50年の動的LCAは、技術的装いの下に隠された政治的選択}であり、より明示的にすべきだった」と総括している（【Rivaton報告】p.13付近「Des
+  objectifs contradictoires」前段）。
+\end{itemize}
+
+\hypertarget{ux2460-ux30a6-ux5f93ux6765ux578bux9759ux7684lcagwp100ux3068ux306eux5deeux7570}{%
+\subsubsection{①-ウ
+従来型静的LCA（GWP100）との差異}\label{ux2460-ux30a6-ux5f93ux6765ux578bux9759ux7684lcagwp100ux3068ux306eux5deeux7570}}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+観点 & 静的LCA（GWP100） & RE2020簡易動的LCA\tabularnewline
+\midrule
+\endhead
+排出のタイミング & 全排出が同時（t=0）に起こると仮定 & 排出年次 t
+を考慮（年単位）\tabularnewline
+特性化指標 & 排出時点から100年間の累積放射強制力（PRG100/GWP100） &
+\textbf{竣工後100年}の固定窓における累積放射強制力（観測期間TOD=100年固定）\tabularnewline
+個別排出の評価地平 & 全排出一律100年 &
+排出年次により可変：t年の排出は100−t年分のみ積分（50年目の排出は50年分）＝「打切り」\tabularnewline
+一時的な炭素貯蔵 & 影響なし（−1と+1が相殺） &
+便益として計上（吸収▲1×1.0、50年後の放出+1×0.578 ⇒
+正味▲0.42）\tabularnewline
+一時的な排出 & 影響なし & 不利益として計上\tabularnewline
+ガス種の区別 & ガス別GWPで特性化後に合算 & 合算済みのkg
+CO₂eq値にCO₂用係数を一律適用（冷媒のみ別係数）⇒
+CH₄等短寿命ガスの時間効果は未分化\tabularnewline
+国際規格との関係 & EN 15804、ISO 14067、PEFに整合 &
+上記規格は一時貯蔵のクレジット計上を認めておらず、整合しない（業界批判の論点）\tabularnewline
+規制上の使用 & RE2020では気候変動以外の指標と情報提供用 &
+\textbf{適合判定（Icconstruction等の上限値）に使用}\tabularnewline
+木質・バイオ系材料への効果 & 終末処理排出がフルカウント &
+終末処理排出が約0.58倍に割引 ⇒ 相対的に有利\tabularnewline
+鉄鋼・コンクリート等への効果 & --- &
+排出の大半がt=0（製造時）のため静的とほぼ同値\tabularnewline
+\bottomrule
+\end{longtable}
+
+（出典：【公式ガイド】pp.60-61、【算定方法令】附属書II
+§4.2、【解説資料2021】スライド2・5・6、【UGEノート】pp.1-2）
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ux2461-ux8a55ux4fa1ux6307ux6a19ux53caux3073ux7b97ux5b9aux65b9ux6cd5}{%
+\subsection{②
+評価指標及び算定方法}\label{ux2461-ux8a55ux4fa1ux6307ux6a19ux53caux3073ux7b97ux5b9aux65b9ux6cd5}}
+
+\hypertarget{ux2461-ux30a2-ux6642ux9593ux8ef8ux8a55ux4fa1ux306eux51e6ux7406ux65b9ux6cd5ux3068ux30d1ux30e9ux30e1ux30fcux30bfux6839ux62e0}{%
+\subsubsection{②-ア
+時間軸評価の処理方法とパラメータ根拠}\label{ux2461-ux30a2-ux6642ux9593ux8ef8ux8a55ux4fa1ux306eux51e6ux7406ux65b9ux6cd5ux3068ux30d1ux30e9ux30e1ux30fcux30bfux6839ux62e0}}
+
+\hypertarget{1-ux91cdux307fux4ed8ux3051ux5272ux5f15ux4fc2ux6570ux306eux6cd5ux7684ux5b9aux7fa9--ux6570ux5f0fux3067ux306fux306aux304fux5e74ux6b21ux4fc2ux6570ux8868}{%
+\paragraph{(1) 重み付け（割引）係数の法的定義 ―
+「数式」ではなく「年次係数表」}\label{1-ux91cdux307fux4ed8ux3051ux5272ux5f15ux4fc2ux6570ux306eux6cd5ux7684ux5b9aux7fa9--ux6570ux5f0fux3067ux306fux306aux304fux5e74ux6b21ux4fc2ux6570ux8868}}
+
+RE2020の重み付け係数は、\textbf{2021年8月4日アレテ第11条に年次の数表として法定}されている。算定方法令附属書IIの規定は次のとおり。
+
+\begin{quote}
+「動的手法では、環境データに由来するGHG排出の影響は、\textbf{排出の日付に依存する重み付け係数}で重み付けされる。これらの係数全体は、\textbf{0から50までの自然数
+x について定義される関数 f}
+を構成する。重み付けの時間刻みは1年である。手法では主に2つの関数、すなわち冷媒を除く全GHG排出用の
+\textbf{f\_CO2} と、冷媒用の \textbf{f\_ff}
+を用いる。\textbf{これらの係数は本アレテ第11条に掲げる}。」（【算定方法令】附属書II
+§4.2.1.2）
+\end{quote}
+
+一次資料で確認できる代表値は以下のとおり（係数表自体は官報PDF中に表形式で収載）。
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+排出年次 t & f\_CO2(t) & f\_ff(t)（冷媒）\tabularnewline
+\midrule
+\endhead
+0（竣工時） & 1.000 & 1.000\tabularnewline
+1 & 0.984 & ---\tabularnewline
+1〜49 & 0.984 → 0.587（単調減少） & ---\tabularnewline
+50（PER＝解体時） & \textbf{0.578} & \textbf{0.88}\tabularnewline
+\bottomrule
+\end{longtable}
+
+（出典：【公式ガイド】p.60「例：0年目の排出は係数1、50年目の排出は係数0.58（冷媒なら0.88）」、p.61の木製梁の計算例）
+
+\hypertarget{2-ux8a2dux554fux306eux6307ux6570ux95a2ux6570ux5f62-ft008200918et1831-ux306eux691cux8a3cux7d50ux679c}{%
+\paragraph{(2) 設問の指数関数形 f(t)=0.0820+0.918·e\^{}(−t/18.31)
+の検証結果}\label{2-ux8a2dux554fux306eux6307ux6570ux95a2ux6570ux5f62-ft008200918et1831-ux306eux691cux8a3cux7d50ux679c}}
+
+\begin{itemize}
+\tightlist
+\item
+  この指数関数形は、\textbf{省令本文・附属書、公式ガイド、UGEノート、Ventura
+  2022 のいずれにも記載がない}。
+\item
+  数値的にも公式係数を再現しない（同式では
+  f(50)=0.082+0.918·e\^{}(−2.73)≒\textbf{0.14} となり、法定値 0.578
+  と大きく乖離。f(10)≒0.61
+  に対し法定値は約0.93）。係数の減衰は指数的ではなく\textbf{ほぼ線形}である。
+\item
+  したがって、RE2020の割引係数を上記指数式で表すのは\textbf{誤り}と結論できる（同式はIPCC型のCO₂大気残存関数の単一指数近似に類似した形であり、係数表と混同されて流通した可能性がある）。
+\item
+  UGEノートは、RE2020公式サイト掲載のExcelファイルの係数を回帰し、**線形近似
+  f\_CO2(t) ≒ 1.0053 −
+  0.00842·t（R²=0.9995）**を得ている（【UGEノート】pp.10-11、図15）。年あたり約0.84\%ポイントの定率割引に相当する。
+\end{itemize}
+
+\hypertarget{3-ux4fc2ux6570ux306eux7406ux8ad6ux7684ux7531ux6765ux8f03ux6b63ux65b9ux6cd5}{%
+\paragraph{(3)
+係数の理論的由来（較正方法）}\label{3-ux4fc2ux6570ux306eux7406ux8ad6ux7684ux7531ux6765ux8f03ux6b63ux65b9ux6cd5}}
+
+係数は恣意的な割引率ではなく、\textbf{Levasseur et
+al.（2010、CIRAIG）の動的LCA（観測期間TOD=100年固定）と簡易法の結果が一致するように較正}されたものである。Ventura
+2022の定式化では：
+
+\begin{verbatim}
+GWP_dyn_RE2020(t) = F_RE2020(t) × GWP_stat,THI=100
+F_RE2020(t) = 1 − [GWP_stat,THI=100 − GWP_dyn,TOD=100(t)] / GWP_stat,THI=100
+\end{verbatim}
+
+これは概念的には、t年目のCO₂排出について「\textbf{竣工後100年の窓のうち残り（100−t）年分だけ累積した放射強制力}」を「0年目排出の100年分累積放射強制力」で除した比、すなわち
+
+\begin{verbatim}
+f_CO2(t) = AGWP_CO2(100−t) / AGWP_CO2(100)
+\end{verbatim}
+
+（AGWP：絶対地球温暖化潜在量＝累積放射強制力。CO₂の大気中減衰はIPCC
+AR4のモデルに基づく）に相当する。f\_CO2(50)=AGWP(50)/AGWP(100)≒0.58
+はこの比と整合する。係数の出所として、UGEノートはDHUPからの私信により「CIRAIGの手法・オンラインツール（DynCO2）に基づき、Solinnen社2018年報告書を経てBenoist（2009）博士論文の係数（表IV.7、p.168）が基礎になった」ことを確認している（【UGEノート】pp.4-5、10-11、【Ventura
+2022】§3.3）。
+
+\hypertarget{4-ux5e74ux6b21ux6392ux51faux3078ux306eux9069ux7528ux65b9ux6cd5ux6cd5ux5b9aux306eux8a08ux7b97ux5f0f}{%
+\paragraph{(4)
+年次排出への適用方法（法定の計算式）}\label{4-ux5e74ux6b21ux6392ux51faux3078ux306eux9069ux7528ux65b9ux6cd5ux6cd5ux5b9aux306eux8a08ux7b97ux5f0f}}
+
+算定方法令附属書II §4.2.1.2.1 は、部材（composant）p
+の動的影響を次のとおり規定する（DE：環境データ＝EPDの静的kg
+CO₂eq値、Q：数量、DVE：部材推定耐用年数、PER=50年）。
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{製造・施工（竣工前）}：慣例によりt=0で排出 ⇒ 係数
+  f\_CO2(0)=1（静的値と同一）
+\item
+  \textbf{使用段階（DVE≥PERの部材）}：毎年均等に排出されるとみなし年次割引：
+\end{itemize}
+
+\begin{verbatim}
+Ic_p^exploitation = Q_p × Σ_{a=1}^{PER} [ (DE_p^exploitation / DVE) × f_CO2(a) ]    …式(35)
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{解体・廃棄（fin de
+  vie）およびモジュールD}：t=PER（50年）で排出 ⇒ 係数
+  f\_CO2(PER)=0.578：
+\end{itemize}
+
+\begin{verbatim}
+Ic_p^findevie = Q_p × DE_p^findevie × f_CO2(PER)    …式(36)
+Ic_p^moduleD  = Q_p × DE_p^moduleD  × f_CO2(PER)    …式(37)
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{DVE\textless PERの部材（更新あり）}：PER内の完全更新回数
+  α＝床関数(PER/DVE)、端数 F\_Util＝PER/DVE−α
+  を定義し（式(38)(39)）、更新時排出（旧部材の廃棄＋新部材の製造・施工）を更新年
+  DVE×r に割り付けて係数 f\_CO2(DVE×r) を乗じる（式(40)〜(44)）。
+\item
+  \textbf{PER（50年）以降の排出は全てt=50に集約}して f\_CO2(50)
+  を適用し、計上漏れを防ぐ（【Ventura 2022】§3.3）。
+\item
+  \textbf{冷媒}は使用時・廃棄時の直接漏えいについて f\_ff(t)
+  で補正計算を行う（附属書II §4.2.1.2.2）。
+\end{itemize}
+
+\textbf{重要な簡略化}：係数は「ガスごとの排出量」ではなく、\textbf{EPDに記載された集計済みGWP値（kg
+CO₂eq）に対して、ガス種を問わずCO₂用係数を適用}する（冷媒のみ例外）。これが「簡易（simplifiée）動的LCA」と呼ばれる所以であり、既存のFDES/PEP（フランスのEPD）をそのまま利用できる反面、CH₄等の短寿命強力ガスの時間挙動を正しく扱えない（【算定方法令】附属書II
+§4.2.1.2、【解説資料2021】スライド6）。
+
+\hypertarget{ux2461-ux30a4-ux70adux7d20ux5faaux74b0ux5438ux53ceux56faux5b9aux653eux51faux306eux6271ux3044}{%
+\subsubsection{②-イ
+炭素循環（吸収・固定・放出）の扱い}\label{ux2461-ux30a4-ux70adux7d20ux5faaux74b0ux5438ux53ceux56faux5b9aux653eux51faux306eux6271ux3044}}
+
+\hypertarget{1-ux751fux7269ux7531ux6765coux2082ux306e11ux8a08ux4e0a}{%
+\paragraph{(1)
+生物由来CO₂の「−1/+1」計上}\label{1-ux751fux7269ux7531ux6765coux2082ux306e11ux8a08ux4e0a}}
+
+フランスのEPD（FDES）は欧州規格EN
+15804に基づき、バイオマス由来炭素について\textbf{製品段階で大気からの吸収分を−1
+kg CO₂eq/kg
+CO₂として計上し、ライフサイクル終末（焼却・分解等）の再放出を+1で計上}する（収支は静的にはゼロまたは終末シナリオ依存）。RE2020の簡易動的法は、この±1の計上タイミングに重み付け係数を適用する：
+
+\begin{itemize}
+\tightlist
+\item
+  吸収（t=0、製品段階に含まれる）：×1.0 ⇒ \textbf{−1がフルカウント}
+\item
+  再放出（t=50、解体時）：×0.578 ⇒ \textbf{+0.578のみカウント}
+\item
+  \textbf{正味効果：−0.42 kg CO₂eq／貯蔵1kg
+  CO₂}。すなわち「\textbf{1kgのCO₂を50年間貯蔵することは、竣工時に0.42kgのCO₂を排出しないことと等価}」と評価される（観測地平を150年に延ばすとこの値は0.27kgに低下する点が業界批判の論点。【解説資料2021】スライド5）。
+\end{itemize}
+
+\hypertarget{2-ux6570ux5024ux8a08ux7b97ux4f8bux6728ux88fdux6881ux516cux5f0fux30acux30a4ux30c9ux306eux4f8b}{%
+\paragraph{(2)
+数値計算例：木製梁（公式ガイドの例）}\label{2-ux6570ux5024ux8a08ux7b97ux4f8bux6728ux88fdux6881ux516cux5f0fux30acux30a4ux30c9ux306eux4f8b}}
+
+【公式ガイド】p.61掲載の架空例（木製梁）。静的LCAでは正の排出となる部材が、動的LCAでは負（便益）に転じることを示す。
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule
+LCA段階 & 静的値（kg CO₂eq） & 適用係数 & 動的値（kg
+CO₂eq)\tabularnewline
+\midrule
+\endhead
+製品製造（吸収含む） & \textbf{−600} & t=0、×1.0 & −600\tabularnewline
+施工 & +30 & t=0、×1.0 & +30\tabularnewline
+使用（1〜49年） & 0 & ×0.984〜0.587 & 0\tabularnewline
+解体・廃棄（50年） & \textbf{+700} & t=50、×\textbf{0.578} &
+\textbf{+404.6}\tabularnewline
+\textbf{ライフサイクル計} & \textbf{+130} & &
+\textbf{−165.4}\tabularnewline
+\bottomrule
+\end{longtable}
+
+⇒ 同一部材の評価値が**+130 → −165.4 kg CO₂eq（約295 kg
+CO₂eqの改善）**。一方、排出の大半が製造時（t=0）に集中する鉄鋼・コンクリート等は動的値≒静的値となり、割引の恩恵をほぼ受けない（同ガイド
+p.61）。コンクリート造とCLT造の実FDES比較でも「\textbf{一時的炭素貯蔵クレジットと終末排出の割引が木質製品に大きく有利に働く}」ことが確認されている（【解説資料2021】スライド3）。
+
+\hypertarget{3-ux7559ux610fux70b9ux6279ux5224}{%
+\paragraph{(3) 留意点・批判}\label{3-ux7559ux610fux70b9ux6279ux5224}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{森林再成長クレジットの非対称性}：フランスの木材FDESは「伐採跡地で再成長する樹木によるCO₂吸収」のクレジットを含むが、この吸収には10〜30年を要するにもかかわらず\textbf{時間割引が適用されていない}（排出側のみ割引すると木材に二重に有利）との指摘がある（【解説資料2021】スライド6）。
+\item
+  \textbf{国際規格との不整合}：EN 15804、ISO
+  14067、PEFは一時的炭素貯蔵のクレジット計上を認めておらず、セメント・金属・断熱材等の業界団体は「国際合意違反」と批判した（【解説資料2021】スライド4-5）。
+\item
+  \textbf{貯蔵量の別建て表示}：動的LCAとは別に、建物に固定された生物由来炭素量を**StockC指標（kg
+  C/m²）**として算定・申告する（更新は考慮しない）。これは気候指標Icとは独立した情報指標である（【算定方法令】附属書II
+  §5.3.2、式は炭素量の単純合計）。
+\end{itemize}
+
+\hypertarget{ux2461-ux30a6-ux653eux5c04ux5f37ux5236ux529bux306eux8003ux3048ux65b9ux3068ux306eux95a2ux4fc2ux6027levasseurux578bdlcaux3068ux306eux95a2ux4fc2ventura-2022ux306eux6279ux5224}{%
+\subsubsection{②-ウ
+放射強制力の考え方との関係性（Levasseur型DLCAとの関係、Ventura
+2022の批判）}\label{ux2461-ux30a6-ux653eux5c04ux5f37ux5236ux529bux306eux8003ux3048ux65b9ux3068ux306eux95a2ux4fc2ux6027levasseurux578bdlcaux3068ux306eux95a2ux4fc2ventura-2022ux306eux6279ux5224}}
+
+\hypertarget{1-ux653eux5c04ux5f37ux5236ux529bux306bux57faux3065ux304fux6307ux6a19ux4f53ux7cfb}{%
+\paragraph{(1)
+放射強制力に基づく指標体系}\label{1-ux653eux5c04ux5f37ux5236ux529bux306bux57faux3065ux304fux6307ux6a19ux4f53ux7cfb}}
+
+GWP（PRG）特性化係数は「対象ガス1kgの\textbf{累積放射強制力}（W·yr·m⁻²·kg⁻¹）をCO₂のそれで除した比」であり、累積放射強制力はガスの放射効率と大気中残存関数の積の時間積分で定義される（【UGEノート】附属書§2）。
+
+\begin{quote}
+\textbf{【v2 CO2応答モデルのパラメータ確定（IPCC原典照合済）】}
+RE2020が依拠する大気中CO₂残存率 r(t)=a0+Σai·e\^{}(−t/τi) は \textbf{IPCC
+AR4（2007）Bern2.5CC} に基づく。原典 AR4 WG1 Table 2.14 脚注a の値は
+a0=0.217, a1=0.259, a2=0.338, a3=0.186, τ1=172.9年, τ2=18.51年,
+τ3=1.186年（本報告書の値と一致）。\textbf{AGWP100(CO2)=8.69×10⁻¹⁴
+W·yr·m⁻²·kg⁻¹}（AR4 §2.10.2）。 なお、より新しい \textbf{IPCC
+AR5/AR6（Joos et al. 2013）}
+のマルチモデル平均IRFは時定数構成が異なり（永続項係数
+a0=\textbf{0.2173}、指数項 0.2240/0.2824/0.2763、時定数
+τ=\textbf{394.4}/36.54/4.304年、AGWP100=9.17×10⁻¹⁴。AR5補足資料Table
+8.SM.10/11）。\textbf{一部の派生資料にあった「AR6 a0=0.200,
+τ1=394.4」は誤り}------0.200という永続項係数はどの世代のIRFにも存在せず、永続項係数（0.2173）と最長減衰項の時定数（394.4年）を取り違えたもの。RE2020は理論的系譜（Levasseur
+2010・Benoist
+2009＝AR5以前）からAR4世代を採用しており、これは歴史的に妥当。AR6更新は2028年フェーズ3の論点。Levasseur
+et
+al.（2010）の動的LCA（DLCA）は、ライフサイクルの各排出を排出年次に置き、\textbf{固定された観測期間（TOD）の終端まで}の放射強制力を逐年積分して合算する手法で、CIRAIGがツールDynCO2として公開した。RE2020の簡易法は、このTOD=100年版DLCAの結果を再現するよう静的GWP100に乗じる係数（②ア(3)）へと簡略化したものであり、**「簡易法＝Levasseur型DLCA（TOD=100年固定）の一次近似」**という関係にある（【UGEノート】pp.1,
+10-11、【Ventura 2022】§3.3）。
+\end{quote}
+
+\hypertarget{2-ventura2022ux304aux3088ux3073ugeux30ceux30fcux30c8ux306eux6279ux5224}{%
+\paragraph{(2)
+Ventura（2022）およびUGEノートの批判}\label{2-ventura2022ux304aux3088ux3073ugeux30ceux30fcux30c8ux306eux6279ux5224}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{観測期間の打切り（トランケーション）による過大評価}：TODを竣工後100年に固定すると、t年目の排出の影響は100−t年分しか積分されない（50年目の排出は50年分のみ）。静的GWP100（各排出につき100年分）と評価地平が揃わず、\textbf{比較不能な量の加算}になっている。差は「遅延の効果」と「打切りの効果」の合算であり、純粋な遅延効果より大きく見える。
+
+  \begin{itemize}
+  \tightlist
+  \item
+    UGEノートの修正案：影響の時間的地平（THI）を全排出について100年に固定し、観測期間をTOD＝ライフサイクル期間＋THI（＝150年）とすべき。この場合、\textbf{50年目の係数は0.578ではなく0.72}となり、現行係数は割引効果を\textbf{約35\%過大評価}している（修正係数表は【UGEノート】Tableau
+    1、線形近似 y=−0.0055x+0.9814）。
+  \item
+    Ventura 2022は同趣旨を一般化し、「(i) フローの漏れなき計上、(ii)
+    全物質同一のTHI、(iii)
+    THIは排出時期に依存しない」という3原則からLevasseur型指標の概念的欠陥を導出。\textbf{竣工50年後の排出で約25\%の過大評価}（係数0.72に対し0.52相当）とし、修正係数への置換だけで規制に即適用可能と結論した（【Ventura
+    2022】§4.1、結論）。
+  \end{itemize}
+\item
+  \textbf{物理的効果の限定性}：放射効率が一定なら「数十年程度の排出遅延は長期の累積放射強制力をほとんど低減しない」。遅延が真に有効なのは、遅延後の世界で全球排出が大きく削減されている場合に限られる。よって\textbf{動的手法の採用は物理的要請ではなく、経済主体に排出の先送りを促す政治的選択}であり、国レベルでの効果検証（全建物の排出プロファイルの収集・集計プラットフォーム）や、社会経済的割引率としての明示的運用（静的指標による実排出計上との並行管理）を提言（【UGEノート】pp.1-2）。
+\item
+  \textbf{ガス無差別適用}：集計済みCO₂eqにCO₂用係数を適用するため、CH₄等の短寿命ガスの減衰の速さが反映されず、当該ガスの寄与が大きい製品で歪みが生じる（【解説資料2021】スライド6、【算定方法令】附属書II
+  §4.2.1.2の明文）。
+\item
+  \textbf{時間ゼロの置き方}：竣工前排出の t=0
+  集約は製造リードタイムが短い限り許容できるが、\textbf{部材リユース（解体材の再使用）のように排出を大幅に遅延させる行為が竣工後の係数体系で不利に扱われる}逆インセンティブがある（【UGEノート】pp.21-22、【Ventura
+  2022】§3.3）。
+\end{enumerate}
+
+なお、こうした論争を受け、フランス政府は2021年2月18日に動的LCA手法の\textbf{標準化（normalisation）手続の開始}を表明している（【解説資料2021】スライド11）。
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ux2462-ux5efaux7bc9ux7269lcaux7b97ux5b9aux306bux304aux3051ux308bux4f4dux7f6eux4ed8ux3051}{%
+\subsection{③
+建築物LCA算定における位置付け}\label{ux2462-ux5efaux7bc9ux7269lcaux7b97ux5b9aux306bux304aux3051ux308bux4f4dux7f6eux4ed8ux3051}}
+
+\hypertarget{ux2462-ux30a2-ux7b97ux5b9aux74b0ux5883ux30deux30cbux30e5ux30a2ux30ebux8a8dux5b9aux8a08ux7b97ux30c4ux30fcux30ebux4ebaux6750ux80b2ux6210ux306eux72b6ux6cc1}{%
+\subsubsection{③-ア
+算定環境（マニュアル、認定計算ツール、人材育成）の状況}\label{ux2462-ux30a2-ux7b97ux5b9aux74b0ux5883ux30deux30cbux30e5ux30a2ux30ebux8a8dux5b9aux8a08ux7b97ux30c4ux30fcux30ebux4ebaux6750ux80b2ux6210ux306eux72b6ux6cc1}}
+
+\textbf{(1) マニュアル・公式文書の体系}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{法定の算定方法}：2021年8月4日アレテの附属書I（用語定義）・附属書II（エネルギー・環境性能計算の一般規則＝LCA部分、係数・式を法定）・附属書III（熱計算詳細法Th-BCE
+  2020）・附属書IV（Th-Bat入力データ）。係数表は同アレテ\textbf{第11条}（【算定方法令】）。
+\item
+  \textbf{公式ガイド}：エコロジー移転省（DGALN/DHUP）が官民の作業部会（「コミュニケーション・研修GT」等）を通じて作成した『Guide
+  RE2020』（最新2024年1月版、約140頁）。動的LCAの考え方・計算例（木製梁）・指標・閾値・認可ソフト・適合証明書の実務を平易に解説（【公式ガイド】表紙・p.60-66）。
+\item
+  \textbf{情報サイト}：rt-re-batiment.developpement-durable.gouv.fr（方法論文書、係数Excel、認可ソフト一覧、E+C-実験の専門家グループ報告書（GE3「炭素の一時貯蔵」等）を公開。【UGEノート】注3-4）。
+\end{itemize}
+
+\textbf{(2) 認定計算ツール}
+
+\begin{itemize}
+\tightlist
+\item
+  ソフトウェアは\textbf{省（エネルギー担当・建設担当大臣）の事前認可制}。熱計算部分は\textbf{CSTB}（建築科学技術センター）、環境（LCA）部分は\textbf{Cerema}が技術審査し、合格したものが公式リストに掲載される（【Rivaton報告】pp.31-32、認可リスト:
+  \href{https://rt-re-batiment.developpement-durable.gouv.fr/logiciels-a619.html}{https://rt-re-batiment.developpement-durable.gouv.fr/logiciels-a619.html}
+  ）。審査用に評価手順書・仕様書・自己検証用テストケースが提供される（【公式ガイド】p.65-66）。
+\item
+  代表的な認可ツール：\textbf{Pléiades}（IZUBA
+  Énergies）、\textbf{ClimaWin}（BBS
+  Slama）、\textbf{ArchiWIZARD}、Perrenoud製品群、（LCA特化の）Vizcab
+  等。CSTB開発の計算エンジン（Th-BCE）が民間ソフトに組み込まれる構造（【Rivaton報告】p.31、上記公式サイト）。
+\item
+  \textbf{データ基盤}：部材・設備の環境データは国の公的データベース\textbf{INIES}（2004年創設、無償公開）のFDES（建材EPD）・PEP（設備EPD）を使用。データがない場合は**ペナルティ付きデフォルト値（DED）**や、簡易作成用「コンフィギュレータ」を利用。デフォルト値使用率は別指標
+  Ic ded
+  で「見える化」される（【Rivaton報告】p.31、【公式ガイド】p.13・p.20）。
+\item
+  \textbf{結果の提出}：認可ソフトから標準様式\textbf{RSEE}（エネルギー・環境調査標準サマリー）を出力し、竣工時までに作成。2022年以降CSTBが\textbf{OPEE}（観測事業）として収集・統計化（【Rivaton報告】p.31、【算定方法令】本文の関連条項）。
+\end{itemize}
+
+\textbf{(3) 人材育成・実務負荷}
+
+\begin{itemize}
+\tightlist
+\item
+  公式ガイド自体が「関係者の能力向上（montée en
+  compétence）のための研修ニーズの特定」を掲げ、E+C-実験期（2016-2021）に第三者検証付きの評価運用を通じて実務家の習熟を図った（【公式ガイド】pp.33-35）。
+\item
+  負荷の実態：空調換気冷凍技術者協会（AICVF）によれば\textbf{RE2020の設計検討時間はRT2012の2〜3倍}。IFPEB（建築性能フランス研究所）の試算では知的役務コストは2022-25年の5ユーロ/m²から2028年基準では11.5ユーロ/m²へ上昇。戸建（自己発注）では熱計算＋LCA＋建築許可時証明書で1,200〜1,800ユーロ、竣工時の更新・証明で400〜600ユーロ（建設費の約+1\%）（【Rivaton報告】pp.20-21）。
+\end{itemize}
+
+\hypertarget{ux2462-ux30a4-ux9759ux7684lcaux8a55ux4fa1ux3068ux306eux95a2ux4fc2ux6027ux4f75ux8a18ux7fa9ux52d9ux306eux6709ux7121ux7b49}{%
+\subsubsection{③-イ
+静的LCA評価との関係性（併記義務の有無等）}\label{ux2462-ux30a4-ux9759ux7684lcaux8a55ux4fa1ux3068ux306eux95a2ux4fc2ux6027ux4f75ux8a18ux7fa9ux52d9ux306eux6709ux7121ux7b49}}
+
+\begin{itemize}
+\tightlist
+\item
+  算定方法令は各影響の計算を「\textbf{静的手法または動的手法}」で行い得ると規定した上で、\textbf{静的/動的の区別は気候変動影響（GHG排出）の計算にのみ適用}されると明記する（【算定方法令】附属書II
+  §4.2柱書）。
+\item
+  \textbf{規制適合判定（Icconstruction・Icénergie等の上限値遵守）は動的計算のみに依拠}する。「規制上の要求は動的アプローチに基づく（Les
+  exigences réglementaires reposent sur l'approche
+  dynamique）」（【公式ガイド】p.60）。静的な気候変動指標の\textbf{併記（適合判定用としての提出）義務はない}。
+\item
+  ただし静的計算は方法論として完全に併存しており、(i)
+  動的計算は「静的影響×重み付け係数」という構造のため静的値が計算の前提となる、(ii)
+  \textbf{気候変動以外の環境指標（EN
+  15978/15804系の酸性化・資源・廃棄物等、附属書II Tableau
+  12の指標群）は全て静的手法で算定}される（「これら全ての指標は静的手法で計算する」【算定方法令】附属書II
+  §5.3.3）、(iii) RSEEには情報指標を含む算定結果一式が収録される。
+\item
+  すなわちRE2020は「\textbf{規制値＝動的、情報・その他影響＝静的}」というハイブリッド構成であり、UGEノートが指摘するとおり時間ゼロ前（静的）と後（動的）を接合した混合手法でもある（【UGEノート】p.1）。
+\end{itemize}
+
+\hypertarget{ux2462-ux30a6-ux8a55ux4fa1ux7d50ux679cux306eux5229ux7528ux65b9ux6cd5ux8868ux793aux65b9ux6cd5ic-constructionux7b49ux306eux6307ux6a19ux8868ux793a}{%
+\subsubsection{③-ウ 評価結果の利用方法、表示方法（Ic
+construction等の指標表示）}\label{ux2462-ux30a6-ux8a55ux4fa1ux7d50ux679cux306eux5229ux7528ux65b9ux6cd5ux8868ux793aux65b9ux6cd5ic-constructionux7b49ux306eux6307ux6a19ux8868ux793a}}
+
+\textbf{(1) 指標体系}　気候変動影響指標 Ic（Impact
+climatique）は寄与分ごとに算定・合算される（kg
+CO₂eq/m²、参照面積は住宅SHAB／非住宅SU。占有者あたり表示も可）：
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Iccomposants}（部材・設備、ライフサイクル全体）＋
+  \textbf{Icchantier}（工事）＝ \textbf{Icconstruction}（式(131)）
+\item
+  \textbf{Icénergie}（供用時エネルギー消費、50年分）
+\item
+  \textbf{Icbâtiment ＝ Icconstruction ＋ Icénergie ＋ Iceau}（式(133)）
+\item
+  \textbf{Icprojet ＝ Icbâtiment ＋
+  Icparcelle}（敷地、情報指標）（式(135)）
+\item
+  補助指標：\textbf{StockC}（生物由来炭素貯蔵量、kg
+  C/m²）、\textbf{Icded}（デフォルト値由来の影響量）、ロット別
+  Iclot1〜13（【算定方法令】附属書II §5.3）
+\end{itemize}
+
+\textbf{(2) 規制上の利用（閾値）}　適合判定は Icénergie ≤
+Icénergie\_max、\textbf{Icconstruction ≤ Icconstruction\_max}
+で行う。Icconstruction\_max
+は用途別の基準値に、屋根裏・面積・インフラ・駐車場・地域・デフォルト値使用等の調整係数（Mi\ldots）を乗加算して個別化される。基準値（Icconstruction\_maxmoyen）は段階的に強化される（【公式ガイド】pp.27-29）：
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule
+用途 & 2022-24 & 2025-27 & 2028-30 & 2031-\tabularnewline
+\midrule
+\endhead
+戸建住宅 & 640 & 530 & 475 & 415\tabularnewline
+集合住宅 & 740 & 650 & 580 & 490\tabularnewline
+事務所 & 980 & 810 & 710 & 600\tabularnewline
+初等・中等学校 & 900 & 770 & 680 & 590\tabularnewline
+\bottomrule
+\end{longtable}
+
+（単位：kg
+CO₂eq/m²。2025年・2028年・2031年の各段階で対2022年比▲15\%／▲25\%／▲30〜40\%の削減ラインに対応。【公式ガイド】p.29、【解説資料2021】スライド2）
+
+\textbf{(3) 表示・証明の実務}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{建築許可申請時}：建築主（または設計者）がRE2020考慮の**証明書（attestation）**を添付（エネルギー供給可能性調査の実施証明を含む）。
+\item
+  \textbf{竣工時}：認可ソフトで作成した\textbf{RSEE}に基づく適合証明書を作成。RSEEには
+  Bbio、Cep、Cep,nr、Icénergie、Icconstruction、DH、Icbâtiment、StockC、Icded
+  等の指標値が標準形式で記録され、国（CSTB/OPEE）に収集されて政策モニタリングに活用される（【公式ガイド】pp.66-67、【算定方法令】第4条・RSEE関連条項、【Rivaton報告】p.31）。
+\item
+  評価は建築許可単位（複数棟可、ただし棟ごとに閾値遵守）。Icの内訳はロット（躯体・外装・設備等13区分）別に表示され、設計段階での材料選択・工法比較（例：木造化によるIcconstruction低減）に直接利用される（【公式ガイド】pp.10-11・37、【算定方法令】附属書II
+  §5.3.1）。
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ux2463-ux65e5ux672cux306eux5236ux5ea6ux691cux8a0eux3078ux306eux793aux5506ux307eux3068ux3081}{%
+\subsection{④
+日本の制度検討への示唆（まとめ）}\label{ux2463-ux65e5ux672cux306eux5236ux5ea6ux691cux8a0eux3078ux306eux793aux5506ux307eux3068ux3081}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{「簡易動的法」は既存EPD基盤の上に低コストで実装可能}：RE2020は静的GWP値（EPD）に法定の年次係数を乗じるだけの設計とし、データベース（INIES）・認可ソフト・標準出力（RSEE）を一体整備した。日本でも建築物のライフサイクルカーボン算定制度（ホールライフカーボン）にEPD/IDEA等の既存データを活かす場合、同型の「係数表方式」は実装容易性が高い。
+\item
+  \textbf{係数の科学的根拠と透明性が制度の信頼性を決める}：RE2020の係数はLevasseur型DLCA（観測期間100年固定）に較正されたが、打切り問題により遅延便益が25〜35\%過大との学術的批判（UGE、Ventura
+  2022）を受け、政府も標準化手続に言及した。なお流布している指数関数式（f(t)=0.0820+0.918·e\^{}(−t/18.31)型）は一次資料に存在せず、\textbf{制度設計時は官報の係数表そのものに依拠すべき}である。
+\item
+  \textbf{木材利用へのインセンティブ効果は明確だが、対立点も明確}：一時貯蔵の評価（貯蔵1kg×50年≒竣工時▲0.42kg相当）により木質部材の評価が劇的に改善する（公式例：+130→−165
+  kg CO₂eq）。一方で(i) 国際規格（EN 15804/ISO
+  14067/PEF）との不整合、(ii) ガス無差別適用、(iii)
+  再成長クレジットの非割引、(iv)
+  リユース不利、の各論点が業界対立を招いた。日本で導入する場合、静的指標の併記（実排出の管理）と動的指標（インセンティブ）の役割分担を当初から明示する設計（UGE提言型）が有効と考えられる。
+\item
+  \textbf{評価期間・観測期間は「政治的選択」と明示する}：50年PER・100年観測は物理的必然ではなく規約である。Rivaton報告も「技術的装いの下の政治的選択は明示すべき」と総括しており、日本でも期間設定の根拠・見直し条項（レビュークローズ）を制度に組み込むことが望ましい。
+\item
+  \textbf{国による結果収集（RSEE/OPEE型）の併設}：動的評価の妥当性（遅延排出が将来の低排出環境で起こるか）は国レベルでしか検証できないため、UGEは全建物の排出プロファイル収集プラットフォームを提言した。制度のPDCAの観点から、日本でも算定結果の標準様式提出・国の収集分析を当初から設計に含めることが示唆される。
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ux51faux5178ux4e00ux89a7}{%
+\subsection{出典一覧}\label{ux51faux5178ux4e00ux89a7}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Ministère de la Transition écologique, \textbf{Guide
+  RE2020}（2024年1月版）, 特にpp.8, 27-29, 33-35,
+  60-61（動的LCA・係数・木製梁例）, 65-67（認可ソフト・証明書）.
+\item
+  \textbf{Arrêté du 4 août 2021}（exigences de performance énergétique
+  et environnementale des constructions de bâtiments en France
+  métropolitaine）, JORF 2021年8月15日 Texte
+  23：本文第4・8・11・12条、附属書II
+  §4.2（静的/動的計算・式(35)〜(44)）、§5.3（Ic指標・StockC・Tableau
+  12）.
+  \href{https://www.legifrance.gouv.fr/}{https://www.legifrance.gouv.fr/}
+\item
+  Ventura, A., Feraille, A.（Univ. Gustave Eiffel / ENPC）,
+  \textbf{Recommandations pour l'introduction de l'ACV dans la RE2020},
+  2021年3月22日版, pp.1-2（要旨・提言）,
+  pp.10-11（式7・線形回帰−0.00842/年、Benoist 2009係数）,
+  pp.19-21（修正係数表0.72@50年）.
+\item
+  Ventura, A. (2022) \textbf{Conceptual issue of the dynamic GWP
+  indicator and solution}, \emph{The International Journal of Life Cycle
+  Assessment}, doi:10.1007/s11367-022-02028-x, §3.3（F\_RE2020定義式）,
+  §4.1（25\%過大評価）, Conclusions.
+\item
+  \textbf{RE2020 / Simplified dynamic
+  LCA}（2021年2月22日付解説スライド）,
+  スライド2-11（業界の賛否、0.42/0.27kg等価値、CH₄論点、標準化方針）.
+\item
+  Rivaton, R., \textbf{Rapport d'évaluation de la
+  RE2020}（住宅大臣宛て、2025年6月30日版）, pp.13（政治的選択）,
+  20-21（実務負荷・費用）, 31-32（INIES・認可ソフト・RSEE/OPEE）.
+\item
+  認可ソフトウェア一覧（仏政府公式）:
+  rt-re-batiment.developpement-durable.gouv.fr/logiciels-a619.html
+  ／ソフト認可検証文書（2022年）同サイトPDF.（Web検索で所在確認）
+\end{enumerate}
+
+\emph{注：ページ番号は各PDFの印刷ページ表記に基づく。条文・数値はすべて上記一次資料から直接確認した。}

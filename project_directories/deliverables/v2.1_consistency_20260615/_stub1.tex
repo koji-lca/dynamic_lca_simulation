@@ -1,0 +1,860 @@
+\documentclass[11pt]{article}
+\usepackage{fontspec}
+\usepackage{amsmath,amssymb}
+\usepackage{longtable,booktabs,array}
+\usepackage{graphicx}\usepackage{xcolor}\usepackage{fancyvrb}
+\usepackage[margin=20mm]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{newunicodechar}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\passthrough}[1]{#1}
+\newunicodechar{₀}{\textsubscript{0}}
+\newunicodechar{₁}{\textsubscript{1}}
+\newunicodechar{₂}{\textsubscript{2}}
+\newunicodechar{₃}{\textsubscript{3}}
+\newunicodechar{₄}{\textsubscript{4}}
+\newunicodechar{₅}{\textsubscript{5}}
+\newunicodechar{₆}{\textsubscript{6}}
+\newunicodechar{₇}{\textsubscript{7}}
+\newunicodechar{₈}{\textsubscript{8}}
+\newunicodechar{₉}{\textsubscript{9}}
+\newunicodechar{⁰}{\textsuperscript{0}}
+\newunicodechar{¹}{\textsuperscript{1}}
+\newunicodechar{²}{\textsuperscript{2}}
+\newunicodechar{³}{\textsuperscript{3}}
+\newunicodechar{⁴}{\textsuperscript{4}}
+\newunicodechar{⁵}{\textsuperscript{5}}
+\newunicodechar{⁶}{\textsuperscript{6}}
+\newunicodechar{⁷}{\textsuperscript{7}}
+\newunicodechar{⁸}{\textsuperscript{8}}
+\newunicodechar{⁹}{\textsuperscript{9}}
+\newunicodechar{⁻}{\textsuperscript{-}}
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{≒}{\ensuremath{\fallingdotseq}}
+\begin{document}
+\hypertarget{ux30d5ux30e9ux30f3ux30b9re2020-ux30c0ux30a4ux30caux30dfux30c3ux30aflcaux8abfux67fb}{%
+\section{フランスRE2020
+ダイナミックLCA調査}\label{ux30d5ux30e9ux30f3ux30b9re2020-ux30c0ux30a4ux30caux30dfux30c3ux30aflcaux8abfux67fb}}
+
+\hypertarget{ux30d6ux30edux30c3ux30af1-ux653fux7b56ux53caux3073ux5236ux5ea6ux8abfux67fb-ux5831ux544aux66f8v2}{%
+\subsection{ブロック(1) 政策及び制度調査
+報告書（v2）}\label{ux30d6ux30edux30c3ux30af1-ux653fux7b56ux53caux3073ux5236ux5ea6ux8abfux67fb-ux5831ux544aux66f8v2}}
+
+作成日：2026年6月12日／\textbf{v2更新：2026年6月15日（PMO整合性レビュー反映）}／作成：調査係A（ブロック1担当）
+対象読者：林野庁（日本における建築物LCA・炭素貯蔵評価制度検討の参考資料）
+
+\begin{quote}
+\textbf{【v2改訂サマリー（2026-06-15）】}
+既存プロジェクト成果物・統合報告書v2.0・他AI作成資料を横断照合し、Web一次資料（IPCC
+AR4/AR5原典、Université Gustave Eiffel技術ノート、Ventura
+2022、EUR-Lex、政府公式ガイド）で再検証のうえ以下を是正・明確化した。①Venturaの「約25\%過大評価」（査読論文
+Int. J. LCA 2022）と「t=50係数を0.72へ＝約35\%過大評価」（Université
+Gustave Eiffel技術ノート
+2021）は\textbf{別文書・別主張}であり、出所を厳密に区別。②線形近似
+f\_CO2(t)≒1−0.00842·t
+の公式形は\textbf{切片=1}（「1.0053」は回帰の副産物）。0.00842はBenoist
+(2009) 博士論文 表IV.7・168頁由来で確定。③seuil値・EPBD
+2024/1275スケジュール・AR4基礎は一次資料で再確認、変更なし。本文の数値は前版から下方修正なし（PMOスコア管理:
+ブロック①92.7以上を維持）。
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ux30a8ux30b0ux30bcux30afux30c6ux30a3ux30d6ux30b5ux30deux30eaux30fc}{%
+\subsection{エグゼクティブサマリー}\label{ux30a8ux30b0ux30bcux30afux30c6ux30a3ux30d6ux30b5ux30deux30eaux30fc}}
+
+フランスは2022年1月、新築建築物に対する規制「\textbf{RE2020}（Réglementation
+Environnementale
+2020、2020年環境規制）」を施行し、\textbf{世界で初めて、建築物のライフサイクル全体のCO2排出（エンボディドカーボンを含む）に法的拘束力のある上限値（閾値）を課す}とともに、その算定方法として**簡易ダイナミックLCA（ACV
+dynamique simplifiée）**を採用した。
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{制度の骨格}：根拠法はELAN法（2018年）第181条。デクレ第2021-1004号（2021年7月29日）が建設住宅法典（CCH）R.172-1～R.172-9条として性能要求を定め、アレテ（省令）2021年8月4日付が閾値と計算方法（附属書II）を定める。規制指標は6つで、うち炭素系は「Ic
+  construction（資材・施工起源、kg CO2eq/m²）」と「Ic
+  énergie（運用エネルギー起源）」の2つ。\textbf{2022→2025→2028→2031年の4段階で閾値を漸進的に強化}（Ic
+  constructionで概ね▲15\%→▲25\%→▲30～40\%）。
+\item
+  \textbf{ダイナミックLCAの内容}：建築物の参照耐用期間（PER）を\textbf{50年}に固定し、竣工後100年時点の累積放射強制力に基づき、\textbf{排出年が遅いほど小さい重み係数}（CO2：t=0で1.0、t=50で0.578／冷媒フロン：t=50で0.88）を乗じる。生産・施工はt=0、解体・廃棄（モジュールC）と再資源化便益（モジュールD）はt=50に計上されるため、\textbf{木材等バイオ由来材料の「成長時CO2吸収（t=0でマイナス計上）＋50年後の再放出（0.578掛け）」が正味でクレジット化}され、炭素を一時貯蔵する材料が構造的に有利になる。
+\item
+  \textbf{政策的性格}：この方式は物理的厳密性よりも「排出の先送り・炭素の一時貯蔵を促す」\textbf{政治的・政策的選択}であることが政府委託の学術ノート（ギュスターヴ・エッフェル大学、2021年）でも明示されており、係数の過大評価（50年時点で約35\%）等の方法論的批判、セメント・鉱物系業界の強い反発、EN
+  15804/ISO
+  14067等の国際規格との不整合が指摘されている。一方、木材・バイオ系業界はDHUP（住宅・都市計画局）への連名書簡（2019年6月）等で強く支持した。
+\item
+  \textbf{背景}：2016～2020年の\textbf{E+C-実証実験}（参加1,000棟超の観測データベース）→16の専門家グループ（GE）・4つの協議グループによる大規模協議（2018～2020年）→2021年法令化、という段階的プロセスを経た。所管はエコロジー移行省DHUP、技術中核はCSTB、データ基盤はINIESデータベース。国家低炭素戦略（SNBC：2050年カーボンニュートラル）と木材・バイオ素材振興（「Ambition
+  Bois-Construction
+  2030」計画、気候レジリエンス法39条の公共建築バイオ素材25\%義務等）に接続する。
+\item
+  \textbf{現在の論点（2025年Rivaton報告書）}：コスト増（2031年までに約+11\%）、データ基盤（EN
+  15804+A2移行）の動揺、そして\textbf{EU建物エネルギー性能指令（EPBD
+  2024/1275）が静的LCA（EN
+  15978・Level(s)指標1.2）ベースのGWP表示を2028/2030年から義務化}することに伴う「フランス独自のダイナミックLCAと欧州枠組みの整合」リスクが最大の検討課題。ただし同報告書もダイナミックLCA自体の廃止は勧告しておらず、制度の基本構造は維持されている。
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ux2460-ux5efaux7bc9ux74b0ux5883ux6027ux80fdux8a55ux4fa1ux5236ux5ea6ux5efaux7bc9ux7269lcaux306eux5168ux4f53ux69cbux9020}{%
+\subsection{①
+建築環境性能評価制度（建築物LCA）の全体構造}\label{ux2460-ux5efaux7bc9ux74b0ux5883ux6027ux80fdux8a55ux4fa1ux5236ux5ea6ux5efaux7bc9ux7269lcaux306eux5168ux4f53ux69cbux9020}}
+
+\hypertarget{ux2460-ux30a2-re2020ux306bux304aux3051ux308bux5efaux7bc9ux7269lcaux306eux4f4dux7f6eux4ed8ux3051}{%
+\subsubsection{①-ア
+RE2020における建築物LCAの位置付け}\label{ux2460-ux30a2-re2020ux306bux304aux3051ux308bux5efaux7bc9ux7269lcaux306eux4f4dux7f6eux4ed8ux3051}}
+
+\textbf{(1) 規制の性格}
+RE2020は、従来の断熱・省エネ規制RT2012（Réglementation Thermique
+2012）を置き換える、フランス初の「エネルギー\textbf{かつ}環境」規制である。新築建築物について、(a)エネルギー性能の向上、(b)ライフサイクル全体の温室効果ガス（GHG）排出の削減、(c)夏季快適性（温暖化適応）の3目的を持つ（RE2020公式ガイド2024年1月版、p.5,
+p.7）。LCAは(b)を担保する中核手法として\textbf{初めて規制計算に全面導入}された（同ガイド
+p.5「NOUVEAU」、p.53）。
+
+\textbf{(2) 法体系}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+階層 & 文書 & 内容\tabularnewline
+\midrule
+\endhead
+法律 & ELAN法（loi
+n°2018-1021、2018年）第181条／エネルギー移行法LTECV（2015年） &
+将来の環境規制（ライフサイクルGHG評価を含む）の根拠・目標設定（ガイド
+p.27-28）\tabularnewline
+法典 & 建設住宅法典（CCH）第I巻第VII編、R.172-1～R.172-9条 &
+適用対象・5つの結果要求・算定根拠（デクレで創設）\tabularnewline
+デクレ & \textbf{décret n°2021-1004（2021年7月29日）} &
+①躯体のエネルギー設計最適化（Bbio）②一次エネルギー消費制限③エネルギー消費の気候影響制限④\textbf{建築物コンポーネントの気候影響制限}⑤夏季不快の制限、の5要求を規定。\href{https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000043877196}{Légifrance
+JORFTEXT000043877196}\tabularnewline
+アレテ & \textbf{arrêté du 4 août 2021}（NOR: LOGL2107359A、JO
+2021年8月15日） &
+閾値（第IV編）、重み係数（第11条）、計算方法（附属書II「一般規則」、附属書III「Th-BCE
+2020」、附属書IV「Th-Bat 2020」）（同アレテ前文・第8条）\tabularnewline
+\bottomrule
+\end{longtable}
+
+\textbf{(3) 規制上のLCAの使われ方}
+
+\begin{itemize}
+\tightlist
+\item
+  6指標（Bbio、Cep、Cep,nr、Ic énergie、Ic
+  construction、DH）のうち、LCAに基づく炭素指標は \textbf{Ic énergie} と
+  \textbf{Ic
+  construction}（後者は「コンポーネント」＋「工事」寄与の合計）（ガイド
+  p.5, p.13-14）。
+\item
+  36の環境影響指標（気候変動、酸化層破壊、酸性化等）が同時に算定されるが、\textbf{規制閾値が課されるのは気候変動影響のみ}（ガイド
+  p.15, p.56）。
+\item
+  建築主は建築許可（PC）段階と竣工段階の2回、適合証明（attestation）を提出し、標準化された計算結果ファイル（RSEE）が2022年以降CSTBにより収集される（ガイド
+  p.36；Rivaton報告書 p.31）。
+\item
+  計算は国が承認したソフトウェア（熱：CSTB評価、環境：Cerema評価）でのみ実施可能（アレテ第12条；Rivaton報告書
+  p.31）。
+\end{itemize}
+
+\textbf{出典}：guide\_re2020\_version\_janvier\_2024.pdf p.5-7, 13-15,
+27-28, 36, 53-56；arrêté du 4 août 2021（参考文献PDF「Droit national en
+vigueur」収載）前文・第8・11・12条；\href{https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000043877196}{décret
+n°2021-1004（Légifrance）}；\href{https://rt-re-batiment.developpement-durable.gouv.fr/}{RT-RE-bâtiment（政府公式サイト）}
+
+\hypertarget{ux2460-ux30a4-ux74b0ux5883ux6027ux80fdux8a55ux4fa1ux65b9ux6cd5ux5bfeux8c61ux533aux5206icux6307ux6a19ux3068ux95beux5024}{%
+\subsubsection{①-イ
+環境性能評価方法（対象区分、Ic指標と閾値）}\label{ux2460-ux30a4-ux74b0ux5883ux6027ux80fdux8a55ux4fa1ux65b9ux6cd5ux5bfeux8c61ux533aux5206icux6307ux6a19ux3068ux95beux5024}}
+
+\textbf{(1) 対象建築物の区分と適用日}（ガイド p.7,
+p.34；アレテ第1～3条）
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+用途区分 & RE2020適用開始日\tabularnewline
+\midrule
+\endhead
+住宅（戸建・集合） & 2022年1月1日\tabularnewline
+事務所、初等・中等教育施設 & 2022年7月1日\tabularnewline
+上記用途の小規模建築・増築 & 2023年1月1日\tabularnewline
+レジャー用軽量住宅（HLL）50m²未満 & 2023年1月1日\tabularnewline
+仮設建築物（住宅・事務所・学校用途） & 2023年7月1日\tabularnewline
+その他用途（商業・物流等「特定三次部門」） &
+2024年6月30日以降の別途法令（\textbf{2025年時点で未施行}。Rivaton報告書は早期対象化を勧告）\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{itemize}
+\tightlist
+\item
+  適用判定は建築許可申請日ベース。\textbf{海外県（DOM）には適用されない}（ガイド
+  p.7, p.34）。
+\item
+  \textbf{既存建築（改修）はRE2020の対象外}であり、既存建築物の改修は別規制（RT
+  existant：2007年5月3日アレテ等）とDPE（エネルギー性能診断）が担う。増築・嵩上げはRE2020の適用（一部簡略要求）を受け、Rivaton報告書（2025年）は増改築の負担軽減・改修との整合を勧告している（Rivaton
+  p.54-55, 勧告18-20）。
+\end{itemize}
+
+\textbf{(2) 炭素指標Icの体系}（ガイド p.13-15）
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+指標 & 内容 & 規制閾値\tabularnewline
+\midrule
+\endhead
+\textbf{Ic construction} &
+「コンポーネント（資材・設備）」＋「工事（chantier）」寄与のライフサイクルGHG影響（kg
+CO2eq/m²・PER50年） & あり（Ic construction\_max）\tabularnewline
+\textbf{Ic énergie} & 運用エネルギー消費50年分のGHG影響（kg CO2eq/m²） &
+あり（Ic énergie\_max）\tabularnewline
+Ic bâtiment & コンポーネント＋エネルギー＋工事＋水の4寄与合計 &
+なし（情報指標）\tabularnewline
+\textbf{StockC} & 建築物に貯蔵される生物由来炭素量（kg C/m²） &
+なし（情報指標）→③参照\tabularnewline
+Ic ded & デフォルトデータ起因の影響量 & なし（情報指標）\tabularnewline
+\bottomrule
+\end{longtable}
+
+\textbf{(3) Ic construction\_max（平均値、kg CO2eq/m²）---
+段階強化スケジュール}（ガイド p.22）
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule
+用途 & 2022--2024 & 2025--2027 & 2028--2030 & 2031～\tabularnewline
+\midrule
+\endhead
+戸建住宅 & 640 & 530 & 475 & 415\tabularnewline
+集合住宅 & 740 & 650 & 580 & 490\tabularnewline
+事務所 & 980 & 810 & 710 & 600\tabularnewline
+初等・中等教育 & 900 & 770 & 680 & 590\tabularnewline
+\bottomrule
+\end{longtable}
+
+（2022年比の強化率は概ね2025年▲12～17\%、2028年▲22～26\%、2031年▲32～39\%。政府公表時の目安は「2025年▲15\%、2028年▲25\%、2031年▲30～40\%」：210222
+RE2020 Dynamic LCA.pdf スライド2）
+
+\textbf{(4) Ic énergie\_max（平均値、kg CO2eq/m²・50年）}（ガイド p.20）
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule
+用途 & 2022--2024 & 2025--2027 & 2028～\tabularnewline
+\midrule
+\endhead
+戸建住宅 & 160（経過措置280） & 160 & 160\tabularnewline
+集合住宅（地域熱供給接続） & 560 & 320 & 260\tabularnewline
+集合住宅（その他） & 560 & 260 & 260\tabularnewline
+事務所（地域熱供給接続／他） & 280／200 & 200／200 &
+200／200\tabularnewline
+教育施設（地域熱供給接続／他） & 240／240 & 200／140 &
+140／140\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{itemize}
+\tightlist
+\item
+  いずれの閾値も、地理区分・屋根裏面積・平均住戸面積・地下駐車場・デフォルトデータ使用率等に応じた\textbf{モジュレーション係数}（Micombles,
+  Misurf, Miinfra, Mivrd, Migéo, Mipv, Mided等）で個別調整される（ガイド
+  p.21-23；Rivaton p.38-39）。
+\item
+  評価範囲：建築許可の範囲（建物＋敷地）。時間的範囲は資材製造～解体まで（\textbf{事前解体・除染は除外}）。物理的範囲から利用者の移動・家具家電・事業系廃棄物は除外（ガイド
+  p.6, p.37-40）。面積原単位は住宅SHAB／非住宅SU。
+\end{itemize}
+
+\textbf{出典}：guide\_re2020\_version\_janvier\_2024.pdf p.6-7, 13-15,
+20-23, 34, 37-40；arrêté du 4 août 2021
+第IV編・附属書II；10.07.2025\_Rapport\_Robin\_Rivaton\_RE2020.pdf
+p.38-39, 54-56
+
+\hypertarget{ux2460-ux30a6-levelsux53caux3073en-15978ux3068ux306eux95a2ux4fc2ux6027}{%
+\subsubsection{①-ウ Level(s)及びEN
+15978との関係性}\label{ux2460-ux30a6-levelsux53caux3073en-15978ux3068ux306eux95a2ux4fc2ux6027}}
+
+\textbf{(1) 規格上の土台}
+
+\begin{itemize}
+\tightlist
+\item
+  RE2020のLCA方法論は、建築物レベルの欧州規格 \textbf{EN
+  15978}（建築物の環境性能評価）のライフサイクル段階区分（A1--A3生産／A4--A5施工／B1--B7使用／C1--C4解体・廃棄／D：システム外便益）を基本的に踏襲する（アレテ附属書II
+  第1章 Tableau 4；Rivaton p.31「NF EN 15978に大きく依拠」）。
+\item
+  製品レベルのデータ（FDES＝建材環境・衛生宣言、PEP＝設備環境プロファイル）は
+  \textbf{EN 15804+A2} ＋フランス国内補足 \textbf{NF EN 15804+A2/CN}
+  に準拠し、第三者検証の上、\textbf{INIESデータベース}に収載されることが利用条件（ガイド
+  p.43-45；Rivaton p.32）。
+\end{itemize}
+
+\textbf{(2) RE2020が欧州規格から逸脱する主な点}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+項目 & EN 15978／Level(s) & RE2020\tabularnewline
+\midrule
+\endhead
+時間取扱い & 静的GWP100（一時貯蔵の便益計上を認めない） &
+\textbf{簡易ダイナミックLCA}（排出時期で重み付け）\tabularnewline
+モジュールD & 主要結果と\textbf{分離して}報告（A2改訂で明確化） &
+\textbf{Ic
+constructionの合計に算入}（アレテ附属書II式(30)(34)）\tabularnewline
+評価期間 & 任意（RSP設定） & PER=50年に固定\tabularnewline
+義務性 & 任意規格／自主的枠組み & 閾値付きの強行規制\tabularnewline
+\bottomrule
+\end{longtable}
+
+\textbf{(3) Level(s)・EPBDとの関係}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Level(s)}
+  はEUの自主的な建築サステナビリティ報告枠組みであり、その指標1.2「ライフサイクルGWP」はEN
+  15978準拠の\textbf{静的}計算を規定する（\href{https://susproc.jrc.ec.europa.eu/product-bureau/sites/default/files/2023-02/1.2.ENV-2020-00029-02-01-FR-TRA-00.pdf}{JRC
+  Level(s)指標1.2マニュアル仏語版}）。
+\item
+  改正EPBD（\textbf{指令(EU)
+  2024/1275}）は、Level(s)枠組みに基づくライフサイクルGWPの算定・表示を**2028年（延床1,000m²超の新築）／2030年（全新築）**から義務化し、加盟国に2027年までにGWP上限値導入のロードマップ公表を求める（\href{https://energy.ec.europa.eu/topics/energy-efficiency/energy-performance-buildings/energy-performance-buildings-directive/global-warming-potential-buildings_en}{欧州委員会：Global
+  warming potential of buildings}）。
+\item
+  Rivaton報告書（2025年、p.52-53）は、EPBDの委任法令が時間ステップ（静的/動的）・参照期間（30/50/60年）等で加盟国に裁量を残す見込みとしつつ、「フランスが欧州で独自の選択のまま孤立すれば、（FDESとEPDの二重計算など）運用上・法律上の圧力が高まる」と整合リスクを明記している。
+\item
+  なお、フランス政府は2021年2月18日、ダイナミックLCA方法論の\textbf{標準化（normalisation）手続き開始}の意向を表明している（210222
+  RE2020 Dynamic LCA.pdf
+  スライド11）。Ventura（2022）も「欧州レベルでのダイナミックGWP規格化の議論が近く始まり得る」と記す（ventura\_2022.pdf
+  Abstract）。
+\end{itemize}
+
+\textbf{出典}：arrêté du 4 août 2021 附属書II（Tableau
+4、式30・34）；Rivaton報告書 p.31-35,
+52-53；\href{https://susproc.jrc.ec.europa.eu/product-bureau/sites/default/files/2023-02/UM1.ENV-2020-00021-02-00-FR-TRA-00.pdf}{JRC
+Level(s)資料}；\href{https://energy.ec.europa.eu/topics/energy-efficiency/energy-performance-buildings/energy-performance-buildings-directive/global-warming-potential-buildings_en}{欧州委員会EPBD
+GWPページ}；ventura\_2022.pdf
+
+\hypertarget{ux2460-ux30a8-ux30b5ux30fcux30adux30e5ux30e9ux30fcux30a8ux30b3ux30ceux30dfux30fcux65bdux7b56agecux6cd5ux7b49ux3068ux306eux95a2ux4fc2ux6027}{%
+\subsubsection{①-エ
+サーキュラーエコノミー施策（AGEC法等）との関係性}\label{ux2460-ux30a8-ux30b5ux30fcux30adux30e5ux30e9ux30fcux30a8ux30b3ux30ceux30dfux30fcux65bdux7b56agecux6cd5ux7b49ux3068ux306eux95a2ux4fc2ux6027}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{AGEC法}（循環経済・廃棄物対策法、loi
+  n°2020-105、2020年2月10日）は建設分野に対し、(a)解体・大規模改修時の\textbf{PEMD診断}（製品・設備・資材・廃棄物の再利用可能性診断。2022年1月1日から延床1,000m²超等で義務。décret
+  n°2021-821）、(b)\textbf{建設資材の拡大生産者責任（REP PMCB）}（décret
+  n°2021-1941、2023年1月1日発効。エコ拠出金により分別廃棄物の無償回収・再資源化をエコ団体が組織）を導入した（\href{https://www.ecologie.gouv.fr/politiques-publiques/diagnostic-produits-equipements-materiaux-dechets-pemd}{ecologie.gouv.fr
+  PEMD}；\href{https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000044806344}{décret
+  2021-1941 Légifrance}；Rivaton p.51）。
+\item
+  \textbf{RE2020側の循環経済インセンティブ}：再使用（réemploi）・再利用（réutilisation）された建材・設備は、再整備・洗浄・修理以外の再加工を伴わない限り、\textbf{LCA上「影響ゼロ」として計上できる}（ガイド
+  p.45；Rivaton
+  p.32囲み）。また、モジュールD（リサイクル・エネルギー回収・エネルギー輸出の便益）が指標に算入されるため、再資源化性の高い設計が有利になる（→③-ウ）。
+\item
+  \textbf{接続上の課題}：REP拠出金の料率が新素材に不利（例：麻・藁14.48ユーロ/t
+  vs
+  コンクリート3.12ユーロ/t）である等、RE2020の脱炭素インセンティブとREPの費用負担が必ずしも整合していないことをRivaton報告書が指摘（p.51）。
+\item
+  なお、AGEC法と気候レジリエンス法（loi
+  n°2021-1104）第39条（2030年から公共発注の大規模建設・改修の\textbf{25\%以上にバイオ由来・低炭素素材使用}を義務化。適用デクレは作成中）が、RE2020と並ぶ需要側措置として機能する（\href{https://www.senat.fr/questions/base/2023/qSEQ231109142.html}{Sénat質問書回答}）。
+\end{itemize}
+
+\textbf{出典}：guide p.45；Rivaton p.32,
+51；\href{https://www.ecologie.gouv.fr/politiques-publiques/diagnostic-produits-equipements-materiaux-dechets-pemd}{ecologie.gouv.fr（PEMD）}；\href{https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000044806344}{Légifrance（décret
+2021-1941）}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ux2461-ux30c0ux30a4ux30caux30dfux30c3ux30aflcaux306eux8981ux4ef6ux6574ux7406}{%
+\subsection{②
+ダイナミックLCAの要件整理}\label{ux2461-ux30c0ux30a4ux30caux30dfux30c3ux30aflcaux306eux8981ux4ef6ux6574ux7406}}
+
+\hypertarget{ux2461-ux30a2-ux5bfeux8c61ux5efaux7bc9ux7269ux306eux7a2eux5225ux7bc4ux56f2ux3068ux6bb5ux968eux9069ux75282022202520282031}{%
+\subsubsection{②-ア
+対象建築物の種別・範囲と段階適用（2022/2025/2028/2031）}\label{ux2461-ux30a2-ux5bfeux8c61ux5efaux7bc9ux7269ux306eux7a2eux5225ux7bc4ux56f2ux3068ux6bb5ux968eux9069ux75282022202520282031}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{適用対象}：①-イの適用対象（住宅→非住宅→小規模・仮設と順次拡大）と同一であり、ダイナミックLCAはRE2020の気候変動指標（Ic
+  énergie、Ic construction、Ic ded、Ic
+  bâtiment）の計算に\textbf{一律に適用}される（アレテ第11条）。静的計算の結果も並行して算出・報告されるが、\textbf{規制適合判定はダイナミック値}で行う（ガイド
+  p.60「Les exigences réglementaires reposent sur l'approche
+  dynamique」）。
+\item
+  \textbf{段階適用}：ダイナミックLCAの方法自体は2022年から完全適用であり、段階性は\textbf{閾値（Ic
+  construction\_max等）の漸進強化}として設計されている（①-イ表参照。2022--24／2025--27／2028--30／2031～の4期）。この漸進性は「建設業界全体がLCA手法を習得し排出を削減するための移行設計」と公式に説明される（ガイド
+  p.22）。Rivaton報告書も「2022-2025-2028-2031の順序が部門別に差別化された漸進努力を可能にした」ことを同制度の強みに挙げる（p.6）。
+\item
+  \textbf{データ規格の時限}：旧規格EN
+  15804+A1のFDESは2025年12月31日で失効・アーカイブ化され、A2版に全面移行（Rivaton
+  p.33）。2028年以降はデフォルトデータ使用に対する減点モジュレーション（Mided）が発動し、実データ整備が事実上強制される（Rivaton
+  p.36）。
+\end{itemize}
+
+\textbf{出典}：arrêté第11条・附属書II §4.2.1.2；guide p.22, 34,
+60；Rivaton p.6, 33, 36
+
+\hypertarget{ux2461-ux30a4-ux9045ux5ef6ux6392ux51faux306eux8a55ux4fa1ux6839ux62e0}{%
+\subsubsection{②-イ
+遅延排出の評価根拠}\label{ux2461-ux30a4-ux9045ux5ef6ux6392ux51faux306eux8a55ux4fa1ux6839ux62e0}}
+
+\textbf{(1) 公式の考え方}
+RE2020のダイナミックLCAは「排出の時間性と炭素貯蔵の効果を考慮し、\textbf{建物竣工後100年時点の累積放射強制力}に相当する指標を計算する」もので、「排出が早いほど影響が大きい。一時的排出はプロジェクトの炭素影響を増やし、一時的貯蔵は減らす」と説明される（ガイド
+p.60-61）。
+
+\textbf{(2) 方法論的系譜}
+
+\begin{itemize}
+\tightlist
+\item
+  重み係数は、\textbf{CIRAIG}（カナダ・モントリオール工科大の国際LCAセンター）のダイナミックLCA（\textbf{Levasseur
+  et al. 2010}, Environmental Science \& Technology
+  44(8)）とそのオンラインツール（DynCO2）に基づき、Solinnen社の2018年報告を経て、専門家グループ**GE3「炭素の一時貯蔵」**最終報告で規制案化された（Note\_Univ\_Gustave\_Eiffel
+  p.3「導入経緯」）。
+\item
+  観測期間を「竣工から100年」に固定した点は、CIRAIGの原典でも「恣意的に選ばれた」値である（同ノート
+  p.1）。
+\end{itemize}
+
+\textbf{(3) 科学的評価と論争}
+
+\begin{itemize}
+\tightlist
+\item
+  政府（DHUP）の依頼でギュスターヴ・エッフェル大学（Ventura研究主任ら）が作成したノート（2021年3月22日）は、(i)
+  観測期間を竣工後100年に固定すると、後期排出の影響が「打ち切り（troncature）」で過小評価され、\textbf{RE2020の係数は過大（50年目排出の係数は0.58だが、正しくは0.72、約35\%の過大評価）}、(ii)
+  物理的には「排出を数十年遅らせても長期の累積放射強制力はほとんど減らない」ため、\textbf{ダイナミック方式の採択は第一義的に政治的選択}（経済主体に排出遅延を促すインセンティブ）であり、国全体での効果検証と排出プロファイル収集プラットフォームの整備を勧告した（Note\_Univ\_Gustave\_Eiffel
+  p.1-2）。
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{【v2出所明確化】}
+    「t=50で0.58→0.72に修正すべき／約35\%過大評価」という\textbf{RE2020固有の数値}は、上記UGE技術ノート（2021、DHUP宛）の本文に直接記載（"0,72
+    au lieu de 0,58 \ldots{} surestimation d'environ
+    35\%"）。一方、Ventura単著の査読論文（Ventura 2022, Int. J. LCA
+    28:788-799）のアブストラクトは「一時的炭素貯蔵の効果を\textbf{t=50で約25\%過大評価}」と一般化して述べており（観測期間TOD=ライフサイクル＋影響地平への是正に基づく）、\textbf{数値・対象が異なる}。両者を同一視しないこと。35\%＝UGEノート（RE2020係数の直接修正）、25\%＝Ventura
+    2022（一般原理）。
+  \end{itemize}
+\item
+  木材・バイオ系業界は2019年6月、DHUPへの連名書簡で「貯蔵期間中、一時貯蔵された炭素は気候変動に寄与しない。物理原理に基づき、追加の複雑性なく、既存LCAデータで今日から運用可能」として簡易ダイナミックLCAを支持（210222
+  Dynamic LCA.pdf スライド7-9）。
+\item
+  反対側（セメント・コンクリート、鉱物・金属、断熱材、レンガ、プラスチック等の業界団体）は、(a)一時貯蔵は気候変動を緩和しないとの方法論的限界、(b)\textbf{EN
+  15804・PEF・ISO
+  14067が一時貯蔵のクレジット計上を排除する国際合意}との不整合、(c)結果が時間地平に強く依存（1kgのCO2を50年貯蔵＝竣工時0.42kg不排出と等価だが、150年地平では0.27kgに縮小）、(d)集約済みGWP値に係数を掛けるためCH4等の短寿命ガスの影響を過小評価、と批判した（同スライド4-6）。建設高等評議会（CSCEE）やEffinergie協会も「従来の標準化LCAへの回帰」「事前実証なき導入」を訴えた（同スライド10）。
+\item
+  Rivaton報告書（2025年）は「フランスの選択はバイオ由来材料を優遇するためのもの」と総括し、独・蘭・白・丁等の静的LCA採用国との違い、EU枠組みとの整合リスクを指摘しつつも、方式変更そのものは勧告していない（p.38,
+  52-53）。
+\end{itemize}
+
+\textbf{出典}：guide
+p.60-61；Note\_Univ\_Gustave\_Eiffel\_Analyse\_du\_Cycle\_de\_Vie\_pour\_la\_RE2020.pdf
+p.1-3；210222 RE2020 Dynamic LCA.pdf スライド4-11；Rivaton p.38,
+52-53；ventura\_2022.pdf
+
+\hypertarget{ux2461-ux30a6-ux5404ux7a2eux30d1ux30e9ux30e1ux30fcux30bfux5185ux5bb9ux5272ux5f15ux4fc2ux6570ux7b49}{%
+\subsubsection{②-ウ
+各種パラメータ内容（割引係数等）}\label{ux2461-ux30a6-ux5404ux7a2eux30d1ux30e9ux30e1ux30fcux30bfux5185ux5bb9ux5272ux5f15ux4fc2ux6570ux7b49}}
+
+\textbf{(1) 重み係数（アレテ第4 août 2021第11条で法定）}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+パラメータ & 値・内容\tabularnewline
+\midrule
+\endhead
+重み関数 f\_CO2(t) &
+CO2及び冷媒以外の全GHG用。年単位（t=0～50の整数）。\textbf{f(0)=1.0、f(1)≈0.984、\ldots、f(49)≈0.587、f(50)=0.578}\tabularnewline
+重み関数 f\_ff(t) &
+冷媒フロン（フルオロカーボン）用。\textbf{f\_ff(50)=0.88}（CO2より減衰が緩い＝大気寿命が短いガスの後期排出を相対的に重く評価）\tabularnewline
+適用範囲 & 気候変動指標（Ic énergie・Ic construction・Ic ded・Ic
+bâtiment）の計算のみ。他の35指標は静的計算\tabularnewline
+\bottomrule
+\end{longtable}
+
+\textbf{(2) 排出時期の計上規約（アレテ附属書II §4.2.1.2）}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+ライフサイクル段階 & 排出時期の規約 & 適用係数\tabularnewline
+\midrule
+\endhead
+生産（A1--A3）・施工（A4--A5） & t=0に一括計上 &
+1.0（静的と同値）\tabularnewline
+使用（B1--B4：維持・交換等） &
+耐用年数DVEで年割りし毎年計上（交換品の製造・廃棄は交換年に計上：式40-42）
+& f\_CO2(a)\tabularnewline
+運用エネルギー・水（B6--B7） & 毎年計上 & f\_CO2(a)\tabularnewline
+解体・廃棄（C1--C4） & \textbf{t=PER（50年）に一括計上}（式36, 43） &
+f\_CO2(50)=0.578\tabularnewline
+モジュールD & t=PER（交換がある場合は各交換年にも）計上（式37, 44） &
+f\_CO2(50)=0.578\tabularnewline
+\bottomrule
+\end{longtable}
+
+\textbf{(3) その他の規約パラメータ}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{簡易化の核心}：係数はガス別の排出インベントリではなく、FDES/PEPに記載された\textbf{集約済みGWP値（kg
+  CO2eq）に直接乗算}する（「簡易」ダイナミックの所以。ガス別の厳密ダイナミックLCAではない）（附属書II
+  §4.2.1.2冒頭）。
+\item
+  冷媒の漏洩率（規約値・変更不可）：製造時2\%、使用時年2\%、廃棄時10\%（附属書II
+  §4.2.1.2.2）。
+\item
+  係数の物理的基礎：IPCC AR4のCO2インパルス応答関数（残存率
+  r(t)=a0+Σai·e\^{}(−t/τi)、a0=0.217, a1=0.259, a2=0.338,
+  a3=0.186、τ1=172.9年, τ2=18.51年,
+  τ3=1.186年）に基づく累積放射強制力計算（Note\_Univ\_Gustave\_Eiffel
+  p.4-5）。\textbf{【v2検証済】} これら6つの値はIPCC AR4 WG1 Table
+  2.14（脚注a、Bern2.5CCモデル）の原典と一字一句一致することを確認。RE2020の理論的系譜（Levasseur
+  et al. 2010・Benoist
+  2009）はいずれもAR5以前であり、\textbf{AR4世代を基礎とするのは歴史的に妥当}。AR6/Joos2013の更新値（永続項係数
+  a0=0.2173≒AR4、最長時定数 τ=394.4年）はAR5補足資料Table
+  8.SM.10で確認できるが、RE2020の現行係数には未反映（2028年フェーズ3の論点）。
+\item
+  部材耐用年数DVE（既定値=参照耐用年数DVR）、交換回数α、端数係数F\_Util等が交換計上を制御（附属書II
+  式38-39）。再生可能エネルギー自家消費分は控除、木質燃料の非再生一次エネルギー係数は0（ガイド
+  p.45-46）。
+\end{itemize}
+
+\textbf{出典}：arrêté du 4 août 2021 第11条・附属書II
+§4.2.1.2（式35-44）；guide p.60-61（Illustration
+14、木梁の計算例）；Note\_Univ\_Gustave\_Eiffel p.3-5；Rivaton p.38
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ux2462-ux751fux7269ux7531ux6765ux70adux7d20ux53caux3073ux70adux7d20ux8cafux8535ux8a55ux4fa1ux306eux5236ux5ea6ux7684ux4f4dux7f6eux4ed8ux3051}{%
+\subsection{③
+生物由来炭素及び炭素貯蔵評価の制度的位置付け}\label{ux2462-ux751fux7269ux7531ux6765ux70adux7d20ux53caux3073ux70adux7d20ux8cafux8535ux8a55ux4fa1ux306eux5236ux5ea6ux7684ux4f4dux7f6eux4ed8ux3051}}
+
+\hypertarget{ux2462-ux30a2-ux8cafux8535ux91cfux7b97ux5b9aux65b9ux6cd5}{%
+\subsubsection{③-ア
+貯蔵量算定方法}\label{ux2462-ux30a2-ux8cafux8535ux91cfux7b97ux5b9aux65b9ux6cd5}}
+
+\textbf{(1) StockC指標（情報指標）}
+建築物に貯蔵される生物由来（バイオジェニック）炭素量を表す指標\textbf{StockC}（単位：\textbf{kg
+C/m²}）が、規制閾値なしの情報指標として全棟で算定・報告される（ガイド
+p.15；アレテ附属書II §5.3.2）。算定規約は：
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{ケース1}：FDES等の環境データにStockC値が記載されていればその値を使用。
+\item
+  \textbf{ケース2}：記載がない場合、生産段階（A1--A3、分離可能ならA1）のGWP値が負であれば
+  \textbf{StockC\_p = −GWP(production) ×
+  12/44}（CO2→C換算）、負でなければ0（式137-138）。
+\item
+  集計はサブロット→ロット（13区分）→建物（式139-141）。**部材交換は計上しない（Rp=1）**＝初期投入分のみ。敷地（parcelle）分も別途算定可（式142）。
+\end{itemize}
+
+\textbf{(2) 規制効果としての貯蔵評価}
+炭素貯蔵の規制上の実効性は、StockCではなく\textbf{ダイナミックLCAの重み付けを通じて}生じる。FDESではEN
+15804の「−1/+1」原則により、バイオ炭素は生産段階で吸収（負値）・廃棄段階で再放出（正値）として計上されるが、RE2020では吸収がt=0（係数1.0）、再放出がt=50（係数0.578）となるため、\textbf{貯蔵1kgのCO2あたり正味約0.42kg
+CO2eq分のクレジット}が発生する（210222 Dynamic LCA.pdf スライド5；ガイド
+p.61の木梁例：静的+130 kg CO2eq→動的−165.4 kg CO2eq）。
+
+\begin{itemize}
+\tightlist
+\item
+  留意点：フランスの木材FDESは「伐採地での再植林による再吸収」のクレジットも含むが、この将来吸収（10～30年を要する）には時間重み付けが適用されないという非対称性が指摘されている（210222
+  Dynamic LCA.pdf スライド6）。
+\end{itemize}
+
+\textbf{出典}：arrêté附属書II §5.3.2（式137-142）；guide p.15,
+61；210222 Dynamic LCA.pdf スライド5-6
+
+\hypertarget{ux2462-ux30a4-ux8a55ux4fa1ux671fux959350ux5e74ux306eux8a2dux5b9aux6839ux62e0}{%
+\subsubsection{③-イ
+評価期間（50年）の設定根拠}\label{ux2462-ux30a4-ux8a55ux4fa1ux671fux959350ux5e74ux306eux8a2dux5b9aux6839ux62e0}}
+
+\begin{itemize}
+\tightlist
+\item
+  計算上の建物寿命は\textbf{参照研究期間（PER）＝全建物一律50年}（仮設建築のみ2年）と規約で固定（ガイド
+  p.8,
+  p.37；アレテ附属書II）。これはE+C-実験の「エネルギー・カーボン参照枠」以来の慣行的・規約的な建物想定耐用年数であり、FDESの基準シナリオとも整合する。
+\item
+  ダイナミックLCAの観測期間は「竣工から100年」（＝重み係数の積分地平）で、PER50年とは別概念。\textbf{100年という観測期間は原典（CIRAIG）で恣意的に選ばれた}ものであり、ギュスターヴ・エッフェル大学ノートは「観測期間は『最終排出＋影響時間地平100年』（つまり竣工から最大150年）とすべき」と修正を勧告した（採用されず）（Note
+  p.1-2）。
+\item
+  すなわち50年・100年とも\textbf{科学的に一意に導かれる値ではなく規約（convention）\textbf{であり、係数の水準（0.578等）はこの規約選択に直接依存する。この点はEU側でも参照期間（30/50/60年）の選択論点として残っている（Rivaton
+  p.52-53）。}（評価）50年設定の積極的根拠を示す一次資料は限定的であり、「E+C-以来の慣行の継承」という以上の説明は確認できなかった（推測を含む）。}
+\end{itemize}
+
+\textbf{出典}：guide p.8, 37；arrêté附属書II
+第1章；Note\_Univ\_Gustave\_Eiffel p.1-2；Rivaton p.52-53
+
+\hypertarget{ux2462-ux30a6-ux89e3ux4f53ux53caux3073ux518dux5229ux7528ux3067ux306eux6392ux51faux6271ux3044ux30e2ux30b8ux30e5ux30fcux30ebcd}{%
+\subsubsection{③-ウ
+解体及び再利用での排出扱い（モジュールC・D）}\label{ux2462-ux30a6-ux89e3ux4f53ux53caux3073ux518dux5229ux7528ux3067ux306eux6392ux51faux6271ux3044ux30e2ux30b8ux30e5ux30fcux30ebcd}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{モジュールC（C1解体工事、C2運搬、C3再資源化処理、C4最終処分）}：すべて\textbf{t=PER（50年）に計上}され、係数0.578で割り引かれる（アレテ附属書II
+  Tableau
+  4、式36・43）。バイオ材料の貯蔵炭素の再放出（焼却・埋立に伴う）はここで正値計上されるため、\textbf{割引後の正味便益が貯蔵クレジットの源泉}となる（③-ア参照）。
+\item
+  \textbf{モジュールD（再資源化・エネルギー回収便益、エネルギー輸出）}：EN
+  15978/EN
+  15804+A2では主要結果から分離報告とされるが、\textbf{RE2020ではIc
+  constructionの合計に算入}される（式30・34）。計上時期はt=PER（途中交換分は交換年）で係数を乗じる（式37・44）。
+\item
+  \textbf{再使用材}：再使用・再利用品はLCA負荷ゼロ扱い（付帯材のみ計上）（ガイド
+  p.45）。
+\item
+  \textbf{デフォルトデータ（DED）の保守性}：DEDの廃棄段階は「リサイクルなし・焼却のみ」を仮定しており、平均30～100\%割増の保守的な値（Rivaton
+  p.36）。木質系では、A2移行に伴い構造用木材を除き廃棄段階のバイオ炭素計上が見直され、業界が影響を指摘している（Rivaton
+  p.35）。
+\item
+  \textbf{評価範囲上の注意}：新築工事前の既存建物の解体（事前解体）は評価範囲外（ガイド
+  p.6）。
+\end{itemize}
+
+\textbf{出典}：arrêté附属書II Tableau 4・式30, 34, 36-37, 43-44；guide
+p.6, 45；Rivaton p.33-36
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ux2463-ux5236ux5ea6ux5c0eux5165ux306eux80ccux666fux304aux3088ux3073ux691cux8a0eux30d7ux30edux30bbux30b9ux306eux6574ux7406}{%
+\subsection{④
+制度導入の背景および検討プロセスの整理}\label{ux2463-ux5236ux5ea6ux5c0eux5165ux306eux80ccux666fux304aux3088ux3073ux691cux8a0eux30d7ux30edux30bbux30b9ux306eux6574ux7406}}
+
+\hypertarget{ux2463-ux30a2-ux521dux671fux691cux8a0eec-ux5b9fux9a13ux7b49ux304bux3089ux5c0eux5165ux306bux81f3ux3063ux305fux7d4cux7def}{%
+\subsubsection{④-ア
+初期検討（E+C-実験等）から導入に至った経緯}\label{ux2463-ux30a2-ux521dux671fux691cux8a0eec-ux5b9fux9a13ux7b49ux304bux3089ux5c0eux5165ux306bux81f3ux3063ux305fux7d4cux7def}}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+時期 & 出来事\tabularnewline
+\midrule
+\endhead
+2015年 &
+エネルギー移行法（LTECV）成立。建築の環境性能向上を法定目標化（ガイド
+p.27）\tabularnewline
+\textbf{2016年11月} &
+\textbf{E+C-実験}（「エネルギープラス・炭素マイナス」）開始。CSCEE共同主宰。「エネルギー・カーボン参照枠」（Bilan
+BEPOS、EgesPCE/Eges指標）で全LC排出の試行評価。観測データベース＋E+C-ラベル（第三者認証）で運用（ガイド
+p.29-30）\tabularnewline
+2018年 &
+ELAN法第181条が将来の環境規制を法定。**2018年秋から16の専門家グループ（GE1～GE16）**で技術検討開始。\textbf{GE3「炭素の一時貯蔵」}・GE4「建物の廃棄段階」を含む（ガイド
+p.28, 31）\tabularnewline
+2019年1月～ &
+国・CSCEE共同主宰の\textbf{4協議グループ}（計算方法、データ整備、指標・要求水準、実務支援）で大規模協議。木材業界がDHUPへダイナミックLCA支持書簡（2019年6月）（ガイド
+p.31-33；210222 deck スライド7）\tabularnewline
+2020年 &
+E+C-観測DBが1,000棟超に。シミュレーション作業（GTモデリスト）で指標・水準を検証。\textbf{2020年11月、RE2020の方向性公表}（木質・バイオ系を優遇する方針を明示）（ガイド
+p.30, 32）\tabularnewline
+2021年2月18日 &
+政府が施行条件の詳細を公表（施行を2022年1月に延期、ダイナミックLCAの標準化手続き開始を表明）（\href{https://www.ecologie.gouv.fr/sites/default/files/documents/2021.02.18_DP_RE2020_EcoConstruire_0.pdf}{政府プレス資料}；210222
+deck スライド11）\tabularnewline
+2021年7月29日／8月4日 &
+デクレ2021-1004・アレテ公布（CSE・CSCEE・CNEN諮問、EU通報手続、パブコメを経由：アレテ前文）\tabularnewline
+\textbf{2022年1月1日} &
+住宅へ施行（以後順次拡大）。当初予定（2020年夏→2021年夏→2022年1月）から2度延期（210222
+deck スライド2）\tabularnewline
+2024年 & 閾値第2期（2025年水準）適用準備、A2規格移行\tabularnewline
+2025年7月 &
+\textbf{Rivaton報告書}（住宅大臣付託の独立評価）：2028・2031年閾値の実現可能性を検証し23の勧告（Rivaton
+p.4-7, 58-62）\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{ux2463-ux30a4-ux6240ux7ba1ux7701ux5e81ux5916ux90edux7d44ux7e54ux3068ux95a2ux9023ux3059ux308bux56fdux5bb6ux6226ux7565}{%
+\subsubsection{④-イ
+所管省庁・外郭組織と関連する国家戦略}\label{ux2463-ux30a4-ux6240ux7ba1ux7701ux5e81ux5916ux90edux7d44ux7e54ux3068ux95a2ux9023ux3059ux308bux56fdux5bb6ux6226ux7565}}
+
+\textbf{(1) 実施体制}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+組織 & 役割\tabularnewline
+\midrule
+\endhead
+\textbf{DHUP}（住宅・都市計画・景観局。エコロジー移行省DGALN傘下、住宅担当大臣所管）
+& 制度設計の主管。GE/協議グループを統括、INIES運用にも関与（Note UGE
+p.3；Rivaton p.35）\tabularnewline
+\textbf{CSTB}（建築科学技術センター） & 計算エンジン（Th-BCE
+2020）開発、熱計算ソフト評価、RSEE収集（OPEE観測体制）、FDES検証体制の技術中核（Rivaton
+p.31, 35）\tabularnewline
+\textbf{Cerema} & 環境計算ソフトの評価（Rivaton p.31）\tabularnewline
+\textbf{ADEME}（環境・エネルギー管理庁） &
+E+C-支援、FDES/PEP整備の助成（Alliance
+HQE-GBCのINIES向け公募支援）（Rivaton p.59）\tabularnewline
+\textbf{CSCEE}（建設・エネルギー効率高等評議会） &
+E+C-共同主宰、協議グループ共同議長、法令諮問（ガイド p.29,
+31-33；アレテ前文）\tabularnewline
+Alliance HQE-GBC／INIES、PEP Ecopassport &
+環境データベースの所有・宣言検証プログラム運営（Rivaton
+p.31-32）\tabularnewline
+\bottomrule
+\end{longtable}
+
+\textbf{(2) 国家戦略との関係}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{SNBC（国家低炭素戦略）}：2050年カーボンニュートラル（エネルギー気候法でL.100-4条に法定、décret
+  n°2020-457でSNBC2採択）。建築部門には2030年32 Mt
+  CO2eq等の炭素予算を配分し、新築の高性能化・ガス比率低減（住宅で41\%→2050年15\%）を方向付け。「RE2020はこの軌道に位置づく」と公式ガイドが明記（ガイド
+  p.27；\href{https://www.ecologie.gouv.fr/politiques-publiques/strategie-nationale-bas-carbone-snbc}{ecologie.gouv.fr
+  SNBC}）。
+\item
+  \textbf{PPE（多年度エネルギー計画）}：再エネ熱（ヒートポンプ、地域熱供給、バイオマス）への転換を方向付け、Ic
+  énergie閾値の設計（事実上のガス排除）に反映（ガイド p.27；Rivaton
+  p.38）。
+\end{itemize}
+
+\hypertarget{ux2463-ux30a6-ux76eeux7684ux3068ux72d9ux3044ux8ab2ux984cux8a8dux8b58}{%
+\subsubsection{④-ウ
+目的と狙い、課題認識}\label{ux2463-ux30a6-ux76eeux7684ux3068ux72d9ux3044ux8ab2ux984cux8a8dux8b58}}
+
+\textbf{(1)
+目的（公式）}：①新築の省エネ・脱化石燃料（Bbio強化、Cep,nr・Ic
+énergie導入）、②\textbf{ライフサイクル全体での気候影響削減}（LCA一般化により「低排出な工法と炭素を貯蔵する工法（バイオ由来材料等）へ誘導」）、③将来気候への適応（夏季快適性DH）（ガイド
+p.5, 28；ELAN法による目標の確認）。
+
+\textbf{(2)
+政策手段としての特徴}：性能規定（材料中立の閾値規制）を採りつつ、\textbf{ダイナミックLCAという計算規約の選択によって貯蔵材料を優遇する}、というハイブリッドな設計。政府は「特定材料の義務付けではなく工法の多様性（mixité
+des
+matériaux）を促す」と説明（\href{https://www.ecologie.gouv.fr/sites/default/files/documents/2021.02.18_DP_RE2020_EcoConstruire_0.pdf}{2021年2月18日プレス資料}）。当初の「2030年までに戸建は木造が標準になる」との発信は、業界反発を受けて後退し、閾値もやや緩和された（210222
+deck スライド11）。
+
+\textbf{(3) 課題認識（2025年評価時点）}（Rivaton p.6-7, 29-30, 58-62）
+
+\begin{itemize}
+\tightlist
+\item
+  コスト：2022→2031年で投資費+11\%（学習効果で長期に相殺可能性）。住宅供給への下押し（2022-35年で11.8万～34.2万戸の供給減少シナリオ）。
+\item
+  期待削減量：2024年の建設量を2031年水準で建てた場合の理論削減は約790万t
+  CO2（仏カーボンフットプリントの1.2\%）。ただしデータの保守性により15～25\%過大の可能性。
+\item
+  方法・データ：INIESデータの網羅性・A2移行の混乱、デフォルト値の過大さ、計算エンジンの老朽化、EPBDとの整合。勧告には2022年起点閾値の再計算（+40
+  kg CO2eq/m²）、FDES整備への国費投入、IC Global（IC énergie＋IC
+  construction合算指標）の創設、見直し条項の制度化等を含む。
+\end{itemize}
+
+\hypertarget{ux2463-ux30a8-ux30d5ux30e9ux30f3ux30b9ux306eux6797ux696dux6728ux6750ux5229ux7528ux6226ux7565ux3068ux306eux95a2ux4fc2ux6027}{%
+\subsubsection{④-エ
+フランスの林業木材利用戦略との関係性}\label{ux2463-ux30a8-ux30d5ux30e9ux30f3ux30b9ux306eux6797ux696dux6728ux6750ux5229ux7528ux6226ux7565ux3068ux306eux95a2ux4fc2ux6027}}
+
+\begin{itemize}
+\tightlist
+\item
+  **国家森林・木材計画（PNFB 2016-2026）**と木材産業戦略委員会（CSF
+  Bois）は、建築を木材需要の主戦場と位置づけてきた。RE2020の方向性公表（2020年11月）に対し、業界団体France
+  Bois
+  Forêtは「より野心的な炭素基準」を求める声明を発出するなど、\textbf{木材業界はRE2020を市場拡大の好機として積極的に支持}した（\href{https://franceboisforet.fr/2020/11/19/la-filiere-bois-appelle-des-criteres-plus-ambitieux-pour-relever-les-definis-de-la-neutralite-carbone-communique-de-presse/}{France
+  Bois Forêt声明 2020年11月19日}）。
+\item
+  \textbf{Plan Ambition Bois-Construction
+  2030}（2021年3月、業界横断の10コミットメント：人材育成、投資、仏産材供給、混構造、持続可能な森林管理、木材リサイクル等）は、RE2020の野心への支持を明言し、**2030年に建築市場シェア20～30\%**を目標とする（\href{https://www.codifab.fr/actions-collectives/plan-ambition-bois-construction-2030-2657}{CODIFAB}；\href{https://franceboisforet.fr/2021/05/26/plan-ambition-bois-construction-2030/}{France
+  Bois Forêt}）。
+\item
+  需要側の補完措置として、気候レジリエンス法39条（公共発注の25\%バイオ由来・低炭素素材、2030年～）、「バイオ由来建築物ラベル」（décret
+  n°2012-518）、France Relance／PIA4の木造・素材多様化支援（AMI mixité
+  des
+  matériaux）等が並走する（\href{https://www.ecologie.gouv.fr/politiques-publiques/materiaux-construction-biosources-geosources}{ecologie.gouv.fr
+  バイオ・ジオ素材}；2021年2月18日プレス資料）。
+\item
+  一方で、(a)国内製材・加工能力（特に広葉樹・CLT）の供給制約、(b)REP料率や防火規制との不整合、(c)A2規格移行による木質系FDESの廃棄段階見直し（構造用木材を除く）など、\textbf{林業・木材政策とRE2020の接続には運用上の摩擦も残る}（Rivaton
+  p.35,
+  51-52）。Rivaton報告書は2028・2031年閾値達成の鍵としてバイオ由来材料の利用拡大を挙げており（p.35付近）、RE2020は事実上、フランスの木材建築振興戦略の\textbf{最も強力な規制ドライバー}となっている。
+\end{itemize}
+
+\textbf{出典}：\href{https://franceboisforet.fr/2021/05/26/plan-ambition-bois-construction-2030/}{France
+Bois
+Forêt}；\href{https://www.codifab.fr/actions-collectives/plan-ambition-bois-construction-2030-2657}{CODIFAB}；\href{https://www.ecologie.gouv.fr/politiques-publiques/materiaux-construction-biosources-geosources}{ecologie.gouv.fr}；Rivaton
+p.35, 51-52；210222 deck スライド7, 11
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ux2464-ux65e5ux672cux306eux5236ux5ea6ux691cux8a0eux3078ux306eux793aux5506ux7c21ux6f54}{%
+\subsection{⑤
+日本の制度検討への示唆（簡潔）}\label{ux2464-ux65e5ux672cux306eux5236ux5ea6ux691cux8a0eux3078ux306eux793aux5506ux7c21ux6f54}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{「計算規約の選択」が材料間競争を直接左右する}：フランスは性能規定の体裁を保ちつつ、ダイナミックLCAという規約選択で木材・バイオ系に実質的クレジット（貯蔵1kgあたり約0.42kg
+  CO2eq）を与えた。日本で木材利用促進と建築物LCAを接続する場合、(a)ダイナミック方式、(b)静的方式＋別建ての貯蔵量表示（StockC型）、(c)静的方式＋貯蔵インセンティブの政策的加点、の選択肢があり、フランスの経験は(a)の科学的争点（時間地平依存性、国際規格との不整合、業界対立）を事前に示す貴重な先行事例である。
+\item
+  \textbf{国際整合リスクの先取りが必要}：EPBD/Level(s)（EN
+  15978静的）とフランス方式の緊張は、独自方式を採る国が将来負う「再整合コスト」を示す。日本が方式設計する際は、ISO
+  21930/EN
+  15804系EPDとの互換性と、貯蔵評価部分の「分離報告」設計（本体は静的、貯蔵効果は別指標）が現実的な折衷となり得る。
+\item
+  \textbf{段階適用＋実証先行のプロセス設計}：E+C-実験（任意参加・観測DB・ラベル）→専門家グループ→大規模協議→法令化→4段階の閾値強化、という約10年がかりの工程と、第三者検証付きEPDデータベース（INIES）・国認定計算ソフト・2段階適合証明という実装インフラが、制度の実効性を支えている。データベース整備（FDES整備費用の国費支援を含む）が最大のボトルネックである点も日本に直接示唆を与える。
+\item
+  \textbf{見直し条項と独立評価の重要性}：施行3年でのRivaton独立評価は、コスト・住宅供給・データ品質の副作用を定量化し、閾値再計算等を勧告した。日本でも導入時に見直し条項（clause
+  de
+  revoyure）と観測体制（RSEE/OPEE型の全棟データ収集）をセットで設計することが望ましい。
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ux4e3bux8981ux51faux5178ux4e00ux89a7}{%
+\subsection{主要出典一覧}\label{ux4e3bux8981ux51faux5178ux4e00ux89a7}}
+
+\textbf{一次資料（ローカルPDF）}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Ministère de la Transition écologique, \emph{Guide RE2020 --
+  Éco-construire pour le confort de
+  tous}（2024年1月版）＝guide\_re2020\_version\_janvier\_2024.pdf（引用頁は本文中に明記）
+\item
+  Arrêté du 4 août 2021（NOR: LOGL2107359A、JO
+  2021年8月15日、附属書II含む）＝「Droit national en vigueur - Codes -
+  Légifrance.pdf」収載
+\item
+  Note Univ. Gustave Eiffel（Ventura,
+  Feraille他、2021年3月22日、DHUP宛て）＝Note\_Univ\_Gustave\_Eiffel\_Analyse\_du\_Cycle\_de\_Vie\_pour\_la\_RE2020.pdf
+\item
+  \emph{RE2020 / Simplified dynamic
+  LCA}（2021年2月22日、ステークホルダー分析資料）＝210222 RE2020 Dynamic
+  LCA.pdf
+\item
+  Robin Rivaton, \emph{Rapport sur l'évaluation de la Réglementation
+  Environnementale
+  2020}（2025年7月10日）＝10.07.2025\_Rapport\_Robin\_Rivaton\_RE2020.pdf
+\item
+  Ventura, A. (2022) "Conceptual issue of the dynamic GWP indicator and
+  solution", \emph{Int. J. LCA}＝ventura\_2022.pdf
+\end{enumerate}
+
+\textbf{政府・EU一次資料（Web）} 7.
+\href{https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000043877196}{Décret
+n°2021-1004 du 29 juillet 2021（Légifrance）} 8.
+\href{https://www.ecologie.gouv.fr/sites/default/files/documents/2021.02.18_DP_RE2020_EcoConstruire_0.pdf}{RE2020プレス資料
+2021年2月18日（ecologie.gouv.fr）} 9.
+\href{https://rt-re-batiment.developpement-durable.gouv.fr/}{RT-RE-bâtiment（政府公式技術サイト）}
+10.
+\href{https://www.ecologie.gouv.fr/politiques-publiques/strategie-nationale-bas-carbone-snbc}{SNBC（ecologie.gouv.fr）}／\href{https://www.legifrance.gouv.fr/loda/id/JORFTEXT000041814459}{décret
+n°2020-457（Légifrance）} 11.
+\href{https://www.ecologie.gouv.fr/politiques-publiques/diagnostic-produits-equipements-materiaux-dechets-pemd}{診断PEMD（ecologie.gouv.fr）}／\href{https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000044806344}{décret
+n°2021-1941（Légifrance）} 12.
+\href{https://energy.ec.europa.eu/topics/energy-efficiency/energy-performance-buildings/energy-performance-buildings-directive/global-warming-potential-buildings_en}{欧州委員会：Global
+warming potential of buildings（EPBD 2024/1275）} 13.
+\href{https://susproc.jrc.ec.europa.eu/product-bureau/sites/default/files/2023-02/1.2.ENV-2020-00029-02-01-FR-TRA-00.pdf}{JRC
+Level(s) 指標1.2マニュアル（仏語版）} 14.
+\href{https://www.codifab.fr/actions-collectives/plan-ambition-bois-construction-2030-2657}{Plan
+Ambition Bois-Construction
+2030（CODIFAB）}／\href{https://franceboisforet.fr/2021/05/26/plan-ambition-bois-construction-2030/}{France
+Bois Forêt} 15.
+\href{https://www.senat.fr/questions/base/2023/qSEQ231109142.html}{Sénat
+質問書回答（気候レジリエンス法39条・25\%義務）}
+
+\textbf{留意事項}：本文中「推測」と明示した箇所以外は上記一次資料に基づく。アレテ第11条の重み係数表は官報PDF上で図表（画像）として掲載されているため、年次別の中間値（f(1)≈0.984等）は公式ガイドの記載値による。ギュスターヴ・エッフェル大学ノートのAR4減衰関数パラメータはPDFテキスト抽出時に桁区切りが崩れていたため、IPCC
+AR4原典の標準値（τ1=172.9年等）で補正して記載した。
+
+\end{document}
